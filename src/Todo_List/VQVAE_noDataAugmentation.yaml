@@ -1,0 +1,25 @@
+---
+DatasetFolder: 
+    folder: "mvtec_anomaly_detection"
+    subfolder: 
+        - bottle 
+        - cable
+        - hazelnut
+        - metal_nut
+        - pill
+    
+Dataset: 
+    - 256_Gray
+
+Model: 
+    - VQVAE_N50_d5_f5_n16
+
+Train: 
+    - DefaultTrain
+
+DataAugmentation: 
+    - NODA
+
+Server: 
+    - datasetLocation
+

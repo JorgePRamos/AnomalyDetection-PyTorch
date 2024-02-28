@@ -1,0 +1,35 @@
+---
+DatasetFolder: 
+    folder: "mvtec_anomaly_detection"
+    subfolder: 
+        - bottle 
+        - cable
+        - capsule
+        - carpet
+        - grid 
+        - hazelnut
+        - leather
+        - metal_nut
+        - pill
+        - screw 
+        - tile 
+        - toothbrush
+        - transistor
+        - wood
+        - zipper
+        
+Dataset: 
+    - 256_Gray
+
+Model: 
+    - AESc_d5_f5_n16
+
+Train: 
+    - DefaultTrain
+
+DataAugmentation: 
+    - NODA
+
+Server: 
+    - datasetLocation
+

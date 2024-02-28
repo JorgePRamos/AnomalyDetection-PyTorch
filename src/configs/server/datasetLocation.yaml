@@ -1,0 +1,5 @@
+---
+DatasetLocation: 
+  local_folder: "E:/mvtec_anomaly_detection/"
+  remote_folder: "/linux/perezramos/mvtec_anomaly_detection/"
+

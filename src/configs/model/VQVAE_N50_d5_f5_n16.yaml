@@ -1,0 +1,8 @@
+---
+Depth: 5
+Kernel_size: 5
+Nb_feature_maps: 16
+Nb_atoms: 50
+Dim_atoms: 1
+Commitment_cost : 0.25
+Model_class : RegularizedEmbedding

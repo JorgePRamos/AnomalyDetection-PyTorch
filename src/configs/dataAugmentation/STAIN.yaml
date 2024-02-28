@@ -1,0 +1,10 @@
+---
+custom : "CustomDataAugmentationConfig/Stain.yaml"
+Rotation: 0
+Horizontal_flip: 0.0
+Vertical_flip: 0.0
+BrightnessContrast:
+  brightness_limit: 0.0
+  contrast_limit: 0.0
+  p: 0
+

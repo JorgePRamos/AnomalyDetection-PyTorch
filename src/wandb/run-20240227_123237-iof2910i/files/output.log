@@ -1,0 +1,856 @@
+
+[31mStart to train the network
+
+
+[23/23] Loss: 0.6648: 100%|====================| 23/23 [00:04<00:00,  5.09it/s]
+[34mEpoch [1/250]
+     Train Loss: 0.6905 - Validation Loss: 0.3508
+     Train LossMSE: 0.0274 - Validation LossMSE: 0.0427
+     Train PSNR: 16.2433 - Validation PSNR: 13.7187
+     Train SSIM: 0.3052 - Validation SSIM: 0.3543
+[32m     New Best Validation PSNR: 13.7187 
+
+[23/23] Loss: 0.6185: 100%|====================| 23/23 [00:01<00:00, 13.50it/s]
+[34mEpoch [2/250]
+     Train Loss: 0.6569 - Validation Loss: 0.3979
+     Train LossMSE: 0.0162 - Validation LossMSE: 0.0400
+     Train PSNR: 17.9433 - Validation PSNR: 13.9983
+     Train SSIM: 0.4275 - Validation SSIM: 0.3751
+[32m     New Best Validation PSNR: 13.9983 
+
+[23/23] Loss: 0.6463: 100%|====================| 23/23 [00:01<00:00, 14.59it/s]
+[34mEpoch [3/250]
+     Train Loss: 0.6004 - Validation Loss: 0.8176
+     Train LossMSE: 0.0146 - Validation LossMSE: 0.0152
+     Train PSNR: 18.3935 - Validation PSNR: 18.2135
+     Train SSIM: 0.4442 - Validation SSIM: 0.4487
+[32m     New Best Validation PSNR: 18.2135 
+
+[23/23] Loss: 0.6868: 100%|====================| 23/23 [00:01<00:00, 13.54it/s]
+[34mEpoch [4/250]
+     Train Loss: 0.6832 - Validation Loss: 0.7968
+     Train LossMSE: 0.0129 - Validation LossMSE: 0.0133
+     Train PSNR: 18.9270 - Validation PSNR: 18.7814
+     Train SSIM: 0.4660 - Validation SSIM: 0.4618
+[32m     New Best Validation PSNR: 18.7814 
+
+[23/23] Loss: 0.7077: 100%|====================| 23/23 [00:01<00:00, 13.70it/s]
+[34mEpoch [5/250]
+     Train Loss: 0.6984 - Validation Loss: 0.6738
+     Train LossMSE: 0.0122 - Validation LossMSE: 0.0170
+     Train PSNR: 19.1693 - Validation PSNR: 17.7431
+     Train SSIM: 0.4777 - Validation SSIM: 0.4589
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 0.7582: 100%|====================| 23/23 [00:01<00:00, 13.52it/s]
+[34mEpoch [6/250]
+     Train Loss: 0.7248 - Validation Loss: 1.0193
+     Train LossMSE: 0.0124 - Validation LossMSE: 0.0185
+     Train PSNR: 19.1211 - Validation PSNR: 17.3748
+     Train SSIM: 0.4814 - Validation SSIM: 0.4540
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 0.8123: 100%|====================| 23/23 [00:01<00:00, 13.58it/s]
+[34mEpoch [7/250]
+     Train Loss: 0.7742 - Validation Loss: 1.1997
+     Train LossMSE: 0.0128 - Validation LossMSE: 0.0166
+     Train PSNR: 18.9686 - Validation PSNR: 17.8795
+     Train SSIM: 0.4797 - Validation SSIM: 0.4596
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 0.8526: 100%|====================| 23/23 [00:01<00:00, 13.62it/s]
+[34mEpoch [8/250]
+     Train Loss: 0.8181 - Validation Loss: 0.9867
+     Train LossMSE: 0.0137 - Validation LossMSE: 0.0157
+     Train PSNR: 18.7001 - Validation PSNR: 18.1369
+     Train SSIM: 0.4702 - Validation SSIM: 0.4558
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 0.9369: 100%|====================| 23/23 [00:01<00:00, 13.71it/s]
+[34mEpoch [9/250]
+     Train Loss: 0.8999 - Validation Loss: 1.2795
+     Train LossMSE: 0.0165 - Validation LossMSE: 0.0182
+     Train PSNR: 17.8816 - Validation PSNR: 17.4570
+     Train SSIM: 0.4365 - Validation SSIM: 0.4140
+     Old Best Validation PSNR: 18.7814
+[23/23] Loss: 0.9981: 100%|====================| 23/23 [00:01<00:00, 14.38it/s]
+[34mEpoch [10/250]
+     Train Loss: 0.9803 - Validation Loss: 1.1411
+     Train LossMSE: 0.0180 - Validation LossMSE: 0.0445
+     Train PSNR: 17.5190 - Validation PSNR: 13.6183
+     Train SSIM: 0.4188 - Validation SSIM: 0.3752
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 1.0646: 100%|====================| 23/23 [00:01<00:00, 13.47it/s]
+[34mEpoch [11/250]
+     Train Loss: 1.0449 - Validation Loss: 1.3084
+     Train LossMSE: 0.0185 - Validation LossMSE: 0.0184
+     Train PSNR: 17.4077 - Validation PSNR: 17.4331
+     Train SSIM: 0.4216 - Validation SSIM: 0.4174
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 1.1362: 100%|====================| 23/23 [00:01<00:00, 13.74it/s]
+[34mEpoch [12/250]
+     Train Loss: 1.0954 - Validation Loss: 1.1614
+     Train LossMSE: 0.0183 - Validation LossMSE: 0.0275
+     Train PSNR: 17.4445 - Validation PSNR: 15.6351
+     Train SSIM: 0.4206 - Validation SSIM: 0.4127
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 1.1777: 100%|====================| 23/23 [00:01<00:00, 13.76it/s]
+[34mEpoch [13/250]
+     Train Loss: 1.1495 - Validation Loss: 1.0632
+     Train LossMSE: 0.0182 - Validation LossMSE: 0.0185
+     Train PSNR: 17.4648 - Validation PSNR: 17.3709
+     Train SSIM: 0.4238 - Validation SSIM: 0.4211
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 1.2265: 100%|====================| 23/23 [00:01<00:00, 13.81it/s]
+[34mEpoch [14/250]
+     Train Loss: 1.2022 - Validation Loss: 0.9892
+     Train LossMSE: 0.0176 - Validation LossMSE: 0.0186
+     Train PSNR: 17.6183 - Validation PSNR: 17.4039
+     Train SSIM: 0.4267 - Validation SSIM: 0.4323
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 1.2433: 100%|====================| 23/23 [00:01<00:00, 14.59it/s]
+[34mEpoch [15/250]
+     Train Loss: 1.2308 - Validation Loss: 1.3358
+     Train LossMSE: 0.0167 - Validation LossMSE: 0.0202
+     Train PSNR: 17.8527 - Validation PSNR: 17.0715
+     Train SSIM: 0.4382 - Validation SSIM: 0.4330
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 1.2246: 100%|====================| 23/23 [00:01<00:00, 13.71it/s]
+[34mEpoch [16/250]
+     Train Loss: 1.2330 - Validation Loss: 1.3153
+     Train LossMSE: 0.0160 - Validation LossMSE: 0.0175
+     Train PSNR: 18.0390 - Validation PSNR: 17.6653
+     Train SSIM: 0.4428 - Validation SSIM: 0.4385
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 1.2103: 100%|====================| 23/23 [00:01<00:00, 13.64it/s]
+[34mEpoch [17/250]
+     Train Loss: 1.2145 - Validation Loss: 1.0284
+     Train LossMSE: 0.0159 - Validation LossMSE: 0.0160
+     Train PSNR: 18.0818 - Validation PSNR: 18.0848
+     Train SSIM: 0.4460 - Validation SSIM: 0.4513
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 1.1554: 100%|====================| 23/23 [00:01<00:00, 14.54it/s]
+[34mEpoch [18/250]
+     Train Loss: 1.1670 - Validation Loss: 1.3550
+     Train LossMSE: 0.0155 - Validation LossMSE: 0.0158
+     Train PSNR: 18.1517 - Validation PSNR: 18.1193
+     Train SSIM: 0.4493 - Validation SSIM: 0.4484
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 1.0709: 100%|====================| 23/23 [00:01<00:00, 13.52it/s]
+[34mEpoch [19/250]
+     Train Loss: 1.1136 - Validation Loss: 1.0181
+     Train LossMSE: 0.0152 - Validation LossMSE: 0.0155
+     Train PSNR: 18.2639 - Validation PSNR: 18.1587
+     Train SSIM: 0.4527 - Validation SSIM: 0.4513
+     Old Best Validation PSNR: 18.7814
+[23/23] Loss: 0.9923: 100%|====================| 23/23 [00:01<00:00, 13.68it/s]
+[34mEpoch [20/250]
+     Train Loss: 1.0225 - Validation Loss: 1.4252
+     Train LossMSE: 0.0146 - Validation LossMSE: 0.0181
+     Train PSNR: 18.4300 - Validation PSNR: 17.5570
+     Train SSIM: 0.4562 - Validation SSIM: 0.4462
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 0.7840: 100%|====================| 23/23 [00:01<00:00, 13.78it/s]
+[34mEpoch [21/250]
+     Train Loss: 0.8779 - Validation Loss: 0.6955
+     Train LossMSE: 0.0140 - Validation LossMSE: 0.0136
+     Train PSNR: 18.5980 - Validation PSNR: 18.7106
+     Train SSIM: 0.4638 - Validation SSIM: 0.4713
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 0.5610: 100%|====================| 23/23 [00:01<00:00, 13.66it/s]
+[34mEpoch [22/250]
+     Train Loss: 0.6707 - Validation Loss: 0.5642
+     Train LossMSE: 0.0142 - Validation LossMSE: 0.0154
+     Train PSNR: 18.5306 - Validation PSNR: 18.1729
+     Train SSIM: 0.4595 - Validation SSIM: 0.4651
+     Old Best Validation PSNR: 18.7814
+[23/23] Loss: 0.4488: 100%|====================| 23/23 [00:01<00:00, 13.84it/s]
+[34mEpoch [23/250]
+     Train Loss: 0.5011 - Validation Loss: 0.4721
+     Train LossMSE: 0.0137 - Validation LossMSE: 0.0165
+     Train PSNR: 18.6721 - Validation PSNR: 17.8758
+     Train SSIM: 0.4631 - Validation SSIM: 0.4666
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 0.2989: 100%|====================| 23/23 [00:01<00:00, 13.63it/s]
+[34mEpoch [24/250]
+     Train Loss: 0.3571 - Validation Loss: 0.3458
+     Train LossMSE: 0.0137 - Validation LossMSE: 0.0144
+     Train PSNR: 18.6687 - Validation PSNR: 18.4499
+     Train SSIM: 0.4616 - Validation SSIM: 0.4683
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 0.2235: 100%|====================| 23/23 [00:01<00:00, 14.28it/s]
+[34mEpoch [25/250]
+     Train Loss: 0.2430 - Validation Loss: 0.1881
+     Train LossMSE: 0.0135 - Validation LossMSE: 0.0172
+     Train PSNR: 18.7192 - Validation PSNR: 17.6957
+     Train SSIM: 0.4642 - Validation SSIM: 0.4568
+     Old Best Validation PSNR: 18.7814
+[23/23] Loss: 0.1682: 100%|====================| 23/23 [00:01<00:00, 13.73it/s]
+[34mEpoch [26/250]
+     Train Loss: 0.1734 - Validation Loss: 0.1593
+     Train LossMSE: 0.0130 - Validation LossMSE: 0.0142
+     Train PSNR: 18.9034 - Validation PSNR: 18.4989
+     Train SSIM: 0.4703 - Validation SSIM: 0.4741
+     Old Best Validation PSNR: 18.7814
+
+[23/23] Loss: 0.1095: 100%|====================| 23/23 [00:01<00:00, 14.48it/s]
+[34mEpoch [27/250]
+     Train Loss: 0.1254 - Validation Loss: 0.1096
+     Train LossMSE: 0.0122 - Validation LossMSE: 0.0120
+     Train PSNR: 19.1567 - Validation PSNR: 19.2489
+     Train SSIM: 0.4803 - Validation SSIM: 0.4824
+[32m     New Best Validation PSNR: 19.2489 
+
+[23/23] Loss: 0.0842: 100%|====================| 23/23 [00:01<00:00, 13.72it/s]
+[34mEpoch [28/250]
+     Train Loss: 0.0951 - Validation Loss: 0.0856
+     Train LossMSE: 0.0116 - Validation LossMSE: 0.0113
+     Train PSNR: 19.3846 - Validation PSNR: 19.5286
+     Train SSIM: 0.4882 - Validation SSIM: 0.4914
+[32m     New Best Validation PSNR: 19.5286 
+
+[23/23] Loss: 0.0705: 100%|====================| 23/23 [00:01<00:00, 14.18it/s]
+[34mEpoch [29/250]
+     Train Loss: 0.0766 - Validation Loss: 0.0702
+     Train LossMSE: 0.0113 - Validation LossMSE: 0.0109
+     Train PSNR: 19.5112 - Validation PSNR: 19.6608
+     Train SSIM: 0.4936 - Validation SSIM: 0.4956
+[32m     New Best Validation PSNR: 19.6608 
+
+[23/23] Loss: 0.0672: 100%|====================| 23/23 [00:01<00:00, 14.71it/s]
+[34mEpoch [30/250]
+     Train Loss: 0.0651 - Validation Loss: 0.0605
+     Train LossMSE: 0.0109 - Validation LossMSE: 0.0105
+     Train PSNR: 19.6626 - Validation PSNR: 19.8350
+     Train SSIM: 0.5000 - Validation SSIM: 0.5004
+[32m     New Best Validation PSNR: 19.8350 
+
+[23/23] Loss: 0.0555: 100%|====================| 23/23 [00:01<00:00, 13.76it/s]
+[34mEpoch [31/250]
+     Train Loss: 0.0583 - Validation Loss: 0.0554
+     Train LossMSE: 0.0106 - Validation LossMSE: 0.0103
+     Train PSNR: 19.7968 - Validation PSNR: 19.9377
+     Train SSIM: 0.5044 - Validation SSIM: 0.5062
+[32m     New Best Validation PSNR: 19.9377 
+
+[23/23] Loss: 0.0474: 100%|====================| 23/23 [00:01<00:00, 13.65it/s]
+[34mEpoch [32/250]
+     Train Loss: 0.0528 - Validation Loss: 0.0506
+     Train LossMSE: 0.0104 - Validation LossMSE: 0.0103
+     Train PSNR: 19.8859 - Validation PSNR: 19.9311
+     Train SSIM: 0.5088 - Validation SSIM: 0.5098
+     Old Best Validation PSNR: 19.9377
+
+[23/23] Loss: 0.0480: 100%|====================| 23/23 [00:01<00:00, 13.83it/s]
+[34mEpoch [33/250]
+     Train Loss: 0.0492 - Validation Loss: 0.0472
+     Train LossMSE: 0.0101 - Validation LossMSE: 0.0098
+     Train PSNR: 19.9750 - Validation PSNR: 20.1558
+     Train SSIM: 0.5121 - Validation SSIM: 0.5159
+[32m     New Best Validation PSNR: 20.1558 
+
+[23/23] Loss: 0.0434: 100%|====================| 23/23 [00:01<00:00, 13.69it/s]
+[34mEpoch [34/250]
+     Train Loss: 0.0459 - Validation Loss: 0.0453
+     Train LossMSE: 0.0099 - Validation LossMSE: 0.0103
+     Train PSNR: 20.0637 - Validation PSNR: 19.9335
+     Train SSIM: 0.5170 - Validation SSIM: 0.5154
+     Old Best Validation PSNR: 20.1558
+
+[23/23] Loss: 0.0473: 100%|====================| 23/23 [00:01<00:00, 13.73it/s]
+[34mEpoch [35/250]
+     Train Loss: 0.0433 - Validation Loss: 0.0417
+     Train LossMSE: 0.0097 - Validation LossMSE: 0.0093
+     Train PSNR: 20.1831 - Validation PSNR: 20.3487
+     Train SSIM: 0.5215 - Validation SSIM: 0.5234
+[32m     New Best Validation PSNR: 20.3487 
+
+[23/23] Loss: 0.0423: 100%|====================| 23/23 [00:01<00:00, 13.81it/s]
+[34mEpoch [36/250]
+     Train Loss: 0.0406 - Validation Loss: 0.0394
+     Train LossMSE: 0.0095 - Validation LossMSE: 0.0093
+     Train PSNR: 20.2527 - Validation PSNR: 20.3492
+     Train SSIM: 0.5253 - Validation SSIM: 0.5252
+[32m     New Best Validation PSNR: 20.3492 
+
+[23/23] Loss: 0.0374: 100%|====================| 23/23 [00:01<00:00, 13.73it/s]
+[34mEpoch [37/250]
+     Train Loss: 0.0381 - Validation Loss: 0.0363
+     Train LossMSE: 0.0094 - Validation LossMSE: 0.0090
+     Train PSNR: 20.3078 - Validation PSNR: 20.5002
+     Train SSIM: 0.5283 - Validation SSIM: 0.5286
+[32m     New Best Validation PSNR: 20.5002 
+
+[23/23] Loss: 0.0315: 100%|====================| 23/23 [00:01<00:00, 13.51it/s]
+[34mEpoch [38/250]
+     Train Loss: 0.0358 - Validation Loss: 0.0341
+     Train LossMSE: 0.0092 - Validation LossMSE: 0.0088
+     Train PSNR: 20.4074 - Validation PSNR: 20.5928
+     Train SSIM: 0.5312 - Validation SSIM: 0.5330
+[32m     New Best Validation PSNR: 20.5928 
+
+[23/23] Loss: 0.0334: 100%|====================| 23/23 [00:01<00:00, 13.82it/s]
+[34mEpoch [39/250]
+     Train Loss: 0.0340 - Validation Loss: 0.0337
+     Train LossMSE: 0.0091 - Validation LossMSE: 0.0089
+     Train PSNR: 20.4746 - Validation PSNR: 20.5462
+     Train SSIM: 0.5344 - Validation SSIM: 0.5327
+     Old Best Validation PSNR: 20.5928
+
+[23/23] Loss: 0.0336: 100%|====================| 23/23 [00:01<00:00, 13.68it/s]
+[34mEpoch [40/250]
+     Train Loss: 0.0325 - Validation Loss: 0.0320
+     Train LossMSE: 0.0090 - Validation LossMSE: 0.0087
+     Train PSNR: 20.5177 - Validation PSNR: 20.6484
+     Train SSIM: 0.5355 - Validation SSIM: 0.5362
+[32m     New Best Validation PSNR: 20.6484 
+
+[23/23] Loss: 0.0311: 100%|====================| 23/23 [00:01<00:00, 13.61it/s]
+[34mEpoch [41/250]
+     Train Loss: 0.0304 - Validation Loss: 0.0291
+     Train LossMSE: 0.0088 - Validation LossMSE: 0.0085
+     Train PSNR: 20.5870 - Validation PSNR: 20.7386
+     Train SSIM: 0.5379 - Validation SSIM: 0.5394
+[32m     New Best Validation PSNR: 20.7386 
+[23/23] Loss: 0.0284: 100%|====================| 23/23 [00:01<00:00, 14.43it/s]
+[34mEpoch [42/250]
+     Train Loss: 0.0290 - Validation Loss: 0.0279
+     Train LossMSE: 0.0087 - Validation LossMSE: 0.0085
+     Train PSNR: 20.6640 - Validation PSNR: 20.7801
+     Train SSIM: 0.5422 - Validation SSIM: 0.5415
+[32m     New Best Validation PSNR: 20.7801 
+
+[23/23] Loss: 0.0264: 100%|====================| 23/23 [00:01<00:00, 13.56it/s]
+[34mEpoch [43/250]
+     Train Loss: 0.0276 - Validation Loss: 0.0271
+     Train LossMSE: 0.0085 - Validation LossMSE: 0.0084
+     Train PSNR: 20.7323 - Validation PSNR: 20.7811
+     Train SSIM: 0.5445 - Validation SSIM: 0.5446
+[32m     New Best Validation PSNR: 20.7811 
+
+[23/23] Loss: 0.0240: 100%|====================| 23/23 [00:01<00:00, 13.61it/s]
+[34mEpoch [44/250]
+     Train Loss: 0.0263 - Validation Loss: 0.0257
+     Train LossMSE: 0.0084 - Validation LossMSE: 0.0081
+     Train PSNR: 20.8094 - Validation PSNR: 20.9648
+     Train SSIM: 0.5478 - Validation SSIM: 0.5492
+[32m     New Best Validation PSNR: 20.9648 
+
+[23/23] Loss: 0.0298: 100%|====================| 23/23 [00:01<00:00, 13.72it/s]
+[34mEpoch [45/250]
+     Train Loss: 0.0256 - Validation Loss: 0.0247
+     Train LossMSE: 0.0084 - Validation LossMSE: 0.0081
+     Train PSNR: 20.8286 - Validation PSNR: 20.9747
+     Train SSIM: 0.5501 - Validation SSIM: 0.5491
+[32m     New Best Validation PSNR: 20.9747 
+
+[23/23] Loss: 0.0257: 100%|====================| 23/23 [00:01<00:00, 13.50it/s]
+[34mEpoch [46/250]
+     Train Loss: 0.0249 - Validation Loss: 0.0239
+     Train LossMSE: 0.0083 - Validation LossMSE: 0.0080
+     Train PSNR: 20.8789 - Validation PSNR: 21.0073
+     Train SSIM: 0.5514 - Validation SSIM: 0.5524
+[32m     New Best Validation PSNR: 21.0073 
+
+[23/23] Loss: 0.0225: 100%|====================| 23/23 [00:01<00:00, 13.46it/s]
+[34mEpoch [47/250]
+     Train Loss: 0.0237 - Validation Loss: 0.0233
+     Train LossMSE: 0.0081 - Validation LossMSE: 0.0080
+     Train PSNR: 20.9609 - Validation PSNR: 20.9974
+     Train SSIM: 0.5541 - Validation SSIM: 0.5532
+     Old Best Validation PSNR: 21.0073
+
+[23/23] Loss: 0.0213: 100%|====================| 23/23 [00:01<00:00, 13.86it/s]
+[34mEpoch [48/250]
+     Train Loss: 0.0230 - Validation Loss: 0.0225
+     Train LossMSE: 0.0080 - Validation LossMSE: 0.0079
+     Train PSNR: 20.9944 - Validation PSNR: 21.0713
+     Train SSIM: 0.5573 - Validation SSIM: 0.5561
+[32m     New Best Validation PSNR: 21.0713 
+[23/23] Loss: 0.0235: 100%|====================| 23/23 [00:01<00:00, 13.58it/s]
+[34mEpoch [49/250]
+     Train Loss: 0.0224 - Validation Loss: 0.0226
+     Train LossMSE: 0.0080 - Validation LossMSE: 0.0079
+     Train PSNR: 21.0123 - Validation PSNR: 21.0797
+     Train SSIM: 0.5586 - Validation SSIM: 0.5552
+[32m     New Best Validation PSNR: 21.0797 
+
+[23/23] Loss: 0.0207: 100%|====================| 23/23 [00:01<00:00, 13.82it/s]
+[34mEpoch [50/250]
+     Train Loss: 0.0214 - Validation Loss: 0.0212
+     Train LossMSE: 0.0079 - Validation LossMSE: 0.0078
+     Train PSNR: 21.0855 - Validation PSNR: 21.1428
+     Train SSIM: 0.5611 - Validation SSIM: 0.5597
+[32m     New Best Validation PSNR: 21.1428 
+
+[23/23] Loss: 0.0231: 100%|====================| 23/23 [00:01<00:00, 13.85it/s]
+[34mEpoch [51/250]
+     Train Loss: 0.0210 - Validation Loss: 0.0208
+     Train LossMSE: 0.0079 - Validation LossMSE: 0.0078
+     Train PSNR: 21.0523 - Validation PSNR: 21.1404
+     Train SSIM: 0.5612 - Validation SSIM: 0.5554
+     Old Best Validation PSNR: 21.1428
+
+[23/23] Loss: 0.0200: 100%|====================| 23/23 [00:01<00:00, 13.61it/s]
+[34mEpoch [52/250]
+     Train Loss: 0.0205 - Validation Loss: 0.0201
+     Train LossMSE: 0.0078 - Validation LossMSE: 0.0075
+     Train PSNR: 21.1447 - Validation PSNR: 21.3159
+     Train SSIM: 0.5628 - Validation SSIM: 0.5642
+[32m     New Best Validation PSNR: 21.3159 
+
+[23/23] Loss: 0.0198: 100%|====================| 23/23 [00:01<00:00, 13.60it/s]
+[34mEpoch [53/250]
+     Train Loss: 0.0201 - Validation Loss: 0.0199
+     Train LossMSE: 0.0077 - Validation LossMSE: 0.0077
+     Train PSNR: 21.1629 - Validation PSNR: 21.1984
+     Train SSIM: 0.5661 - Validation SSIM: 0.5655
+     Old Best Validation PSNR: 21.3159
+
+[23/23] Loss: 0.0209: 100%|====================| 23/23 [00:01<00:00, 14.44it/s]
+[34mEpoch [54/250]
+     Train Loss: 0.0197 - Validation Loss: 0.0191
+     Train LossMSE: 0.0077 - Validation LossMSE: 0.0075
+     Train PSNR: 21.2130 - Validation PSNR: 21.3296
+     Train SSIM: 0.5681 - Validation SSIM: 0.5672
+[32m     New Best Validation PSNR: 21.3296 
+
+[23/23] Loss: 0.0194: 100%|====================| 23/23 [00:01<00:00, 13.81it/s]
+[34mEpoch [55/250]
+     Train Loss: 0.0190 - Validation Loss: 0.0185
+     Train LossMSE: 0.0075 - Validation LossMSE: 0.0074
+     Train PSNR: 21.2820 - Validation PSNR: 21.3965
+     Train SSIM: 0.5706 - Validation SSIM: 0.5688
+[32m     New Best Validation PSNR: 21.3965 
+
+[23/23] Loss: 0.0181: 100%|====================| 23/23 [00:01<00:00, 13.75it/s]
+[34mEpoch [56/250]
+     Train Loss: 0.0185 - Validation Loss: 0.0180
+     Train LossMSE: 0.0074 - Validation LossMSE: 0.0072
+     Train PSNR: 21.3487 - Validation PSNR: 21.4593
+     Train SSIM: 0.5727 - Validation SSIM: 0.5711
+[32m     New Best Validation PSNR: 21.4593 
+
+[23/23] Loss: 0.0182: 100%|====================| 23/23 [00:01<00:00, 13.84it/s]
+[34mEpoch [57/250]
+     Train Loss: 0.0181 - Validation Loss: 0.0179
+     Train LossMSE: 0.0074 - Validation LossMSE: 0.0073
+     Train PSNR: 21.3783 - Validation PSNR: 21.4280
+     Train SSIM: 0.5742 - Validation SSIM: 0.5705
+     Old Best Validation PSNR: 21.4593
+[23/23] Loss: 0.0184: 100%|====================| 23/23 [00:01<00:00, 13.73it/s]
+[34mEpoch [58/250]
+     Train Loss: 0.0178 - Validation Loss: 0.0181
+     Train LossMSE: 0.0074 - Validation LossMSE: 0.0077
+     Train PSNR: 21.3462 - Validation PSNR: 21.2047
+     Train SSIM: 0.5746 - Validation SSIM: 0.5694
+     Old Best Validation PSNR: 21.4593
+
+[23/23] Loss: 0.0186: 100%|====================| 23/23 [00:01<00:00, 13.84it/s]
+[34mEpoch [59/250]
+     Train Loss: 0.0175 - Validation Loss: 0.0176
+     Train LossMSE: 0.0074 - Validation LossMSE: 0.0073
+     Train PSNR: 21.3579 - Validation PSNR: 21.4507
+     Train SSIM: 0.5733 - Validation SSIM: 0.5732
+     Old Best Validation PSNR: 21.4593
+
+[23/23] Loss: 0.0171: 100%|====================| 23/23 [00:01<00:00, 13.70it/s]
+[34mEpoch [60/250]
+     Train Loss: 0.0170 - Validation Loss: 0.0171
+     Train LossMSE: 0.0072 - Validation LossMSE: 0.0072
+     Train PSNR: 21.4616 - Validation PSNR: 21.4942
+     Train SSIM: 0.5775 - Validation SSIM: 0.5784
+[32m     New Best Validation PSNR: 21.4942 
+
+[23/23] Loss: 0.0191: 100%|====================| 23/23 [00:01<00:00, 13.75it/s]
+[34mEpoch [61/250]
+     Train Loss: 0.0169 - Validation Loss: 0.0169
+     Train LossMSE: 0.0073 - Validation LossMSE: 0.0072
+     Train PSNR: 21.4052 - Validation PSNR: 21.4543
+     Train SSIM: 0.5774 - Validation SSIM: 0.5790
+     Old Best Validation PSNR: 21.4942
+
+[23/23] Loss: 0.0155: 100%|====================| 23/23 [00:01<00:00, 13.66it/s]
+[34mEpoch [62/250]
+     Train Loss: 0.0163 - Validation Loss: 0.0161
+     Train LossMSE: 0.0071 - Validation LossMSE: 0.0069
+     Train PSNR: 21.5427 - Validation PSNR: 21.6750
+     Train SSIM: 0.5807 - Validation SSIM: 0.5799
+[32m     New Best Validation PSNR: 21.6750 
+[23/23] Loss: 0.0148: 100%|====================| 23/23 [00:01<00:00, 13.55it/s]
+[34mEpoch [63/250]
+     Train Loss: 0.0158 - Validation Loss: 0.0155
+     Train LossMSE: 0.0070 - Validation LossMSE: 0.0069
+     Train PSNR: 21.5889 - Validation PSNR: 21.6619
+     Train SSIM: 0.5841 - Validation SSIM: 0.5786
+     Old Best Validation PSNR: 21.6750
+
+[23/23] Loss: 0.0182: 100%|====================| 23/23 [00:01<00:00, 13.68it/s]
+[34mEpoch [64/250]
+     Train Loss: 0.0156 - Validation Loss: 0.0159
+     Train LossMSE: 0.0070 - Validation LossMSE: 0.0069
+     Train PSNR: 21.6176 - Validation PSNR: 21.6971
+     Train SSIM: 0.5853 - Validation SSIM: 0.5825
+[32m     New Best Validation PSNR: 21.6971 
+
+[23/23] Loss: 0.0155: 100%|====================| 23/23 [00:01<00:00, 14.44it/s]
+[34mEpoch [65/250]
+     Train Loss: 0.0156 - Validation Loss: 0.0154
+     Train LossMSE: 0.0071 - Validation LossMSE: 0.0068
+     Train PSNR: 21.5768 - Validation PSNR: 21.7113
+     Train SSIM: 0.5854 - Validation SSIM: 0.5824
+[32m     New Best Validation PSNR: 21.7113 
+[23/23] Loss: 0.0144: 100%|====================| 23/23 [00:01<00:00, 14.64it/s]
+[34mEpoch [66/250]
+     Train Loss: 0.0155 - Validation Loss: 0.0153
+     Train LossMSE: 0.0070 - Validation LossMSE: 0.0071
+     Train PSNR: 21.6228 - Validation PSNR: 21.5714
+     Train SSIM: 0.5863 - Validation SSIM: 0.5801
+     Old Best Validation PSNR: 21.7113
+
+[23/23] Loss: 0.0159: 100%|====================| 23/23 [00:01<00:00, 13.59it/s]
+[34mEpoch [67/250]
+     Train Loss: 0.0153 - Validation Loss: 0.0149
+     Train LossMSE: 0.0070 - Validation LossMSE: 0.0068
+     Train PSNR: 21.5929 - Validation PSNR: 21.7696
+     Train SSIM: 0.5859 - Validation SSIM: 0.5815
+[32m     New Best Validation PSNR: 21.7696 
+
+[23/23] Loss: 0.0135: 100%|====================| 23/23 [00:01<00:00, 13.60it/s]
+[34mEpoch [68/250]
+     Train Loss: 0.0149 - Validation Loss: 0.0151
+     Train LossMSE: 0.0069 - Validation LossMSE: 0.0069
+     Train PSNR: 21.6895 - Validation PSNR: 21.6935
+     Train SSIM: 0.5878 - Validation SSIM: 0.5843
+     Old Best Validation PSNR: 21.7696
+
+[23/23] Loss: 0.0149: 100%|====================| 23/23 [00:01<00:00, 13.53it/s]
+[34mEpoch [69/250]
+     Train Loss: 0.0148 - Validation Loss: 0.0145
+     Train LossMSE: 0.0068 - Validation LossMSE: 0.0066
+     Train PSNR: 21.7097 - Validation PSNR: 21.8428
+     Train SSIM: 0.5906 - Validation SSIM: 0.5877
+[32m     New Best Validation PSNR: 21.8428 
+
+[23/23] Loss: 0.0130: 100%|====================| 23/23 [00:01<00:00, 13.71it/s]
+[34mEpoch [70/250]
+     Train Loss: 0.0144 - Validation Loss: 0.0143
+     Train LossMSE: 0.0068 - Validation LossMSE: 0.0067
+     Train PSNR: 21.7562 - Validation PSNR: 21.8037
+     Train SSIM: 0.5929 - Validation SSIM: 0.5900
+     Old Best Validation PSNR: 21.8428
+
+[23/23] Loss: 0.0136: 100%|====================| 23/23 [00:01<00:00, 13.63it/s]
+[34mEpoch [71/250]
+     Train Loss: 0.0143 - Validation Loss: 0.0142
+     Train LossMSE: 0.0068 - Validation LossMSE: 0.0067
+     Train PSNR: 21.7253 - Validation PSNR: 21.7813
+     Train SSIM: 0.5922 - Validation SSIM: 0.5825
+     Old Best Validation PSNR: 21.8428
+
+[23/23] Loss: 0.0153: 100%|====================| 23/23 [00:01<00:00, 13.61it/s]
+[34mEpoch [72/250]
+     Train Loss: 0.0141 - Validation Loss: 0.0140
+     Train LossMSE: 0.0067 - Validation LossMSE: 0.0066
+     Train PSNR: 21.7755 - Validation PSNR: 21.8494
+     Train SSIM: 0.5932 - Validation SSIM: 0.5892
+[32m     New Best Validation PSNR: 21.8494 
+
+[23/23] Loss: 0.0128: 100%|====================| 23/23 [00:01<00:00, 13.78it/s]
+[34mEpoch [73/250]
+     Train Loss: 0.0138 - Validation Loss: 0.0137
+     Train LossMSE: 0.0066 - Validation LossMSE: 0.0065
+     Train PSNR: 21.8373 - Validation PSNR: 21.9082
+     Train SSIM: 0.5953 - Validation SSIM: 0.5909
+[32m     New Best Validation PSNR: 21.9082 
+[23/23] Loss: 0.0132: 100%|====================| 23/23 [00:01<00:00, 13.81it/s]
+[34mEpoch [74/250]
+     Train Loss: 0.0138 - Validation Loss: 0.0141
+     Train LossMSE: 0.0068 - Validation LossMSE: 0.0067
+     Train PSNR: 21.7692 - Validation PSNR: 21.7715
+     Train SSIM: 0.5952 - Validation SSIM: 0.5886
+     Old Best Validation PSNR: 21.9082
+
+[23/23] Loss: 0.0138: 100%|====================| 23/23 [00:01<00:00, 13.69it/s]
+[34mEpoch [75/250]
+     Train Loss: 0.0136 - Validation Loss: 0.0136
+     Train LossMSE: 0.0066 - Validation LossMSE: 0.0066
+     Train PSNR: 21.8489 - Validation PSNR: 21.8549
+     Train SSIM: 0.5956 - Validation SSIM: 0.5913
+     Old Best Validation PSNR: 21.9082
+
+[23/23] Loss: 0.0143: 100%|====================| 23/23 [00:01<00:00, 13.88it/s]
+[34mEpoch [76/250]
+     Train Loss: 0.0134 - Validation Loss: 0.0133
+     Train LossMSE: 0.0066 - Validation LossMSE: 0.0064
+     Train PSNR: 21.8971 - Validation PSNR: 22.0183
+     Train SSIM: 0.5986 - Validation SSIM: 0.5960
+[32m     New Best Validation PSNR: 22.0183 
+
+[23/23] Loss: 0.0142: 100%|====================| 23/23 [00:01<00:00, 13.47it/s]
+[34mEpoch [77/250]
+     Train Loss: 0.0132 - Validation Loss: 0.0130
+     Train LossMSE: 0.0065 - Validation LossMSE: 0.0064
+     Train PSNR: 21.9457 - Validation PSNR: 22.0017
+     Train SSIM: 0.6006 - Validation SSIM: 0.5961
+     Old Best Validation PSNR: 22.0183
+[23/23] Loss: 0.0136: 100%|====================| 23/23 [00:01<00:00, 13.79it/s]
+[34mEpoch [78/250]
+     Train Loss: 0.0131 - Validation Loss: 0.0129
+     Train LossMSE: 0.0065 - Validation LossMSE: 0.0064
+     Train PSNR: 21.9563 - Validation PSNR: 22.0184
+     Train SSIM: 0.6022 - Validation SSIM: 0.5953
+[32m     New Best Validation PSNR: 22.0184 
+
+[23/23] Loss: 0.0126: 100%|====================| 23/23 [00:01<00:00, 13.82it/s]
+[34mEpoch [79/250]
+     Train Loss: 0.0128 - Validation Loss: 0.0129
+     Train LossMSE: 0.0064 - Validation LossMSE: 0.0064
+     Train PSNR: 21.9918 - Validation PSNR: 21.9863
+     Train SSIM: 0.6036 - Validation SSIM: 0.5970
+     Old Best Validation PSNR: 22.0184
+
+[23/23] Loss: 0.0132: 100%|====================| 23/23 [00:01<00:00, 13.46it/s]
+[34mEpoch [80/250]
+     Train Loss: 0.0129 - Validation Loss: 0.0131
+     Train LossMSE: 0.0065 - Validation LossMSE: 0.0066
+     Train PSNR: 21.9487 - Validation PSNR: 21.8695
+     Train SSIM: 0.6033 - Validation SSIM: 0.5973
+     Old Best Validation PSNR: 22.0184
+
+[23/23] Loss: 0.0137: 100%|====================| 23/23 [00:01<00:00, 13.35it/s]
+[34mEpoch [81/250]
+     Train Loss: 0.0130 - Validation Loss: 0.0132
+     Train LossMSE: 0.0065 - Validation LossMSE: 0.0067
+     Train PSNR: 21.9259 - Validation PSNR: 21.7983
+     Train SSIM: 0.6026 - Validation SSIM: 0.5905
+     Old Best Validation PSNR: 22.0184
+
+[23/23] Loss: 0.0125: 100%|====================| 23/23 [00:01<00:00, 13.70it/s]
+[34mEpoch [82/250]
+     Train Loss: 0.0127 - Validation Loss: 0.0125
+     Train LossMSE: 0.0064 - Validation LossMSE: 0.0063
+     Train PSNR: 22.0105 - Validation PSNR: 22.0740
+     Train SSIM: 0.6038 - Validation SSIM: 0.5994
+[32m     New Best Validation PSNR: 22.0740 
+
+[23/23] Loss: 0.0128: 100%|====================| 23/23 [00:01<00:00, 13.85it/s]
+[34mEpoch [83/250]
+     Train Loss: 0.0126 - Validation Loss: 0.0125
+     Train LossMSE: 0.0063 - Validation LossMSE: 0.0063
+     Train PSNR: 22.0446 - Validation PSNR: 22.0558
+     Train SSIM: 0.6063 - Validation SSIM: 0.5967
+     Old Best Validation PSNR: 22.0740
+
+[23/23] Loss: 0.0125: 100%|====================| 23/23 [00:01<00:00, 13.74it/s]
+[34mEpoch [84/250]
+     Train Loss: 0.0125 - Validation Loss: 0.0125
+     Train LossMSE: 0.0063 - Validation LossMSE: 0.0065
+     Train PSNR: 22.0506 - Validation PSNR: 21.9547
+     Train SSIM: 0.6059 - Validation SSIM: 0.5961
+     Old Best Validation PSNR: 22.0740
+
+[23/23] Loss: 0.0114: 100%|====================| 23/23 [00:01<00:00, 14.29it/s]
+[34mEpoch [85/250]
+     Train Loss: 0.0124 - Validation Loss: 0.0124
+     Train LossMSE: 0.0063 - Validation LossMSE: 0.0064
+     Train PSNR: 22.0892 - Validation PSNR: 22.0281
+     Train SSIM: 0.6074 - Validation SSIM: 0.5973
+     Old Best Validation PSNR: 22.0740
+
+[23/23] Loss: 0.0132: 100%|====================| 23/23 [00:01<00:00, 13.55it/s]
+[34mEpoch [86/250]
+     Train Loss: 0.0124 - Validation Loss: 0.0124
+     Train LossMSE: 0.0063 - Validation LossMSE: 0.0063
+     Train PSNR: 22.0420 - Validation PSNR: 22.0918
+     Train SSIM: 0.6070 - Validation SSIM: 0.5988
+[32m     New Best Validation PSNR: 22.0918 
+[23/23] Loss: 0.0112: 100%|====================| 23/23 [00:01<00:00, 13.68it/s]
+[34mEpoch [87/250]
+     Train Loss: 0.0124 - Validation Loss: 0.0125
+     Train LossMSE: 0.0063 - Validation LossMSE: 0.0065
+     Train PSNR: 22.0825 - Validation PSNR: 21.9214
+     Train SSIM: 0.6082 - Validation SSIM: 0.5960
+     Old Best Validation PSNR: 22.0918
+
+[23/23] Loss: 0.0135: 100%|====================| 23/23 [00:01<00:00, 13.68it/s]
+[34mEpoch [88/250]
+     Train Loss: 0.0124 - Validation Loss: 0.0124
+     Train LossMSE: 0.0063 - Validation LossMSE: 0.0063
+     Train PSNR: 22.0744 - Validation PSNR: 22.0841
+     Train SSIM: 0.6085 - Validation SSIM: 0.6013
+     Old Best Validation PSNR: 22.0918
+
+[23/23] Loss: 0.0125: 100%|====================| 23/23 [00:01<00:00, 13.72it/s]
+[34mEpoch [89/250]
+     Train Loss: 0.0121 - Validation Loss: 0.0121
+     Train LossMSE: 0.0062 - Validation LossMSE: 0.0062
+     Train PSNR: 22.1134 - Validation PSNR: 22.1291
+     Train SSIM: 0.6098 - Validation SSIM: 0.6022
+[32m     New Best Validation PSNR: 22.1291 
+
+[23/23] Loss: 0.0120: 100%|====================| 23/23 [00:01<00:00, 13.42it/s]
+[34mEpoch [90/250]
+     Train Loss: 0.0120 - Validation Loss: 0.0122
+     Train LossMSE: 0.0062 - Validation LossMSE: 0.0062
+     Train PSNR: 22.1783 - Validation PSNR: 22.1478
+     Train SSIM: 0.6110 - Validation SSIM: 0.6010
+[32m     New Best Validation PSNR: 22.1478 
+
+[23/23] Loss: 0.0103: 100%|====================| 23/23 [00:01<00:00, 13.58it/s]
+[34mEpoch [91/250]
+     Train Loss: 0.0118 - Validation Loss: 0.0120
+     Train LossMSE: 0.0061 - Validation LossMSE: 0.0063
+     Train PSNR: 22.2247 - Validation PSNR: 22.0958
+     Train SSIM: 0.6135 - Validation SSIM: 0.5995
+     Old Best Validation PSNR: 22.1478
+
+[23/23] Loss: 0.0115: 100%|====================| 23/23 [00:01<00:00, 13.64it/s]
+[34mEpoch [92/250]
+     Train Loss: 0.0118 - Validation Loss: 0.0120
+     Train LossMSE: 0.0061 - Validation LossMSE: 0.0062
+     Train PSNR: 22.2255 - Validation PSNR: 22.1428
+     Train SSIM: 0.6138 - Validation SSIM: 0.6028
+     Old Best Validation PSNR: 22.1478
+
+[23/23] Loss: 0.0131: 100%|====================| 23/23 [00:01<00:00, 13.57it/s]
+[34mEpoch [93/250]
+     Train Loss: 0.0119 - Validation Loss: 0.0119
+     Train LossMSE: 0.0062 - Validation LossMSE: 0.0062
+     Train PSNR: 22.1446 - Validation PSNR: 22.1497
+     Train SSIM: 0.6131 - Validation SSIM: 0.6019
+[32m     New Best Validation PSNR: 22.1497 
+
+[23/23] Loss: 0.0133: 100%|====================| 23/23 [00:01<00:00, 13.65it/s]
+[34mEpoch [94/250]
+     Train Loss: 0.0121 - Validation Loss: 0.0125
+     Train LossMSE: 0.0063 - Validation LossMSE: 0.0063
+     Train PSNR: 22.0930 - Validation PSNR: 22.0938
+     Train SSIM: 0.6109 - Validation SSIM: 0.6002
+     Old Best Validation PSNR: 22.1497
+
+[23/23] Loss: 0.0122: 100%|====================| 23/23 [00:01<00:00, 14.31it/s]
+[34mEpoch [95/250]
+     Train Loss: 0.0119 - Validation Loss: 0.0123
+     Train LossMSE: 0.0062 - Validation LossMSE: 0.0065
+     Train PSNR: 22.1392 - Validation PSNR: 21.9656
+     Train SSIM: 0.6114 - Validation SSIM: 0.6035
+     Old Best Validation PSNR: 22.1497
+
+[23/23] Loss: 0.0126: 100%|====================| 23/23 [00:01<00:00, 13.90it/s]
+[34mEpoch [96/250]
+     Train Loss: 0.0118 - Validation Loss: 0.0118
+     Train LossMSE: 0.0061 - Validation LossMSE: 0.0062
+     Train PSNR: 22.1781 - Validation PSNR: 22.1694
+     Train SSIM: 0.6132 - Validation SSIM: 0.6029
+[32m     New Best Validation PSNR: 22.1694 
+
+[23/23] Loss: 0.0126: 100%|====================| 23/23 [00:01<00:00, 13.55it/s]
+[34mEpoch [97/250]
+     Train Loss: 0.0116 - Validation Loss: 0.0116
+     Train LossMSE: 0.0061 - Validation LossMSE: 0.0062
+     Train PSNR: 22.1979 - Validation PSNR: 22.1316
+     Train SSIM: 0.6155 - Validation SSIM: 0.6028
+     Old Best Validation PSNR: 22.1694
+
+[23/23] Loss: 0.0116: 100%|====================| 23/23 [00:01<00:00, 13.87it/s]
+[34mEpoch [98/250]
+     Train Loss: 0.0115 - Validation Loss: 0.0118
+     Train LossMSE: 0.0060 - Validation LossMSE: 0.0063
+     Train PSNR: 22.2797 - Validation PSNR: 22.1048
+     Train SSIM: 0.6166 - Validation SSIM: 0.6036
+     Old Best Validation PSNR: 22.1694
+
+[23/23] Loss: 0.0122: 100%|====================| 23/23 [00:01<00:00, 13.63it/s]
+[34mEpoch [99/250]
+     Train Loss: 0.0114 - Validation Loss: 0.0118
+     Train LossMSE: 0.0060 - Validation LossMSE: 0.0061
+     Train PSNR: 22.2791 - Validation PSNR: 22.1878
+     Train SSIM: 0.6165 - Validation SSIM: 0.6079
+[32m     New Best Validation PSNR: 22.1878 
+
+[23/23] Loss: 0.0114: 100%|====================| 23/23 [00:01<00:00, 13.67it/s]
+[34mEpoch [100/250]
+     Train Loss: 0.0114 - Validation Loss: 0.0115
+     Train LossMSE: 0.0060 - Validation LossMSE: 0.0061
+     Train PSNR: 22.2922 - Validation PSNR: 22.2016
+     Train SSIM: 0.6181 - Validation SSIM: 0.6052
+[32m     New Best Validation PSNR: 22.2016 
+[23/23] Loss: 0.0121: 100%|====================| 23/23 [00:01<00:00, 13.89it/s]
+[23/23] Loss: 0.0121: 100%|====================| 23/23 [00:01<00:00, 13.89it/s]
+[34mEpoch [101/250]
+     Train Loss: 0.0114 - Validation Loss: 0.0116
+     Train LossMSE: 0.0060 - Validation LossMSE: 0.0062
+     Train PSNR: 22.2800 - Validation PSNR: 22.1646
+     Train SSIM: 0.6178 - Validation SSIM: 0.6035
+[3/23] Loss: 0.0113:   4%|>                   | 1/23 [00:00<00:10,  2.12it/s]s]
+[23/23] Loss: 0.0113: 100%|====================| 23/23 [00:01<00:00, 13.51it/s]
+[23/23] Loss: 0.0113: 100%|====================| 23/23 [00:01<00:00, 13.51it/s]
+[34mEpoch [102/250]
+     Train Loss: 0.0112 - Validation Loss: 0.0116
+     Train LossMSE: 0.0059 - Validation LossMSE: 0.0063
+     Train PSNR: 22.3307 - Validation PSNR: 22.1078
+     Train SSIM: 0.6189 - Validation SSIM: 0.6071
+[18/23] Loss: 0.0113:  78%|===============>    | 18/23 [00:00<00:00, 23.64it/s]
+[23/23] Loss: 0.0120: 100%|====================| 23/23 [00:01<00:00, 13.74it/s]
+[23/23] Loss: 0.0120: 100%|====================| 23/23 [00:01<00:00, 13.74it/s]
+[34mEpoch [103/250]
+     Train Loss: 0.0113 - Validation Loss: 0.0117
+     Train LossMSE: 0.0060 - Validation LossMSE: 0.0063
+     Train PSNR: 22.2720 - Validation PSNR: 22.0971
+     Train SSIM: 0.6187 - Validation SSIM: 0.6078
+[14/23] Loss: 0.0107:  61%|============        | 14/23 [00:00<00:00, 23.26it/s]
+[23/23] Loss: 0.0121: 100%|====================| 23/23 [00:01<00:00, 13.63it/s]
+[23/23] Loss: 0.0121: 100%|====================| 23/23 [00:01<00:00, 13.63it/s]
+[34mEpoch [104/250]
+     Train Loss: 0.0112 - Validation Loss: 0.0115
+     Train LossMSE: 0.0060 - Validation LossMSE: 0.0063
+     Train PSNR: 22.3121 - Validation PSNR: 22.0732
+     Train SSIM: 0.6199 - Validation SSIM: 0.6075
+[23/23] Loss: 0.0109:  91%|==================  | 21/23 [00:01<00:00, 24.19it/s]
+[23/23] Loss: 0.0109: 100%|====================| 23/23 [00:01<00:00, 13.59it/s]
+[23/23] Loss: 0.0109: 100%|====================| 23/23 [00:01<00:00, 13.59it/s]
+[34mEpoch [105/250]
+     Train Loss: 0.0111 - Validation Loss: 0.0113
+     Train LossMSE: 0.0060 - Validation LossMSE: 0.0061
+     Train PSNR: 22.3110 - Validation PSNR: 22.1871
+     Train SSIM: 0.6193 - Validation SSIM: 0.6056
+Training  0%|                    | 0/23 [00:00<?, ?it/s]00:01<00:00, 13.59it/s]
+[23/23] Loss: 0.0117: 100%|====================| 23/23 [00:01<00:00, 13.70it/s]
+[23/23] Loss: 0.0117: 100%|====================| 23/23 [00:01<00:00, 13.70it/s]
+[34mEpoch [106/250]
+     Train Loss: 0.0111 - Validation Loss: 0.0114
+     Train LossMSE: 0.0059 - Validation LossMSE: 0.0061
+     Train PSNR: 22.3450 - Validation PSNR: 22.2169
+     Train SSIM: 0.6211 - Validation SSIM: 0.6092
+[11/23] Loss: 0.0111:  48%|=========>          | 11/23 [00:00<00:00, 22.32it/s]
+[23/23] Loss: 0.0109: 100%|====================| 23/23 [00:01<00:00, 13.62it/s]
+[23/23] Loss: 0.0109: 100%|====================| 23/23 [00:01<00:00, 13.62it/s]
+[34mEpoch [107/250]
+     Train Loss: 0.0110 - Validation Loss: 0.0113
+     Train LossMSE: 0.0059 - Validation LossMSE: 0.0063
+     Train PSNR: 22.3734 - Validation PSNR: 22.0949
+     Train SSIM: 0.6212 - Validation SSIM: 0.6055
+[23/23] Loss: 0.0098:  96%|=================== | 22/23 [00:01<00:00, 23.40it/s]
+[23/23] Loss: 0.0098: 100%|====================| 23/23 [00:01<00:00, 13.57it/s]
+[23/23] Loss: 0.0098: 100%|====================| 23/23 [00:01<00:00, 13.57it/s]
+[34mEpoch [108/250]
+     Train Loss: 0.0109 - Validation Loss: 0.0111
+     Train LossMSE: 0.0058 - Validation LossMSE: 0.0061
+     Train PSNR: 22.4176 - Validation PSNR: 22.2358
+     Train SSIM: 0.6221 - Validation SSIM: 0.6094
+[23/23] Loss: 0.0106:  91%|==================  | 21/23 [00:01<00:00, 24.74it/s]
+[23/23] Loss: 0.0106: 100%|====================| 23/23 [00:01<00:00, 13.97it/s]
