@@ -1,0 +1,18 @@
+
+[31mStart to train the network
+
+[21/21] Loss: 0.6531: 100%|====================| 21/21 [00:02<00:00,  7.54it/s]
+[34mEpoch [1/250]
+     Train Loss: 0.7023 - Validation Loss: 0.5013
+     Train LossMSE: 0.0521 - Validation LossMSE: 0.0919
+     Train PSNR: 14.2150 - Validation PSNR: 10.3649
+     Train SSIM: 0.3061 - Validation SSIM: 0.4339
+[32m     New Best Validation PSNR: 10.3649 
+
+[21/21] Loss: 0.6266: 100%|====================| 21/21 [00:01<00:00, 16.67it/s]
+[34mEpoch [2/250]
+     Train Loss: 0.6406 - Validation Loss: 0.9173
+     Train LossMSE: 0.0084 - Validation LossMSE: 0.0134
+     Train PSNR: 20.8300 - Validation PSNR: 18.7215
+     Train SSIM: 0.5989 - Validation SSIM: 0.5534
+[32m     New Best Validation PSNR: 18.7215 
