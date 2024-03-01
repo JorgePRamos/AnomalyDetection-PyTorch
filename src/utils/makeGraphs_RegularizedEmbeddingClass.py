@@ -49,7 +49,7 @@ def printLearningCurves(allLoss, allLossMSE, allPSNR, allSSIM, curvesPath=None):
     fig.tight_layout()
 
     if curvesPath is not None:
-        curvesPath = Path(curvesPath+ '/LearningCurves.png')
+        curvesPath = Path(str(curvesPath)+ '/LearningCurves.png')
         plt.savefig(curvesPath)
         plt.close()
    
