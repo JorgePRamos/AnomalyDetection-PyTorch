@@ -14,7 +14,7 @@ from datasets.dataAugmentation import *
 
 from pathlib import Path
 import wandb
-
+import torch
 import platform
 rootPath = dirname(dirname(abspath(__file__)))+r'/src/'
 
@@ -117,6 +117,9 @@ def main(parser):
 
 
 if __name__ == '__main__':
+
+    print(">> torch cuda available: ",torch.cuda.is_available())
+    print(">> torch cuda device available: ", torch.cuda.get_device_name(0))
     parser = parser.parse_args()
     main(parser)
     print("### Execution Finished ###")

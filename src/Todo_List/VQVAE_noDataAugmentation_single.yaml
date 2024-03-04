@@ -2,7 +2,7 @@
 DatasetFolder: 
     folder: "mvtec_anomaly_detection"
     subfolder:
-        - runtime
+        - runtime_test
     
 Dataset: 
     - 256_Gray
