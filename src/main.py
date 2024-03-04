@@ -6,6 +6,7 @@ import importlib
 import itertools
 from termcolor import colored
 from multiprocessing import Process
+import multiprocessing as mp
 
 from torchsummary import summary
 
@@ -111,6 +112,8 @@ def main(parser):
 
 
     for thisExp in allExps:
+        
+        mp.set_start_method('spawn')
         p = Process(target=call_training, args=(thisExp,parser,))
         p.start()
         p.join()
