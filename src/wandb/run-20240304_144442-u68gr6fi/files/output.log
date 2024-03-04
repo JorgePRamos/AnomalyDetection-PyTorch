@@ -1,0 +1,161 @@
+
+[31mStart to train the network
+
+[5/5] Loss: 0.7834: 100%|====================| 5/5 [00:05<00:00,  1.04s/it]
+[34mEpoch [1/5]
+     Train Loss: 0.8045 - Validation Loss: 0.1558
+     Train LossMSE: 0.1647 - Validation LossMSE: 0.1428
+     Train PSNR: 7.8976 - Validation PSNR: 8.4534
+     Train SSIM: 0.0729 - Validation SSIM: 0.2480
+[32m     New Best Validation PSNR: 8.4534 
+
+[5/5] Loss: 0.6145: 100%|====================| 5/5 [00:04<00:00,  1.10it/s]
+[34mEpoch [2/5]
+     Train Loss: 0.6765 - Validation Loss: 168.5907
+     Train LossMSE: 0.0505 - Validation LossMSE: 0.0334
+     Train PSNR: 14.1079 - Validation PSNR: 14.7668
+     Train SSIM: 0.3637 - Validation SSIM: 0.4874
+[32m     New Best Validation PSNR: 14.7668 
+
+
+[5/5] Loss: 0.5436: 100%|====================| 5/5 [00:04<00:00,  1.09it/s]
+[34mEpoch [3/5]
+     Train Loss: 0.5687 - Validation Loss: 53.2482
+     Train LossMSE: 0.0152 - Validation LossMSE: 0.0320
+     Train PSNR: 18.2263 - Validation PSNR: 14.9568
+     Train SSIM: 0.3281 - Validation SSIM: 0.1669
+[32m     New Best Validation PSNR: 14.9568 
+
+[5/5] Loss: 0.5066: 100%|====================| 5/5 [00:04<00:00,  1.08it/s]
+[34mEpoch [4/5]
+     Train Loss: 0.5207 - Validation Loss: 12.1615
+     Train LossMSE: 0.0135 - Validation LossMSE: 0.0275
+     Train PSNR: 18.7115 - Validation PSNR: 15.6138
+     Train SSIM: 0.2044 - Validation SSIM: 0.1405
+[32m     New Best Validation PSNR: 15.6138 
+
+
+[5/5] Loss: 0.5020: 100%|====================| 5/5 [00:04<00:00,  1.07it/s]
+[34mEpoch [5/5]
+     Train Loss: 0.5021 - Validation Loss: 2.8517
+     Train LossMSE: 0.0136 - Validation LossMSE: 0.0197
+     Train PSNR: 18.6772 - Validation PSNR: 17.0611
+     Train SSIM: 0.1922 - Validation SSIM: 0.1605
+[32m     New Best Validation PSNR: 17.0611 
+[31mThe network is trained
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\000_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  000.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\001_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  001.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\002_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  002.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\003_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  003.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\004_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  004.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\005_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  005.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\006_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  006.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\007_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  007.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\008_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  008.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\009_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  009.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\010_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  010.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\011_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  011.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\012_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  012.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\013_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  013.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\014_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  014.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\015_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  015.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\016_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  016.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\017_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  017.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\018_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  018.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\019_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  019.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\020_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  020.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\021_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  021.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\022_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  022.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\023_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  023.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\024_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  024.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\025_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  025.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\026_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  026.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\027_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  027.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\028_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  028.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective\029_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\defective
+>> file:  029.png
+>> read:  E:\mvtec_anomaly_detection\runtime\ground_truth\good\000_mask.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\ground_truth\good
+>> file:  000.png
+Process Process-1:
+Traceback (most recent call last):
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 315, in _bootstrap
+    self.run()
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\main.py", line 86, in call_training
+    myNet.evaluate(resultPath = resultPath, printPrediction = True)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 239, in evaluate
+    allInputs, allPreds, allLabels, allMasks = self.getPrediction(self.testlDataLoader, resultPath)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 205, in getPrediction
+    for (corrupted, image, mask, label) in dataLoader:
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\dataloader.py", line 631, in __next__
+    data = self._next_data()
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\dataloader.py", line 675, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\_utils\fetch.py", line 51, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\_utils\fetch.py", line 51, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\datasets\dataLoader.py", line 64, in __getitem__
+    mask     = np.expand_dims(cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY),-1)
+cv2.error: OpenCV(4.9.0) D:\a\opencv-python\opencv-python\opencv\modules\imgproc\src\color.cpp:196: error: (-215:Assertion failed) !_src.empty() in function 'cv::cvtColor'

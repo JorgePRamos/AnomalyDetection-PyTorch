@@ -1,0 +1,69 @@
+
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+
+[5/5] Loss: 0.7833: 100%|====================| 5/5 [00:05<00:00,  1.01s/it]
+[34mEpoch [1/5]
+     Train Loss: 0.8045 - Validation Loss: 0.1559
+     Train LossMSE: 0.1647 - Validation LossMSE: 0.1429
+     Train PSNR: 7.8976 - Validation PSNR: 8.4531
+     Train SSIM: 0.0729 - Validation SSIM: 0.2480
+[32m     New Best Validation PSNR: 8.4531 
+
+
+[5/5] Loss: 0.6141: 100%|====================| 5/5 [00:04<00:00,  1.07it/s]
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+[34mEpoch [2/5]
+     Train Loss: 0.6762 - Validation Loss: 176.4895
+     Train LossMSE: 0.0505 - Validation LossMSE: 0.0332
+     Train PSNR: 14.1095 - Validation PSNR: 14.7949
+     Train SSIM: 0.3633 - Validation SSIM: 0.4863
+
+[5/5] Loss: 0.5431: 100%|====================| 5/5 [00:04<00:00,  1.08it/s]
+[34mEpoch [3/5]
+     Train Loss: 0.5682 - Validation Loss: 54.9176
+     Train LossMSE: 0.0152 - Validation LossMSE: 0.0317
+     Train PSNR: 18.2235 - Validation PSNR: 14.9885
+     Train SSIM: 0.3284 - Validation SSIM: 0.1689
+[32m     New Best Validation PSNR: 14.9885 
+
+[5/5] Loss: 0.5070: 100%|====================| 5/5 [00:04<00:00,  1.10it/s]
+[34mEpoch [4/5]
+     Train Loss: 0.5207 - Validation Loss: 12.6166
+     Train LossMSE: 0.0136 - Validation LossMSE: 0.0279
+     Train PSNR: 18.6810 - Validation PSNR: 15.5451
+     Train SSIM: 0.2034 - Validation SSIM: 0.1406
+[32m     New Best Validation PSNR: 15.5451 
+
+
+[5/5] Loss: 0.5024: 100%|====================| 5/5 [00:04<00:00,  1.07it/s]
+[34mEpoch [5/5]
+     Train Loss: 0.5026 - Validation Loss: 2.9378
+     Train LossMSE: 0.0138 - Validation LossMSE: 0.0204
+     Train PSNR: 18.6095 - Validation PSNR: 16.9260
+     Train SSIM: 0.1901 - Validation SSIM: 0.1594
+[32m     New Best Validation PSNR: 16.9260 
+[31mThe network is trained
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\000_mask.png
+Process Process-1:
+Traceback (most recent call last):
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 315, in _bootstrap
+    self.run()
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\main.py", line 86, in call_training
+    myNet.evaluate(resultPath = resultPath, printPrediction = True)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 239, in evaluate
+    allInputs, allPreds, allLabels, allMasks = self.getPrediction(self.testlDataLoader, resultPath)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 205, in getPrediction
+    for (corrupted, image, mask, label) in dataLoader:
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\dataloader.py", line 631, in __next__
+    data = self._next_data()
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\dataloader.py", line 675, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\_utils\fetch.py", line 51, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\_utils\fetch.py", line 51, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\datasets\dataLoader.py", line 60, in __getitem__
+    mask     = np.expand_dims(cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY),-1)
+cv2.error: OpenCV(4.9.0) D:\a\opencv-python\opencv-python\opencv\modules\imgproc\src\color.cpp:196: error: (-215:Assertion failed) !_src.empty() in function 'cv::cvtColor'

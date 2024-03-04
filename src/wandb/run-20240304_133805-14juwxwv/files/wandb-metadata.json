@@ -1,0 +1,58 @@
+{
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.8.10",
+    "heartbeatAt": "2024-03-04T12:38:05.724797",
+    "startedAt": "2024-03-04T12:38:05.120628",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "-train",
+        "true",
+        "-exp",
+        "VQVAE_noDataAugmentation_single"
+    ],
+    "state": "running",
+    "program": "D:\\Code\\Python\\AnomalyDetection-PyTorch\\src\\main.py",
+    "codePathLocal": "main.py",
+    "codePath": "src\\main.py",
+    "git": {
+        "remote": "https://github.com/JorgePRamos/AnomalyDetection-PyTorch.git",
+        "commit": "ddb74a69cf6bad06bbad39f00ab8dd94f9978766"
+    },
+    "email": "jorgepramoscontact@gmail.com",
+    "root": "D:/Code/Python/AnomalyDetection-PyTorch",
+    "host": "DESKTOP-G9T51AR",
+    "username": "jorge",
+    "executable": "D:\\Code\\Python\\AnomalyDetection-PyTorch\\anDetec_env\\Scripts\\python.exe",
+    "cpu_count": 12,
+    "cpu_count_logical": 24,
+    "cpu_freq": {
+        "current": 3793.0,
+        "min": 0.0,
+        "max": 3793.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3793.0,
+            "min": 0.0,
+            "max": 3793.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 111.78905868530273,
+            "used": 16.523075103759766
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 4070",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 4070",
+            "memory_total": 12878610432
+        }
+    ],
+    "memory": {
+        "total": 47.94840621948242
+    }
+}

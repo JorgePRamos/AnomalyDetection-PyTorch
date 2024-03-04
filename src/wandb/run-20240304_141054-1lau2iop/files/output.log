@@ -1,0 +1,67 @@
+
+[31mStart to train the network
+
+[5/5] Loss: 0.7832: 100%|====================| 5/5 [00:05<00:00,  1.02s/it]
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+[34mEpoch [1/5]
+     Train Loss: 0.8045 - Validation Loss: 0.1558
+     Train LossMSE: 0.1647 - Validation LossMSE: 0.1429
+     Train PSNR: 7.8979 - Validation PSNR: 8.4531
+     Train SSIM: 0.0729 - Validation SSIM: 0.2480
+
+[5/5] Loss: 0.6140: 100%|====================| 5/5 [00:04<00:00,  1.09it/s]
+[34mEpoch [2/5]
+     Train Loss: 0.6764 - Validation Loss: 182.3274
+     Train LossMSE: 0.0504 - Validation LossMSE: 0.0334
+     Train PSNR: 14.1323 - Validation PSNR: 14.7686
+     Train SSIM: 0.3645 - Validation SSIM: 0.4849
+[32m     New Best Validation PSNR: 14.7686 
+
+[5/5] Loss: 0.5420: 100%|====================| 5/5 [00:04<00:00,  1.12it/s]
+[34mEpoch [3/5]
+     Train Loss: 0.5674 - Validation Loss: 54.0145
+     Train LossMSE: 0.0151 - Validation LossMSE: 0.0316
+     Train PSNR: 18.2632 - Validation PSNR: 15.0025
+     Train SSIM: 0.3308 - Validation SSIM: 0.1723
+[32m     New Best Validation PSNR: 15.0025 
+
+
+[5/5] Loss: 0.5047: 100%|====================| 5/5 [00:04<00:00,  1.07it/s]
+[34mEpoch [4/5]
+     Train Loss: 0.5189 - Validation Loss: 12.3103
+     Train LossMSE: 0.0134 - Validation LossMSE: 0.0276
+     Train PSNR: 18.7489 - Validation PSNR: 15.6009
+     Train SSIM: 0.2065 - Validation SSIM: 0.1423
+[32m     New Best Validation PSNR: 15.6009 
+
+[5/5] Loss: 0.5001: 100%|====================| 5/5 [00:04<00:00,  1.09it/s]
+Process Process-1:
+Traceback (most recent call last):
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 315, in _bootstrap
+    self.run()
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\main.py", line 86, in call_training
+    myNet.evaluate(resultPath = resultPath, printPrediction = True)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 239, in evaluate
+    allInputs, allPreds, allLabels, allMasks = self.getPrediction(self.testlDataLoader, resultPath)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 205, in getPrediction
+    for (corrupted, image, mask, label) in dataLoader:
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\dataloader.py", line 631, in __next__
+    data = self._next_data()
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\dataloader.py", line 675, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\_utils\fetch.py", line 51, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\utils\data\_utils\fetch.py", line 51, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\datasets\dataLoader.py", line 51, in __getitem__
+    folder, file = self.imgList[idx].split('/')[-2], self.imgList[idx].split('/')[-1]
+IndexError: list index out of range
+[34mEpoch [5/5]
+     Train Loss: 0.5003 - Validation Loss: 2.9071
+     Train LossMSE: 0.0136 - Validation LossMSE: 0.0197
+     Train PSNR: 18.6721 - Validation PSNR: 17.0701
+     Train SSIM: 0.1927 - Validation SSIM: 0.1619
+[32m     New Best Validation PSNR: 17.0701 
+[31mThe network is trained

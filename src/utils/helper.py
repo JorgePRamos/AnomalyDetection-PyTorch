@@ -66,7 +66,7 @@ def compute_ROC(anoMaps, y_GT):
 
         tps = np.cumsum(y_labels)[threshold_idxs]
         fps = 1 + threshold_idxs - tps
-
+        print(">> fps: ",fps/fps[-1])
         tps = [0] + (tps/tps[-1]).tolist()
         fps = [0] + (fps/fps[-1]).tolist()
 

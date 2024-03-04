@@ -47,14 +47,20 @@ class MVTecADDataset(Dataset):
         if self.train: 
             imgCopy = copy.deepcopy(img)
             label   = 'clean'
-        else :  
-            folder, file = self.imgList[idx].split('/')[-2], self.imgList[idx].split('/')[-1]
+        else : 
+            folder, file = os.path.split(self.imgList[idx])[-2], os.path.split(self.imgList[idx])[-1]
+
             if folder == 'good': 
                 mask  = np.zeros((img.shape[0], img.shape[1]))
                 label = 'clean' 
             else: 
-                fileName = file.split('.png')[0] + '_mask.png'
-                mask     = cv2.imread(os.path.join(self.maskDir, folder, fileName))
+                #fileName = file.split('.png')[0] + '_mask.png'
+                #folder = folder.replace("test","ground_truth")
+                mask     = cv2.imread(os.path.join(self.maskDir, folder, file))
+                print(">> read: ",os.path.join(self.maskDir, folder, file))
+                print(">> folder: ", folder)
+                print(">> file: ", file)
+
                 mask     = np.expand_dims(cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY),-1) 
                 label    = folder
 

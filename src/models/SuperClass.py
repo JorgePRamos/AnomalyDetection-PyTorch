@@ -250,19 +250,19 @@ class Network_Class:
         binary_test_labels = np.concatenate( (allLabels[allLabels=='clean'], allLabels[allLabels!='clean']) )
         binary_test_labels = binary_test_labels != 'clean'
 
-        ImageWisePath      = resultPath + '/IMAGEWISE_ROC_clean_vs_realDefaults'
+        ImageWisePath      = resultPath / 'IMAGEWISE_ROC_clean_vs_realDefaults.json'
         all_TP, all_FP     = compute_ROC(anoMaps, binary_test_labels)
-        write_json({'all_TP': all_TP, 'all_FP': all_FP}, ImageWisePath + '.json')
+        write_json({'all_TP': all_TP, 'all_FP': all_FP}, ImageWisePath)
         
         # Compute Pixel-wise ROC curve
         masks         = np.concatenate( (allMasks[allLabels=='clean'], allMasks[allLabels!='clean']) )
         TP, FP        = compute_ROC_pixel_wise(anoMaps, masks)
 
-        PixelWisePath = resultPath + '/PIXELWISE_ROC_clean_vs_realDefaults'
-        write_json({'TP': TP, 'FP': FP}, PixelWisePath + '.json') 
+        PixelWisePath = resultPath / 'PIXELWISE_ROC_clean_vs_realDefaults.json'
+        write_json({'TP': TP, 'FP': FP}, PixelWisePath) 
 
         # Plot result
-        print_ROC(ImageWisePath + '.json', PixelWisePath + '.json', resultPath + '/ROC_Curves.png')
+        print_ROC(ImageWisePath, PixelWisePath, resultPath / 'ROC_Curves.png')
 
 
 

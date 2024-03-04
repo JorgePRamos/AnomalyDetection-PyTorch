@@ -2,7 +2,7 @@
 DatasetFolder: 
     folder: "mvtec_anomaly_detection"
     subfolder:
-        - bottle
+        - runtime
     
 Dataset: 
     - 256_Gray
@@ -12,7 +12,7 @@ Model:
 
 Train: 
 
-    - DefaultTrain
+    - dry_run
 
 DataAugmentation: 
     - NODA

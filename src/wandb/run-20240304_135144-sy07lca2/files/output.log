@@ -1,0 +1,56 @@
+
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+
+[5/5] Loss: 0.7833: 100%|====================| 5/5 [00:05<00:00,  1.02s/it]
+[34mEpoch [1/5]
+     Train Loss: 0.8045 - Validation Loss: 0.1558
+     Train LossMSE: 0.1647 - Validation LossMSE: 0.1429
+     Train PSNR: 7.8978 - Validation PSNR: 8.4533
+     Train SSIM: 0.0729 - Validation SSIM: 0.2480
+[32m     New Best Validation PSNR: 8.4533 
+
+
+[5/5] Loss: 0.6164: 100%|====================| 5/5 [00:04<00:00,  1.07it/s]
+[34mEpoch [2/5]
+     Train Loss: 0.6774 - Validation Loss: 187.2112
+     Train LossMSE: 0.0508 - Validation LossMSE: 0.0339
+     Train PSNR: 14.0720 - Validation PSNR: 14.7107
+     Train SSIM: 0.3634 - Validation SSIM: 0.4880
+[32m     New Best Validation PSNR: 14.7107 
+
+
+[5/5] Loss: 0.5426: 100%|====================| 5/5 [00:04<00:00,  1.08it/s]
+[34mEpoch [3/5]
+     Train Loss: 0.5688 - Validation Loss: 57.4985
+     Train LossMSE: 0.0151 - Validation LossMSE: 0.0312
+     Train PSNR: 18.2604 - Validation PSNR: 15.0644
+     Train SSIM: 0.3291 - Validation SSIM: 0.1646
+[32m     New Best Validation PSNR: 15.0644 
+
+[5/5] Loss: 0.5055: 100%|====================| 5/5 [00:04<00:00,  1.11it/s]
+[34mEpoch [4/5]
+     Train Loss: 0.5197 - Validation Loss: 12.8217
+     Train LossMSE: 0.0133 - Validation LossMSE: 0.0273
+     Train PSNR: 18.7525 - Validation PSNR: 15.6479
+     Train SSIM: 0.2055 - Validation SSIM: 0.1373
+[32m     New Best Validation PSNR: 15.6479 
+
+
+[5/5] Loss: 0.5007: 100%|====================| 5/5 [00:04<00:00,  1.08it/s]
+[34mEpoch [5/5]
+     Train Loss: 0.5009 - Validation Loss: 2.9574
+     Train LossMSE: 0.0135 - Validation LossMSE: 0.0193
+     Train PSNR: 18.6994 - Validation PSNR: 17.1450
+     Train SSIM: 0.1924 - Validation SSIM: 0.1600
+[32m     New Best Validation PSNR: 17.1450 
+Process Process-1:
+Traceback (most recent call last):
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 315, in _bootstrap
+    self.run()
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\main.py", line 78, in call_training
+    myNet.train(resultPath,wandbObject)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 93, in train
+    torch.save(bestModelWts, wghtsPath + '/wghts.pkl')
+TypeError: unsupported operand type(s) for +: 'WindowsPath' and 'str'

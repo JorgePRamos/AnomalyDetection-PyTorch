@@ -1,0 +1,182 @@
+
+[31mStart to train the network
+
+[5/5] Loss: 0.7834: 100%|====================| 5/5 [00:04<00:00,  1.01it/s]
+[34mEpoch [1/5]
+     Train Loss: 0.8045 - Validation Loss: 0.1559
+     Train LossMSE: 0.1647 - Validation LossMSE: 0.1429
+     Train PSNR: 7.8976 - Validation PSNR: 8.4532
+     Train SSIM: 0.0729 - Validation SSIM: 0.2480
+[32m     New Best Validation PSNR: 8.4532 
+
+
+[5/5] Loss: 0.6150: 100%|====================| 5/5 [00:04<00:00,  1.07it/s]
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+[34mEpoch [2/5]
+     Train Loss: 0.6768 - Validation Loss: 171.6519
+     Train LossMSE: 0.0506 - Validation LossMSE: 0.0336
+     Train PSNR: 14.0992 - Validation PSNR: 14.7480
+     Train SSIM: 0.3637 - Validation SSIM: 0.4887
+
+
+[5/5] Loss: 0.5434: 100%|====================| 5/5 [00:04<00:00,  1.11it/s]
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+[34mEpoch [3/5]
+     Train Loss: 0.5685 - Validation Loss: 53.2012
+     Train LossMSE: 0.0152 - Validation LossMSE: 0.0321
+     Train PSNR: 18.2302 - Validation PSNR: 14.9398
+     Train SSIM: 0.3289 - Validation SSIM: 0.1650
+
+[5/5] Loss: 0.5065: 100%|====================| 5/5 [00:04<00:00,  1.08it/s]
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+[34mEpoch [4/5]
+     Train Loss: 0.5206 - Validation Loss: 12.1539
+     Train LossMSE: 0.0135 - Validation LossMSE: 0.0273
+     Train PSNR: 18.7024 - Validation PSNR: 15.6383
+     Train SSIM: 0.2043 - Validation SSIM: 0.1383
+
+[5/5] Loss: 0.5020: 100%|====================| 5/5 [00:04<00:00,  1.10it/s]
+[34mEpoch [5/5]
+     Train Loss: 0.5021 - Validation Loss: 2.8491
+     Train LossMSE: 0.0137 - Validation LossMSE: 0.0195
+     Train PSNR: 18.6541 - Validation PSNR: 17.1001
+     Train SSIM: 0.1912 - Validation SSIM: 0.1596
+[32m     New Best Validation PSNR: 17.1001 
+[31mThe network is trained
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\000.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  000.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\001.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  001.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\002.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  002.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\003.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  003.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\004.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  004.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\005.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  005.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\006.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  006.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\007.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  007.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\008.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  008.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\009.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  009.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\010.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  010.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\011.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  011.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\012.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  012.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\013.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  013.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\014.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  014.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\015.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  015.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\016.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  016.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\017.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  017.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\018.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  018.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\019.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  019.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\020.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  020.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\021.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  021.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\022.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  022.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\023.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  023.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\024.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  024.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\025.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  025.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\026.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  026.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\027.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  027.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\028.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  028.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\defective\029.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\defective
+>> file:  029.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\000.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  000.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\001.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  001.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\002.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  002.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\003.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  003.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\004.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  004.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\005.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  005.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\006.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  006.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\007.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  007.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\008.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  008.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\009.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  009.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\010.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  010.png
+>> read:  E:\mvtec_anomaly_detection\runtime\test\good\011.png
+>> folder:  E:\mvtec_anomaly_detection\runtime\test\good
+>> file:  011.png
+Process Process-1:
+Traceback (most recent call last):
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 315, in _bootstrap
+    self.run()
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\main.py", line 86, in call_training
+    myNet.evaluate(resultPath = resultPath, printPrediction = True)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 243, in evaluate
+    self.computeROC(np.array(allAM), allLabels, allMasks, resultPath, wandbObj, printPrediction)
+TypeError: computeROC() takes 6 positional arguments but 7 were given

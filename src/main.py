@@ -119,3 +119,4 @@ def main(parser):
 if __name__ == '__main__':
     parser = parser.parse_args()
     main(parser)
+    print("### Execution Finished ###")

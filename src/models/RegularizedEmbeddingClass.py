@@ -19,7 +19,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 from termcolor import colored
 from piq import ssim, psnr
-
+from pathlib import Path
 
 import logging
 logging.propagate = False 
@@ -88,9 +88,9 @@ class RegularizedEmbedding(Network_Class):
         createFolder(resultPath)
         printLearningCurves(allLoss, allLossMSE, allPSNR, allSSIM, resultPath)
 
-        wghtsPath  = resultPath + '/_Weights/'
+        wghtsPath  = resultPath / '_Weights'
         createFolder(wghtsPath)
-        torch.save(bestModelWts, wghtsPath + '/wghts.pkl')
+        torch.save(bestModelWts, wghtsPath / 'wghts.pkl')
 
     
     def _train(self): 
@@ -192,10 +192,10 @@ class RegularizedEmbedding(Network_Class):
         self.getEncodings, self.newNet = self.getNetworks()
         # Network to get the (unmodified) encodings of the VQVAE
         self.getEncodings.to(self.device)  
-        self.getEncodings.load_state_dict(torch.load(resultPath + '/_Weights/wghts.pkl'))
+        self.getEncodings.load_state_dict(torch.load(resultPath / '_Weights/wghts.pkl'))
         # Network to get the modified reconstruction from a modified encoding
         self.newNet.to(self.device)  
-        self.newNet.load_state_dict(torch.load(resultPath + '/_Weights/wghts.pkl'))
+        self.newNet.load_state_dict(torch.load(resultPath / '_Weights/wghts.pkl'))
 
         allInputs, allPreds, allLabels, allMasks = [], [], [], []
         self.getEncodings.train(False)
@@ -240,25 +240,26 @@ class RegularizedEmbedding(Network_Class):
         allAM = []
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])
-        self.computeROC(np.array(allAM), allLabels, allMasks, resultPath, wandbObj, printPrediction)
+        self.computeROC(np.array(allAM), allLabels, allMasks, resultPath, printPrediction)
 
         # Print predictions (LR)
         if printPrediction : 
             subsets = np.unique(allLabels)
             for thisSubset in subsets: 
-                thisresultPath = resultPath + '/' + thisSubset + '_prediction/'
+                thisresultPath = resultPath / thisSubset / '_prediction/'
                 createFolder(thisresultPath)
                 sbt = allLabels==thisSubset
                 for i, (input, pred, mask) in enumerate(zip(allInputs[sbt], allPreds[sbt], allMasks[sbt])):
-                    printPredAndAM(input, pred, mask, thisresultPath + str(i) +'.png')
+                    iter = str(i) +'.png'
+                    printPredAndAM(input, pred, mask, thisresultPath / iter)
 
         # Print predictions for paper (HR)
         if printPredForPaper: 
             idx = [1,5,9]
-            thisprintPath = resultPath + '/_ImgsForPaper/'
+            thisprintPath = resultPath / '_ImgsForPaper'
             createFolder(thisprintPath)
             for i, (input, pred) in enumerate(zip(allInputs[idx], allPreds[idx])):
-                printPredAndAM_singleFile(input, pred, thisprintPath  + 'Test_' + str(idx[i]), Vmin=0, Vmax=1)
+                printPredAndAM_singleFile(input, pred, thisprintPath  / 'Test_' + str(idx[i]), Vmin=0, Vmax=1)
 
 
 

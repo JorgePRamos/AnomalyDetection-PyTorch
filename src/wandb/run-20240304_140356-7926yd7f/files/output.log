@@ -1,0 +1,65 @@
+
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+
+[5/5] Loss: 0.7833: 100%|====================| 5/5 [00:05<00:00,  1.02s/it]
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+[34mEpoch [1/5]
+     Train Loss: 0.8045 - Validation Loss: 0.1558
+     Train LossMSE: 0.1647 - Validation LossMSE: 0.1429
+     Train PSNR: 7.8978 - Validation PSNR: 8.4532
+     Train SSIM: 0.0729 - Validation SSIM: 0.2480
+
+
+[5/5] Loss: 0.6138: 100%|====================| 5/5 [00:04<00:00,  1.10it/s]
+[34mEpoch [2/5]
+     Train Loss: 0.6761 - Validation Loss: 183.7440
+     Train LossMSE: 0.0505 - Validation LossMSE: 0.0333
+     Train PSNR: 14.1116 - Validation PSNR: 14.7890
+     Train SSIM: 0.3632 - Validation SSIM: 0.4834
+[32m     New Best Validation PSNR: 14.7890 
+
+
+[5/5] Loss: 0.5418: 100%|====================| 5/5 [00:04<00:00,  1.09it/s]
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+[34mEpoch [3/5]
+     Train Loss: 0.5673 - Validation Loss: 56.7567
+     Train LossMSE: 0.0151 - Validation LossMSE: 0.0318
+     Train PSNR: 18.2496 - Validation PSNR: 14.9727
+     Train SSIM: 0.3299 - Validation SSIM: 0.1719
+
+[5/5] Loss: 0.5045: 100%|====================| 5/5 [00:04<00:00,  1.10it/s]
+Training  0%|                    | 0/5 [00:00<?, ?it/s]
+[34mEpoch [4/5]
+     Train Loss: 0.5186 - Validation Loss: 12.5492
+     Train LossMSE: 0.0134 - Validation LossMSE: 0.0278
+     Train PSNR: 18.7388 - Validation PSNR: 15.5562
+     Train SSIM: 0.2060 - Validation SSIM: 0.1420
+
+
+[5/5] Loss: 0.4999: 100%|====================| 5/5 [00:04<00:00,  1.08it/s]
+[34mEpoch [5/5]
+     Train Loss: 0.5001 - Validation Loss: 2.9382
+     Train LossMSE: 0.0137 - Validation LossMSE: 0.0199
+     Train PSNR: 18.6411 - Validation PSNR: 17.0127
+     Train SSIM: 0.1912 - Validation SSIM: 0.1619
+[32m     New Best Validation PSNR: 17.0127 
+Process Process-1:
+Traceback (most recent call last):
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 315, in _bootstrap
+    self.run()
+  File "C:\Users\jorge\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\main.py", line 86, in call_training
+    myNet.evaluate(resultPath = resultPath, printPrediction = True)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 239, in evaluate
+    allInputs, allPreds, allLabels, allMasks = self.getPrediction(self.testlDataLoader, resultPath)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\src\models\RegularizedEmbeddingClass.py", line 195, in getPrediction
+    self.getEncodings.load_state_dict(torch.load(resultPath / 'Weights/wghts.pkl'))
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\serialization.py", line 998, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\serialization.py", line 445, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "D:\Code\Python\AnomalyDetection-PyTorch\anDetec_env\lib\site-packages\torch\serialization.py", line 426, in __init__
+    super().__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Code\\Python\\AnomalyDetection-PyTorch\\src\\Results\\NODA-256_Gray-VQVAE_N50_d5_f5_n16-dry_run\\runtime\\Weights\\wghts.pkl'
+[31mThe network is trained
