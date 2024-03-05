@@ -61,3 +61,227 @@
 2024-03-04 19:20:02,108 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
 2024-03-04 19:20:02,843 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\config.yaml
 2024-03-04 19:20:03,846 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:20:05,876 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:20:07,804 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:12,844 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:15,886 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-04 19:20:15,886 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: stop_status
+2024-03-04 19:20:15,901 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-04 19:20:18,126 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:23,183 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:26,381 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-04 19:20:26,391 DEBUG   SenderThread:34268 [sender.py:send():382] send: history
+2024-03-04 19:20:26,391 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: summary_record
+2024-03-04 19:20:26,391 INFO    SenderThread:34268 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-03-04 19:20:27,098 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\wandb-summary.json
+2024-03-04 19:20:28,117 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:20:28,623 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:30,810 DEBUG   SystemMonitor:34268 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-03-04 19:20:30,810 DEBUG   SenderThread:34268 [sender.py:send():382] send: stats
+2024-03-04 19:20:30,876 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-04 19:20:30,877 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: stop_status
+2024-03-04 19:20:30,907 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-04 19:20:32,165 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:20:34,219 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:39,258 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:44,304 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:45,883 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-04 19:20:45,883 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: stop_status
+2024-03-04 19:20:45,913 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-04 19:20:50,113 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:53,677 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-04 19:20:53,693 DEBUG   SenderThread:34268 [sender.py:send():382] send: history
+2024-03-04 19:20:53,693 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: summary_record
+2024-03-04 19:20:53,693 INFO    SenderThread:34268 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-03-04 19:20:54,366 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\wandb-summary.json
+2024-03-04 19:20:55,895 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:20:56,391 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:21:00,437 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:21:00,817 DEBUG   SenderThread:34268 [sender.py:send():382] send: stats
+2024-03-04 19:21:00,890 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-04 19:21:00,890 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: stop_status
+2024-03-04 19:21:00,915 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-04 19:21:01,115 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:06,174 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:11,222 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:15,915 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-04 19:21:15,915 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: stop_status
+2024-03-04 19:21:15,935 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-04 19:21:17,092 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:20,640 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-04 19:21:20,640 DEBUG   SenderThread:34268 [sender.py:send():382] send: history
+2024-03-04 19:21:20,650 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: summary_record
+2024-03-04 19:21:20,650 INFO    SenderThread:34268 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-03-04 19:21:21,632 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\wandb-summary.json
+2024-03-04 19:21:22,636 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:21:22,859 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:26,675 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:21:28,385 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:30,819 DEBUG   SenderThread:34268 [sender.py:send():382] send: stats
+2024-03-04 19:21:30,921 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-04 19:21:30,921 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: stop_status
+2024-03-04 19:21:30,937 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-04 19:21:34,181 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:39,219 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:44,265 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:45,950 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-04 19:21:45,950 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-04 19:21:45,950 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: stop_status
+2024-03-04 19:21:47,893 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-04 19:21:47,895 DEBUG   SenderThread:34268 [sender.py:send():382] send: history
+2024-03-04 19:21:47,895 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: summary_record
+2024-03-04 19:21:47,895 INFO    SenderThread:34268 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-03-04 19:21:48,887 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\wandb-summary.json
+2024-03-04 19:21:49,296 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:49,888 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:21:51,895 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:21:54,356 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:21:59,403 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:22:00,823 DEBUG   SenderThread:34268 [sender.py:send():382] send: stats
+2024-03-04 19:22:00,940 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-04 19:22:00,940 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: stop_status
+2024-03-04 19:22:00,956 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-04 19:22:04,213 DEBUG   SenderThread:34268 [sender.py:send():382] send: exit
+2024-03-04 19:22:04,213 INFO    SenderThread:34268 [sender.py:send_exit():589] handling exit code: 0
+2024-03-04 19:22:04,213 INFO    SenderThread:34268 [sender.py:send_exit():591] handling runtime: 153
+2024-03-04 19:22:04,213 INFO    SenderThread:34268 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-03-04 19:22:04,213 INFO    SenderThread:34268 [sender.py:send_exit():597] send defer
+2024-03-04 19:22:04,213 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:04,213 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 0
+2024-03-04 19:22:04,213 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:04,213 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 0
+2024-03-04 19:22:04,213 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 1
+2024-03-04 19:22:04,213 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:04,213 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 1
+2024-03-04 19:22:04,213 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:04,213 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 1
+2024-03-04 19:22:04,213 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 2
+2024-03-04 19:22:04,213 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:04,213 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 2
+2024-03-04 19:22:04,213 INFO    HandlerThread:34268 [system_monitor.py:finish():203] Stopping system monitor
+2024-03-04 19:22:04,213 INFO    HandlerThread:34268 [interfaces.py:finish():202] Joined cpu monitor
+2024-03-04 19:22:04,213 DEBUG   SystemMonitor:34268 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-03-04 19:22:04,213 INFO    HandlerThread:34268 [interfaces.py:finish():202] Joined disk monitor
+2024-03-04 19:22:04,213 DEBUG   SystemMonitor:34268 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-03-04 19:22:04,259 INFO    HandlerThread:34268 [interfaces.py:finish():202] Joined gpu monitor
+2024-03-04 19:22:04,259 INFO    HandlerThread:34268 [interfaces.py:finish():202] Joined memory monitor
+2024-03-04 19:22:04,259 INFO    HandlerThread:34268 [interfaces.py:finish():202] Joined network monitor
+2024-03-04 19:22:04,259 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 2
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 3
+2024-03-04 19:22:04,259 DEBUG   SenderThread:34268 [sender.py:send():382] send: stats
+2024-03-04 19:22:04,259 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:04,259 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 3
+2024-03-04 19:22:04,259 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 3
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 4
+2024-03-04 19:22:04,259 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:04,259 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 4
+2024-03-04 19:22:04,259 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 4
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 5
+2024-03-04 19:22:04,259 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:04,259 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 5
+2024-03-04 19:22:04,259 DEBUG   SenderThread:34268 [sender.py:send():382] send: summary
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-03-04 19:22:04,259 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 5
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 6
+2024-03-04 19:22:04,259 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:04,259 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 6
+2024-03-04 19:22:04,259 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 6
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 7
+2024-03-04 19:22:04,259 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:22:04,259 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:04,259 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 7
+2024-03-04 19:22:04,259 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:04,259 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 7
+2024-03-04 19:22:05,069 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\wandb-summary.json
+2024-03-04 19:22:05,221 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-04 19:22:06,257 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 8
+2024-03-04 19:22:06,257 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: poll_exit
+2024-03-04 19:22:06,257 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:06,257 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 8
+2024-03-04 19:22:06,257 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:06,257 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 8
+2024-03-04 19:22:06,257 INFO    SenderThread:34268 [job_builder.py:build():296] Attempting to build job artifact
+2024-03-04 19:22:06,257 INFO    SenderThread:34268 [job_builder.py:_get_source_type():426] is repo sourced job
+2024-03-04 19:22:06,293 INFO    SenderThread:34268 [job_builder.py:build():402] adding wandb-job metadata file
+2024-03-04 19:22:06,303 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 9
+2024-03-04 19:22:06,303 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:06,303 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 9
+2024-03-04 19:22:06,303 DEBUG   SenderThread:34268 [sender.py:send():382] send: artifact
+2024-03-04 19:22:07,083 INFO    Thread-16 :34268 [dir_watcher.py:_on_file_modified():288] file/dir modified: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:22:07,256 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-04 19:22:07,843 INFO    wandb-upload_0:34268 [upload_job.py:push():86] Skipped uploading C:\Users\jorge\AppData\Local\wandb\wandb\artifacts\staging\tmpdv9pd879
+2024-03-04 19:22:08,144 INFO    wandb-upload_1:34268 [upload_job.py:push():89] Uploaded file C:\Users\jorge\AppData\Local\wandb\wandb\artifacts\staging\tmpohbadab3
+2024-03-04 19:22:09,799 INFO    SenderThread:34268 [sender.py:send_artifact():1494] sent artifact job-https___github.com_JorgePRamos_AnomalyDetection-PyTorch.git_src_main.py - {'id': 'QXJ0aWZhY3Q6NzQwNzc3Nzkz', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjE0MzQ0NTY5Ng==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6NzQwNDI0MDMz', 'versionIndex': 3}}}
+2024-03-04 19:22:09,799 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:09,799 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 9
+2024-03-04 19:22:09,799 INFO    SenderThread:34268 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-03-04 19:22:10,105 INFO    SenderThread:34268 [dir_watcher.py:finish():388] scan: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files
+2024-03-04 19:22:10,105 INFO    SenderThread:34268 [dir_watcher.py:finish():402] scan save: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\config.yaml config.yaml
+2024-03-04 19:22:10,106 INFO    SenderThread:34268 [dir_watcher.py:finish():402] scan save: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log output.log
+2024-03-04 19:22:10,107 INFO    SenderThread:34268 [dir_watcher.py:finish():402] scan save: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\requirements.txt requirements.txt
+2024-03-04 19:22:10,108 INFO    SenderThread:34268 [dir_watcher.py:finish():402] scan save: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\wandb-metadata.json wandb-metadata.json
+2024-03-04 19:22:10,108 INFO    SenderThread:34268 [dir_watcher.py:finish():402] scan save: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\wandb-summary.json wandb-summary.json
+2024-03-04 19:22:10,111 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 10
+2024-03-04 19:22:10,111 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: poll_exit
+2024-03-04 19:22:10,112 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:10,112 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 10
+2024-03-04 19:22:10,114 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:10,114 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 10
+2024-03-04 19:22:10,114 INFO    SenderThread:34268 [file_pusher.py:finish():172] shutting down file pusher
+2024-03-04 19:22:10,292 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-04 19:22:10,292 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: poll_exit
+2024-03-04 19:22:10,451 INFO    wandb-upload_0:34268 [upload_job.py:push():131] Uploaded file D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\config.yaml
+2024-03-04 19:22:10,516 INFO    wandb-upload_1:34268 [upload_job.py:push():131] Uploaded file D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\output.log
+2024-03-04 19:22:10,603 INFO    wandb-upload_3:34268 [upload_job.py:push():131] Uploaded file D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\wandb-summary.json
+2024-03-04 19:22:10,618 INFO    wandb-upload_2:34268 [upload_job.py:push():131] Uploaded file D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\files\requirements.txt
+2024-03-04 19:22:10,829 INFO    Thread-15 :34268 [sender.py:transition_state():617] send defer: 11
+2024-03-04 19:22:10,829 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:10,829 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 11
+2024-03-04 19:22:10,829 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:10,829 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 11
+2024-03-04 19:22:10,829 INFO    SenderThread:34268 [file_pusher.py:join():178] waiting for file pusher
+2024-03-04 19:22:10,829 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 12
+2024-03-04 19:22:10,829 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:10,829 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 12
+2024-03-04 19:22:10,829 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:10,829 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 12
+2024-03-04 19:22:10,829 INFO    SenderThread:34268 [file_stream.py:finish():595] file stream finish called
+2024-03-04 19:22:11,279 INFO    SenderThread:34268 [file_stream.py:finish():599] file stream finish is done
+2024-03-04 19:22:11,279 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 13
+2024-03-04 19:22:11,280 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:11,280 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 13
+2024-03-04 19:22:11,280 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: status_report
+2024-03-04 19:22:11,280 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:11,280 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 13
+2024-03-04 19:22:11,280 INFO    SenderThread:34268 [sender.py:transition_state():617] send defer: 14
+2024-03-04 19:22:11,281 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: defer
+2024-03-04 19:22:11,281 DEBUG   SenderThread:34268 [sender.py:send():382] send: final
+2024-03-04 19:22:11,281 INFO    HandlerThread:34268 [handler.py:handle_request_defer():172] handle defer: 14
+2024-03-04 19:22:11,281 DEBUG   SenderThread:34268 [sender.py:send():382] send: footer
+2024-03-04 19:22:11,281 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: defer
+2024-03-04 19:22:11,281 INFO    SenderThread:34268 [sender.py:send_request_defer():613] handle sender defer: 14
+2024-03-04 19:22:11,281 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-04 19:22:11,282 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: poll_exit
+2024-03-04 19:22:11,282 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-04 19:22:11,282 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: server_info
+2024-03-04 19:22:11,282 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: get_summary
+2024-03-04 19:22:11,282 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: poll_exit
+2024-03-04 19:22:11,282 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: sampled_history
+2024-03-04 19:22:11,282 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: server_info
+2024-03-04 19:22:11,283 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-04 19:22:11,284 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: job_info
+2024-03-04 19:22:11,414 DEBUG   SenderThread:34268 [sender.py:send_request():409] send_request: job_info
+2024-03-04 19:22:11,414 INFO    MainThread:34268 [wandb_run.py:_footer_history_summary_info():3866] rendering history
+2024-03-04 19:22:11,414 INFO    MainThread:34268 [wandb_run.py:_footer_history_summary_info():3898] rendering summary
+2024-03-04 19:22:11,414 INFO    MainThread:34268 [wandb_run.py:_footer_sync_info():3825] logging synced files
+2024-03-04 19:22:11,414 DEBUG   HandlerThread:34268 [handler.py:handle_request():146] handle_request: shutdown
+2024-03-04 19:22:11,414 INFO    HandlerThread:34268 [handler.py:finish():869] shutting down handler
+2024-03-04 19:22:12,288 INFO    WriterThread:34268 [datastore.py:close():296] close: D:\Code\Python\AnomalyDetection-PyTorch\src\wandb\run-20240304_191930-4gz5ymyj\run-4gz5ymyj.wandb
+2024-03-04 19:22:12,437 INFO    SenderThread:34268 [sender.py:finish():1572] shutting down sender
+2024-03-04 19:22:12,437 INFO    SenderThread:34268 [file_pusher.py:finish():172] shutting down file pusher
+2024-03-04 19:22:12,437 INFO    SenderThread:34268 [file_pusher.py:join():178] waiting for file pusher

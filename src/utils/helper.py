@@ -63,10 +63,12 @@ def compute_ROC(anoMaps, y_GT):
         # Keep transition thresholds
         distinct_value_indices = np.where(np.diff(y_score))[0]
         threshold_idxs         = np.r_[distinct_value_indices, y_labels.size - 1]
-
+        print(">>> threshold_idxs: ", type(threshold_idxs))
         tps = np.cumsum(y_labels)[threshold_idxs]
         fps = 1 + threshold_idxs - tps
-        print(">> fps: ",fps/fps[-1])
+        print(">>> tps: ",type(tps))
+        print(">>> fps = 1 + threshold_idxs - tps: ",fps)
+        print(">>> fps/fps: ",fps/fps[-1])
         tps = [0] + (tps/tps[-1]).tolist()
         fps = [0] + (fps/fps[-1]).tolist()
 

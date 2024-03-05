@@ -9,3 +9,178 @@
      Train SSIM: 0.0729 - Validation SSIM: 0.2480
 [32m     New Best Validation PSNR: 8.4538 
 
+
+[5/5] Loss: 0.6146: 100%|====================| 5/5 [00:04<00:00,  1.11it/s]
+[34mEpoch [2/5]
+     Train Loss: 0.6766 - Validation Loss: 174.0914
+     Train LossMSE: 0.0506 - Validation LossMSE: 0.0336
+     Train PSNR: 14.1010 - Validation PSNR: 14.7424
+     Train SSIM: 0.3635 - Validation SSIM: 0.4887
+[32m     New Best Validation PSNR: 14.7424 
+
+[5/5] Loss: 0.5434: 100%|====================| 5/5 [00:04<00:00,  1.09it/s]
+[34mEpoch [3/5]
+     Train Loss: 0.5685 - Validation Loss: 53.4278
+     Train LossMSE: 0.0152 - Validation LossMSE: 0.0321
+     Train PSNR: 18.2290 - Validation PSNR: 14.9391
+     Train SSIM: 0.3283 - Validation SSIM: 0.1648
+[32m     New Best Validation PSNR: 14.9391 
+
+[5/5] Loss: 0.5066: 100%|====================| 5/5 [00:04<00:00,  1.11it/s]
+[34mEpoch [4/5]
+     Train Loss: 0.5207 - Validation Loss: 12.2131
+     Train LossMSE: 0.0135 - Validation LossMSE: 0.0273
+     Train PSNR: 18.7059 - Validation PSNR: 15.6332
+     Train SSIM: 0.2042 - Validation SSIM: 0.1382
+[32m     New Best Validation PSNR: 15.6332 
+
+[5/5] Loss: 0.5022: 100%|====================| 5/5 [00:04<00:00,  1.10it/s]
+[34mEpoch [5/5]
+     Train Loss: 0.5022 - Validation Loss: 2.8644
+     Train LossMSE: 0.0137 - Validation LossMSE: 0.0197
+     Train PSNR: 18.6531 - Validation PSNR: 17.0595
+     Train SSIM: 0.1911 - Validation SSIM: 0.1584
+[32m     New Best Validation PSNR: 17.0595 
+[31mThe network is trained
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\000.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  000.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\001.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  001.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\002.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  002.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\003.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  003.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\004.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  004.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\005.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  005.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\006.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  006.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\007.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  007.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\008.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  008.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\009.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  009.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\010.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  010.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\011.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  011.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\012.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  012.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\013.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  013.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\014.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  014.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\015.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  015.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\016.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  016.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\017.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  017.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\018.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  018.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\019.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  019.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\020.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  020.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\021.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  021.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\022.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  022.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\023.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  023.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\024.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  024.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\025.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  025.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\026.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  026.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\027.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  027.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\028.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  028.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\defective\029.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\defective
+>> file:  029.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\000.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  000.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\001.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  001.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\002.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  002.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\003.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  003.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\004.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  004.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\005.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  005.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\006.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  006.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\007.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  007.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\008.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  008.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\009.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  009.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\010.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  010.png
+>> read:  E:\mvtec_anomaly_detection\runtime_test\test\good\011.png
+>> folder:  E:\mvtec_anomaly_detection\runtime_test\test\good
+>> file:  011.png
+>> fps:  [nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan nan nan nan nan nan nan nan nan nan nan nan nan]
+>> fps:  [nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan nan nan nan nan]
+>> fps:  [nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan nan nan nan nan]
+>> fps:  [nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan]
+D:\Code\Python\AnomalyDetection-PyTorch\src\utils\helper.py:69: RuntimeWarning: invalid value encountered in divide
+  print(">> fps: ",fps/fps[-1])
+D:\Code\Python\AnomalyDetection-PyTorch\src\utils\helper.py:71: RuntimeWarning: invalid value encountered in divide
+  fps = [0] + (fps/fps[-1]).tolist()
+D:\Code\Python\AnomalyDetection-PyTorch\src\utils\helper.py:119: RuntimeWarning: invalid value encountered in divide
+  fps = [0] + (fps/fps[-1]).tolist()

@@ -57,9 +57,6 @@ class MVTecADDataset(Dataset):
                 #fileName = file.split('.png')[0] + '_mask.png'
                 #folder = folder.replace("test","ground_truth")
                 mask     = cv2.imread(os.path.join(self.maskDir, folder, file))
-                print(">> read: ",os.path.join(self.maskDir, folder, file))
-                print(">> folder: ", folder)
-                print(">> file: ", file)
 
                 mask     = np.expand_dims(cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY),-1) 
                 label    = folder

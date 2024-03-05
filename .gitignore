@@ -5,3 +5,7 @@ __pycache__/
 *$py.class
 #Env
 anDetec_env/
+#wandb
+wandb/
+*.wandb
+src/wandb/
