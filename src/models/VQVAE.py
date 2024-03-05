@@ -3,8 +3,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-
+from pathlib import Path
+from os.path import dirname, abspath
+import os
 """ -----------------------------------------------------------------------------------------
 Auto-encoder with Vector Quantization Module (VQVAE)
 # Inspired from https://github.com/rosinality/vq-vae-2-pytorch 
@@ -56,10 +57,11 @@ class VectorQuantizer(nn.Module):
         quantized  = inputs + (quantized - inputs).detach()
         avg_probs  = torch.mean(encodings, dim=0)
         perplexity = torch.exp(-torch.sum(avg_probs * torch.log(avg_probs + 1e-10)))
-
+        
         encoding_shape     = list(input_shape)
         encoding_shape[-1] = self._num_embeddings
         
+        #print(">> quantized:  ",  quantized.permute(0, 3, 1, 2))
         # convert quantized from BHWC -> BCHW
         return loss, quantized.permute(0, 3, 1, 2).contiguous(), perplexity, encodings.view(encoding_shape)
 
@@ -140,11 +142,10 @@ class VQVAE(nn.Module):
         convLayers[0] = self.e1(x)
         for i, encLayer in enumerate(self.encoder):
             convLayers[i+1] = encLayer(convLayers[i])
-
         deconvLayers  = [None]*(self.depth-1)
         for i, decLayer in enumerate(self.decoder):
             if i == 0: 
-                loss, quantized, perplexity, _= self.quantization_module(convLayers[-1])
+                loss, quantized, perplexity, quantized_embeddings = self.quantization_module(convLayers[-1])
                 deconvLayers[0] = decLayer(quantized)
             else: 
                 deconvLayers[i] = decLayer(deconvLayers[i-1])
@@ -152,7 +153,13 @@ class VQVAE(nn.Module):
                 
         out = self.Conv_1x1(deconvLayers[-1])
         out = self.sigmoid(out)
-
-        return out, loss
+        filename = Path(dirname(dirname(abspath(__file__)))+"/quantized_embeddings.txt")
+        """
+        print(">>> writing in:  ",filename)
+        mode = 'a' if os.path.exists(filename) else 'w'
+        with open(filename, mode) as file:
+            file.write(str(quantized_embeddings)+"\n\n")
+            """
+        return out, loss,quantized_embeddings
 
     

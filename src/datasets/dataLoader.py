@@ -36,6 +36,9 @@ class MVTecADDataset(Dataset):
         
 
     def __getitem__(self, idx) -> Image.Image :
+        
+        # File Name
+        fileName = os.path.split(self.imgList[idx])[-1]
         # Load images
         img = cv2.imread(self.imgList[idx])
         if self.grayTransform: 

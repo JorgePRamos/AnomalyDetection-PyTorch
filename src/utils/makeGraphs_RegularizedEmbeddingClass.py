@@ -89,7 +89,6 @@ def printPredAndAM(input, prediction, mask, filePath):
     ax[1,1].axis('off')
 
     fig.tight_layout()
-
     plt.savefig(filePath)
     plt.close()
 

@@ -1,6 +1,6 @@
 ---
 Batch_size: 32
 LRScheduler:  "OneCycleLR"
-Epoch: 5
+Epoch: 3
 Learning_rate: 0.01
 Optimizer: AdamW

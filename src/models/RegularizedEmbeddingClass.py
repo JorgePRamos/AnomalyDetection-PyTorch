@@ -19,8 +19,10 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 from termcolor import colored
 from piq import ssim, psnr
+
 from pathlib import Path
 
+import os
 import logging
 logging.propagate = False 
 logging.getLogger().setLevel(logging.ERROR)
@@ -100,11 +102,12 @@ class RegularizedEmbedding(Network_Class):
         trainLosses    = []
         trainLossesMSE = []
         trainPSNR, trainSSIM     = [], []
+        quantized_embeddings_list = [] 
         for thisBatch, (corrImg, cleanImg, _, _) in batchIter:
             corrImg, cleanImg = corrImg.to(self.device), cleanImg.to(self.device)
             self.optimizer.zero_grad()
             # Results 
-            outputs, lossVQVAE = self.model(corrImg)
+            outputs, lossVQVAE, quantized_embeddings = self.model(corrImg)
             lossMSE            = self.criterion(outputs, cleanImg)
             loss               = lossVQVAE + lossMSE
             currentPSNR, currentSSIM = psnr(outputs, cleanImg), ssim(outputs, cleanImg)
@@ -112,12 +115,19 @@ class RegularizedEmbedding(Network_Class):
             trainLossesMSE.append(lossMSE.item())
             trainPSNR.append(currentPSNR.item())
             trainSSIM.append(currentSSIM.item())
+            #if (thisBatch+1) % 100 == 0: #Frequency of sampling
+            quantized_embeddings_list.append(quantized_embeddings)
+            
             # Backprop + optimize
             loss.backward()
             self.optimizer.step()
             # Print the log info
             batchIter.set_description('[%d/%d] Loss: %.4f' % (thisBatch+1, len(self.trainDataLoader), loss.item()))
         batchIter.close()
+        
+
+        torch.save(quantized_embeddings_list, Path('quantized_embeddings_train.pth'))
+
         return np.mean(trainLosses), np.mean(trainLossesMSE), np.mean(trainPSNR), np.mean(trainSSIM)
 
 
@@ -130,7 +140,7 @@ class RegularizedEmbedding(Network_Class):
             for (corrImg, cleanImg, _, _) in self.valDataLoader:
                 corrImg, cleanImg = corrImg.to(self.device), cleanImg.to(self.device)
                 with torch.no_grad(): 
-                    outputs, lossVQVAE = self.model(corrImg)
+                    outputs, lossVQVAE, quantized_embeddings = self.model(corrImg)
                     lossMSE            = self.criterion(outputs, cleanImg)
                     loss               = lossVQVAE + lossMSE
                     currentPSNR, currentSSIM = psnr(outputs, cleanImg), ssim(outputs, cleanImg)
@@ -212,8 +222,8 @@ class RegularizedEmbedding(Network_Class):
             predictions = self.newNet(image)
             predictions = predictions.to(self.device)
 
+           
             image, predictions, encodings = image.to('cpu'), predictions.to('cpu'), encodings.to('cpu')
-
 
             allInputs.extend(image.data.numpy())
             allLabels.extend(label)
