@@ -3,9 +3,6 @@ DatasetFolder:
     folder: "mvtec_anomaly_detection"
     subfolder: 
         - bottle 
-        - cable
-        - hazelnut
-        - metal_nut
         - pill
     
 Dataset: 
@@ -18,7 +15,7 @@ Train:
     - DefaultTrain
 
 DataAugmentation: 
-    - NODA
+    - STAIN
 
 Server: 
     - datasetLocation

@@ -15,7 +15,7 @@ Train:
     - dry_run
 
 DataAugmentation: 
-    - NODA
+    - STAIN
 
 Server: 
     - datasetLocation
