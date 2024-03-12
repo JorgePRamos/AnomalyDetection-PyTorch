@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 # Load from .pth file to a tensor to CPU
-quantized_embeddings = torch.load('quantized_embeddings_train.pth')
+quantized_embeddings = torch.load('quantized_embeddings_train.pth',map_location=torch.device('cpu'))
 quantized_embeddings = torch.cat(quantized_embeddings)
 quantized_embeddings = quantized_embeddings.cpu()
 

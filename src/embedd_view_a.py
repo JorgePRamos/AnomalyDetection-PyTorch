@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the quantized embeddings
-quantized_embeddings = torch.load('quantized_embeddings_train.pth')
+quantized_embeddings = torch.load('quantized_embeddings_train.pth',map_location=torch.device('cpu'))
 
 # Convert the quantized embeddings to a NumPy array
 quantized_embeddings_np = torch.cat(quantized_embeddings).cpu().numpy()
