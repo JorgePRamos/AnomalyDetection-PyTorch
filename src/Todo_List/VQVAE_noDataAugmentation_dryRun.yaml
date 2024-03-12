@@ -2,7 +2,7 @@
 DatasetFolder: 
     folder: "mvtec_anomaly_detection"
     subfolder:
-        - runtime_test
+        - toothbrush
     
 Dataset: 
     - 256_Gray
