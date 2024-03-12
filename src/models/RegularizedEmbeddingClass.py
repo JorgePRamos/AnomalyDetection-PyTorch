@@ -102,7 +102,7 @@ class RegularizedEmbedding(Network_Class):
         trainLosses    = []
         trainLossesMSE = []
         trainPSNR, trainSSIM     = [], []
-        quantized_embeddings_list = [] 
+       
         for thisBatch, (corrImg, cleanImg, _, _) in batchIter:
             corrImg, cleanImg = corrImg.to(self.device), cleanImg.to(self.device)
             self.optimizer.zero_grad()
@@ -115,8 +115,8 @@ class RegularizedEmbedding(Network_Class):
             trainLossesMSE.append(lossMSE.item())
             trainPSNR.append(currentPSNR.item())
             trainSSIM.append(currentSSIM.item())
-            #if (thisBatch+1) % 100 == 0: #Frequency of sampling
-            quantized_embeddings_list.append(quantized_embeddings)
+            
+           
             
             # Backprop + optimize
             loss.backward()
@@ -125,9 +125,6 @@ class RegularizedEmbedding(Network_Class):
             batchIter.set_description('[%d/%d] Loss: %.4f' % (thisBatch+1, len(self.trainDataLoader), loss.item()))
         batchIter.close()
         
-
-        torch.save(quantized_embeddings_list, Path('quantized_embeddings_train.pth'))
-
         return np.mean(trainLosses), np.mean(trainLossesMSE), np.mean(trainPSNR), np.mean(trainSSIM)
 
 
