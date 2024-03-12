@@ -164,7 +164,7 @@ class RegularizedEmbedding(Network_Class):
                 for i, encLayer in enumerate(self.encoder):
                     convLayers[i+1] = encLayer(convLayers[i])
                 loss, quantized, perplexity, encodings = self.quantization_module(convLayers[-1])
-                return encodings
+                return encodings, quantized
 
         class getcustomPredNet(VQVAE): 
             def __init__(self, *args, **kwargs):
@@ -205,6 +205,8 @@ class RegularizedEmbedding(Network_Class):
         self.newNet.load_state_dict(torch.load(resultPath / '_Weights/wghts.pkl'))
 
         allInputs, allPreds, allLabels, allMasks = [], [], [], []
+        allEncodings = []
+        allQuantized = []
         self.getEncodings.train(False)
         self.getEncodings.eval()
         self.newNet.train(False)
@@ -215,17 +217,20 @@ class RegularizedEmbedding(Network_Class):
             else: 
                 image = corrupted.to(self.device)
 
-            encodings   = self.getEncodings(image)
+            encodings,quantized = self.getEncodings(image)
             predictions = self.newNet(image)
             predictions = predictions.to(self.device)
 
            
-            image, predictions, encodings = image.to('cpu'), predictions.to('cpu'), encodings.to('cpu')
-
+            image, predictions, encodings, quantized= image.to('cpu'), predictions.to('cpu'), encodings.to('cpu'),quantized.to('cpu')
             allInputs.extend(image.data.numpy())
             allLabels.extend(label)
             allPreds.extend(predictions.data.numpy())
             allMasks.extend(mask.data.numpy())
+
+            # Save encodings and quantized embeddings for visualization
+            allEncodings.extend(encodings.data.numpy())
+            allQuantized.extend(quantized.data.numpy())
 
         allInputs = np.multiply(np.array(allInputs),255).astype(np.uint8)
         allLabels = np.array(allLabels)
@@ -235,7 +240,7 @@ class RegularizedEmbedding(Network_Class):
         allInputs = np.transpose(allInputs, (0,2,3,1))
         allPreds  = np.transpose(allPreds,  (0,2,3,1))
         allMasks  = np.transpose(allMasks,  (0,2,3,1))
-        return allInputs, allPreds, allLabels, allMasks
+        return allInputs, allPreds, allLabels, allMasks, allEncodings,allQuantized
 
 
     def evaluate(self, resultPath, printPrediction=False, wandbObj=None, printPredForPaper=False): 
@@ -243,12 +248,30 @@ class RegularizedEmbedding(Network_Class):
         self.model.eval()
 
         # Compute ROC Curves: anomaly map is diff between input and prediction
-        allInputs, allPreds, allLabels, allMasks = self.getPrediction(self.testlDataLoader, resultPath)
+        allInputs, allPreds, allLabels, allMasks, allEncodings,allQuantized = self.getPrediction(self.testlDataLoader, resultPath)
         allAM = []
+
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])
         self.computeROC(np.array(allAM), allLabels, allMasks, resultPath, printPrediction)
 
+        # ---------------------------------------------------------------------------------------
+        # Latent space visualizations
+        # ---------------------------------------------------------------------------------------
+
+        #self.visualizeSeparatedFeatureEncoding(allEncodings, allLabels, resultPath)
+
+        subsets = np.unique(allLabels)
+        for thisSubset in subsets: 
+            thisresultPath = resultPath / thisSubset / '_prediction/'
+            #createFolder(thisresultPath)
+            sbt = allLabels==thisSubset
+            for i, (input, pred, quand) in enumerate(zip(allInputs, allPreds, allQuantized)):
+                iter = str(i) +'.png'
+
+                self.visualizeFeatureEncoding(input, pred, quand, thisresultPath / iter)
+        
+                
         # Print predictions (LR)
         if printPrediction : 
             subsets = np.unique(allLabels)
@@ -269,6 +292,34 @@ class RegularizedEmbedding(Network_Class):
                 printPredAndAM_singleFile(input, pred, thisprintPath  / 'Test_' + str(idx[i]), Vmin=0, Vmax=1)
 
 
+    # Visualize quantized features
+    def visualizeSeparatedFeatureEncoding(self,allEncodings, allLabels, resultPath):
+        num_samples = len(allEncodings)
+        #(16, 16, 50)
+        for i in range(num_samples):
+            encoding = allEncodings[i]
+            label = allLabels[i]
 
+            # Determine the shape of the encoding
+            height, width, num_channels = encoding.shape
 
+            # Plot each channel separately
+            fig, axes = plt.subplots(1, num_channels, figsize=(num_channels * 3, 3))
+            for j in range(num_channels):
+                axes[j].imshow(encoding[:, :, j], cmap='viridis')  # Choose a suitable colormap
+                axes[j].set_title([j+1])
+                axes[j].axis('off')
 
+            plt.suptitle(f"Feature Encoding (Label: {label})")
+            #plt.tight_layout()
+            #plt.savefig(resultPath / f'feature_encoding_{i}.png')
+            plt.show()
+    # Visualize quantized embedigs
+    def visualizeFeatureEncoding(self, input, pred, quand, thisresultPath):
+
+        print("shape quad ----> ",quand.shape)
+        mean_image = np.mean(quand, axis=0)
+        plt.imshow(mean_image, cmap='gray')  # Assuming encoding is a grayscale image
+        plt.title('Quantized embed')
+        plt.colorbar()
+        plt.show()
