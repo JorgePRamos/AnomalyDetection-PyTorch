@@ -48,6 +48,9 @@ def call_training(thisExp, parser):
         folderPath   = Path(serverCfg['DatasetLocation']['local_folder']+ '/' + thisImgCat)
         if hostName == "Bajoo" or hostName == "Betelgeuse":
             folderPath   = Path(serverCfg['DatasetLocation']['remote_folder'] + '/' + thisImgCat)
+        elif hostName == "DESKTOP-7B1KVSF":
+            folderPath   = Path(serverCfg['DatasetLocation']['local_folder_laptop']+ '/' + thisImgCat)
+
         
         print(">> Loaded data set from: ", folderPath)
         if not os.path.exists(folderPath):
