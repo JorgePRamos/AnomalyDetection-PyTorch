@@ -31,7 +31,7 @@ parser.add_argument('-train', default=False, type=lambda x: (str(x).lower() == '
 # 
 # Example of use in the terminal: 
 # python main.py -exp DefaultExp
-# with 'DefaultExp' beeing the name of the yaml file (in the Todo_list folder) with 
+# with 'DefaultExp' being the name of the yaml file (in the Todo_list folder) with 
 # the wanted configuration 
 # 
 # By using: 
@@ -115,8 +115,11 @@ def main(parser):
 
 
     for thisExp in allExps:
+        try:
+            mp.set_start_method('spawn')
+        except:
+            print(">> Start method already set")
         
-        mp.set_start_method('spawn')
         p = Process(target=call_training, args=(thisExp,parser,))
         p.start()
         p.join()
