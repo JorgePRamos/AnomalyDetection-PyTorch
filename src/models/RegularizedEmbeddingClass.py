@@ -154,6 +154,17 @@ class RegularizedEmbedding(Network_Class):
     def getNetworks(self): 
         from models.VQVAE import VQVAE
 
+        class getTrainingEncodings(VQVAE): 
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+
+            def forward(self, x, modifiedEncodings=None):
+                convLayers    = [None]*(self.depth)
+                convLayers[0] = self.e1(x)
+                for i, encLayer in enumerate(self.encoder):
+                    convLayers[i+1] = encLayer(convLayers[i])
+                loss, quantized, perplexity, encodings = self.quantization_module(convLayers[-1])
+                return encodings
         class getEncodingsNet(VQVAE): 
             def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)

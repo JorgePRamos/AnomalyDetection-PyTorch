@@ -153,13 +153,7 @@ class VQVAE(nn.Module):
                 
         out = self.Conv_1x1(deconvLayers[-1])
         out = self.sigmoid(out)
-        filename = Path(dirname(dirname(abspath(__file__)))+"/quantized_embeddings.txt")
-        """
-        print(">>> writing in:  ",filename)
-        mode = 'a' if os.path.exists(filename) else 'w'
-        with open(filename, mode) as file:
-            file.write(str(quantized_embeddings)+"\n\n")
-            """
+
         return out, loss,quantized_embeddings
 
     
