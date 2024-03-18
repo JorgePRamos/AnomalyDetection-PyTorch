@@ -167,8 +167,8 @@ class RegularizedEmbedding(Network_Class):
                 for i, encLayer in enumerate(self.encoder):
                     convLayers[i+1] = encLayer(convLayers[i])
                 loss, quantized, perplexity, encodings = self.quantization_module(convLayers[-1])
-                print(">>> encodings shape: ",encodings.shape)
-                print(">>> quantized shape: ",quantized.shape)
+                print(">>> Forward encodings shape: ",encodings.shape)
+                print(">>> Forward quantized shape: ",quantized.shape)
                 return encodings
             
         class getEncodingsNet(VQVAE): 
@@ -273,6 +273,25 @@ class RegularizedEmbedding(Network_Class):
         allSnailEncodings = np.transpose(allSnailEncodings,  (0,1,2,3))
         return allInputs, allPreds, allLabels, allMasks, allEncodings,allQuantized,allSnailEncodings
 
+    def predictOnTrainingData(self, resultPath):
+        
+        targetFolder = udt.createDataSetFolderStructure(os.path.split(resultPath)[-1])
+        print(">> Created folder for encodings at: ",targetFolder)
+        print(">> Prediction on training data")
+        allInputs, allPreds, allLabels, allMasks, allEncodings, allQuantized, allSnailEncodings = self.getPrediction(
+            self.trainDataLoader, resultPath, isTest=False)
+        
+        subsets = np.unique(allLabels)
+        for thisSubset in subsets: 
+            
+            sbt = allLabels==thisSubset
+            for i, (input, label, sEncoding) in enumerate(zip(allInputs[sbt], allLabels[sbt], allSnailEncodings[sbt])):
+                iter = '{:03}'.format(i)+".npy"
+                print("Image_",iter)
+                npyFilePath = Path(targetFolder / iter)
+                udt.saveToNpy(sEncoding,npyFilePath)
+                udt.testFunction(input, label, sEncoding)
+        
 
     def evaluate(self, resultPath, printPrediction=False, wandbObj=None, printPredForPaper=False): 
         self.model.train(False)
@@ -281,6 +300,9 @@ class RegularizedEmbedding(Network_Class):
         # Compute ROC Curves: anomaly map is diff between input and prediction
         allInputs, allPreds, allLabels, allMasks, allEncodings,allQuantized,allSnailEncodings = self.getPrediction(self.testlDataLoader, resultPath)
         allAM = []
+
+        #Predict on training data for best encodings extraction
+        self.predictOnTrainingData(resultPath)
 
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])
@@ -302,14 +324,7 @@ class RegularizedEmbedding(Network_Class):
 
                 #self.visualizeFeatureEncoding(input, pred, quand, thisresultPath / iter)
         
-        subsets = np.unique(allLabels)
-        for thisSubset in subsets: 
-            thisresultPath = resultPath / thisSubset / '_prediction/'
-            
-            sbt = allLabels==thisSubset
-            for i, (input, label, sEncoding) in enumerate(zip(allInputs[sbt], allLabels[sbt], allSnailEncodings[sbt])):
-                iter = str(i) +'.png'
-                udt.testFunction(input, label, sEncoding)
+
   
         # Print predictions (LR)
         if printPrediction : 
