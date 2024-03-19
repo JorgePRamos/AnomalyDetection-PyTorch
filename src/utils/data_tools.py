@@ -42,7 +42,7 @@ def createFolder(folderPath, overwrite = True):
 
 def createDataSetFolderStructure(targetObject):
     
-    targetObjectDataSetPath = Path(getDataSetLocation() +"mvtec_encodings/"+targetObject + "/train/good/")
+    targetObjectDataSetPath = Path(getDataSetLocation() +"/mvtec_encodings/"+targetObject + "/train/good/")
     createFolder(targetObjectDataSetPath)
     return targetObjectDataSetPath
 
