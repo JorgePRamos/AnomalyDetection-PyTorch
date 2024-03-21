@@ -35,7 +35,6 @@ def createFolder(folderPath, overwrite = True):
     if not os.path.exists(folderPath):
         try:
             os.makedirs(folderPath)
-            print(f"Folder created: {folderPath}")
         except OSError as e:
             print(f"Error: {folderPath} : {e.strerror}")
     else:
@@ -43,11 +42,10 @@ def createFolder(folderPath, overwrite = True):
 
 def createDataSetFolderStructure(targetObject):
     
-    targetObjectDataSetPath = Path(getDataSetLocation() +"mvtec_encodings/"+targetObject + "/train/good/")
+    targetObjectDataSetPath = Path(getDataSetLocation() +"/mvtec_encodings/"+targetObject + "/train/good/")
     createFolder(targetObjectDataSetPath)
     return targetObjectDataSetPath
 
 
 def saveToNpy(targetTensor,savePath):
-    array = targetTensor.numpy()
-    np.save(savePath, array)
+    np.save(savePath, targetTensor)
