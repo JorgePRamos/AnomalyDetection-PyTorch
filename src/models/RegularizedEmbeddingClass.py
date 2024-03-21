@@ -278,8 +278,18 @@ class RegularizedEmbedding(Network_Class):
         targetFolder = udt.createDataSetFolderStructure(os.path.split(resultPath)[-1])
         print(">> Created folder for encodings at: ",targetFolder)
         print(">> Prediction on training data")
-        allInputs, allPreds, allLabels, allMasks, allEncodings, allQuantized, allSnailEncodings = self.getPrediction(
+        trainInputs, trainPreds, trainLabels, trainMasks, trainEncodings, trainQuantized, trainSnailEncodings = self.getPrediction(
             self.trainDataLoader, resultPath, isTest=False)
+        print(">> Prediction on val data")
+        valInputs, valPreds, valLabels, valMasks, valEncodings, valQuantized, valSnailEncodings = self.getPrediction(
+            self.valDataLoader, resultPath, isTest=False)
+        
+
+        print("------------------->>>  ", type(trainInputs))
+        allInputs = np.concatenate((trainInputs,valInputs))
+        
+        allLabels = np.concatenate((trainLabels,valLabels)) 
+        allSnailEncodings = np.concatenate((trainSnailEncodings,valSnailEncodings)) 
         
         subsets = np.unique(allLabels)
         for thisSubset in subsets: 
