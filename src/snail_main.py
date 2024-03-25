@@ -105,7 +105,7 @@ if __name__ == '__main__':
     # Number of residual blocks in the output layer
     outResBlock = 0
 
-
+    input("kkk")
 
     model = PixelSNAIL(inputDim,
             numClass,
@@ -131,6 +131,13 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
     scheduler = None
+
+    # for i, (x, y) in enumerate(iter(loader)):
+    #     print(x.shape)
+    #     print(i)
+
+
+    # test = dataset.__getitem__(0)
     
     #scheduler = CycleScheduler(optimizer,lr, n_iter=len(loader) * epochs, momentum=None)
     for i in range(epochs):
