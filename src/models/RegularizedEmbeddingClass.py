@@ -297,6 +297,7 @@ class RegularizedEmbedding(Network_Class):
                 iter = '{:03}'.format(i)+".npy"
                 print("Image_",iter)
                 npyFilePath = Path(trainTargetFolder / iter)
+                sEncoding  = np.transpose(sEncoding, (2, 0, 1))
                 udt.saveToNpy(sEncoding,npyFilePath)
                 udt.testFunction(input, label, sEncoding)
 
@@ -320,6 +321,7 @@ class RegularizedEmbedding(Network_Class):
                 iter = '{:03}'.format(i)+".npy"
                 print("Image_",iter)
                 npyFilePath = Path(testTargetFolder / iter)
+                sEncoding  = np.transpose(sEncoding, (2, 0, 1))
                 udt.saveToNpy(sEncoding,npyFilePath)
                 udt.testFunction(input, label, sEncoding)
             
