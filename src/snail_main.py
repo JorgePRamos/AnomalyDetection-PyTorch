@@ -9,8 +9,10 @@ from models.pixelSnail import PixelSNAIL
 from pathlib import Path
 from tqdm import tqdm
 import torch.nn.functional as F
-from optim import Adam
+from torch.optim import Adam
+from torchvision.utils import save_image, make_grid
 
+from torch.utils.data.sampler import SubsetRandomSampler
 
 # Parameters
 start_epoch = 0
@@ -166,15 +168,24 @@ def generate_fn(model, n_samples, image_dims, device, h=None):
 
 def fetch_dataloaders():
     # Load your dataset
+    validationSplit  = 0.2
     rootDir = Path("E:/mvtec_encodings/bottle/")
     dataset = EncodingsDataset(rootDir)
-
-    train_dataloader = DataLoader(dataset, batch_size, shuffle=True, pin_memory=(device.type=='cuda'), num_workers=4)
-    #valid_dataloader = DataLoader(valid_dataset, batch_size, shuffle=False, pin_memory=(device.type=='cuda'), num_workers=4)
-    return train_dataloader
+    datasetSize = dataset.__len__()
+    split = int(np.floor(validationSplit * datasetSize))
+    indices = list(range(datasetSize))
+    trainIdx, valIdx  = indices[split:], indices[:split]
+    
+    trainSampler = SubsetRandomSampler(trainIdx)
+    validSampler = SubsetRandomSampler(valIdx)
+    
+    
+    train_dataloader = DataLoader(dataset, batch_size, sampler=trainSampler, pin_memory=(device=='cuda'), num_workers=4)
+    valid_dataloader = DataLoader(dataset, batch_size, sampler=validSampler, pin_memory=(device=='cuda'), num_workers=4)
+    return train_dataloader, valid_dataloader
 
 # Training loop
-def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch, args):
+def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch,step):
     model.train()
 
     with tqdm(total=len(dataloader), desc='epoch {}/{}'.format(epoch, start_epoch + n_epochs)) as pbar:
@@ -199,7 +210,7 @@ def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch, args):
                 writer.add_scalar('lr', optimizer.param_groups[0]['lr'], step)"""  
 
 @torch.no_grad()
-def evaluate(model, dataloader, loss_fn, args):
+def evaluate(model, dataloader, loss_fn):
     model.eval()
 
     losses = 0
@@ -210,7 +221,7 @@ def evaluate(model, dataloader, loss_fn, args):
     return losses / len(dataloader)
 
 @torch.no_grad()
-def generate(model, generate_fn, args):
+def generate(model, generate_fn):
     model.eval()
     if n_cond_classes:
         samples = []
@@ -222,10 +233,10 @@ def generate(model, generate_fn, args):
         samples = generate_fn(model, n_samples, image_dims, device)
     return make_grid(samples.cpu(), normalize=True, scale_each=True, nrow=n_samples)
 
-def train_and_evaluate(model, train_dataloader, test_dataloader, optimizer, scheduler, loss_fn, generate_fn, args):
+def train_and_evaluate(model, train_dataloader, test_dataloader, optimizer, scheduler, loss_fn, generate_fn):
     for epoch in range(start_epoch, start_epoch + n_epochs):
         # train
-        train_epoch(model, train_dataloader, optimizer, scheduler, loss_fn, epoch, args)
+        train_epoch(model, train_dataloader, optimizer, scheduler, loss_fn, epoch, step)
 
         if (epoch+1) % eval_interval == 0:
             # save model
@@ -240,12 +251,12 @@ def train_and_evaluate(model, train_dataloader, test_dataloader, optimizer, sche
             optimizer.swap_ema()
 
             # evaluate
-            eval_loss = evaluate(model, test_dataloader, loss_fn, args)
+            eval_loss = evaluate(model, test_dataloader, loss_fn)
             print('Evaluate bits per dim: {:.3f}'.format(eval_loss.item() / (np.log(2) * np.prod(image_dims))))
             #writer.add_scalar('eval_bits_per_dim', eval_loss.item() / (np.log(2) * np.prod(image_dims)), step)
 
             # generate
-            samples = generate(model, generate_fn, args)
+            samples = generate(model, generate_fn)
             #writer.add_image('samples', samples, step)
             save_image(samples, os.path.join(output_dir, 'generation_sample_step_{}.png'.format(step)))
 
@@ -261,7 +272,7 @@ if __name__ == '__main__':
     loss_fn = discretized_mix_logistic_loss
     loss_fn = loss_fn
     generate_fn = generate_fn
-    optimizer = Adam(model.parameters(), lr=lr, betas=(0.95, 0.9995), polyak=polyak, eps=1e-5)
+    optimizer = Adam(model.parameters(), lr=lr, betas=(0.95, 0.9995), eps=1e-5)
     scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
 
     # Model Summary

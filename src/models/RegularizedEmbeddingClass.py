@@ -303,7 +303,7 @@ class RegularizedEmbedding(Network_Class):
         print(">> Prediction on test data")
 
         testInputs, testPreds, testLabels, testMasks, testEncodings, testQuantized, testSnailEncodings = self.getPrediction(
-        self.testlDataLoader, resultPath, isTest=False)
+        self.testlDataLoader, resultPath, isTest=True)
     
         
         
