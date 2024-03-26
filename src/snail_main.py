@@ -63,7 +63,7 @@ class EncodingsDataset(Dataset):
     def __getitem__(self, idx):
         enc = np.load(self.encList[idx])
 
-        return torch.from_numpy(enc),self.encList[idx]
+        return torch.from_numpy(enc),torch.from_numpy(enc)
 
 def discretized_mix_logistic_loss(l, x, n_bits):
     """ log likelihood for mixture of discretized logistics
@@ -191,11 +191,17 @@ def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch,step):
     with tqdm(total=len(dataloader), desc='epoch {}/{}'.format(epoch, start_epoch + n_epochs)) as pbar:
         for x,y in dataloader:
             step += 1
-
+           
             x = x.to(device)
+            """
             logits = model(x, y.to(device) if n_cond_classes else None)
-            loss = loss_fn(logits, x, n_bits).mean(0)
+            #loss = loss_fn(logits, x, n_bits).mean(0)
+            loss = loss_fn(logits, x)"""
 
+            y =y.to(device) 
+            logits = model(x) 
+           
+            loss = loss_fn(logits, y)  # Compute cross-entropy loss
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
@@ -269,8 +275,9 @@ if __name__ == '__main__':
    
 
     model = PixelSNAIL(image_dims, n_channels, n_res_layers, attn_n_layers, attn_nh, attn_dq, attn_dv, attn_drop_rate, n_logistic_mix, n_cond_classes).to(device)
-    loss_fn = discretized_mix_logistic_loss
-    loss_fn = loss_fn
+    # loss_fn = discretized_mix_logistic_loss
+    loss_fn = nn.CrossEntropyLoss()
+
     generate_fn = generate_fn
     optimizer = Adam(model.parameters(), lr=lr, betas=(0.95, 0.9995), eps=1e-5)
     scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
