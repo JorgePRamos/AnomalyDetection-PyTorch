@@ -1,427 +1,163 @@
-from math import sqrt
-from functools import partial, lru_cache
+"""
+PixelSNAIL implementation following https://github.com/neocxi/pixelsnail-public
 
-import numpy as np
+References:
+    1. Xi Chen, PixelSNAIL: An Improved Autoregressive Generative Model
+"""
+
+
 import torch
-from torch import nn
-from torch.nn import functional as F
+import torch.nn as nn
+import torch.nn.functional as F
 
 
-def wn_linear(in_dim, out_dim):
-    return nn.utils.weight_norm(nn.Linear(in_dim, out_dim))
+# --------------------
+# Helper functions
+# --------------------
 
+def down_shift(x):
+#    B, C, H, W = x.shape
+#    return torch.cat([torch.zeros([B, C, 1, W], device=x.device), x[:,:,:H-1,:]], 2)
+    return F.pad(x, (0,0,1,0))[:,:,:-1,:]
 
-class WNConv2d(nn.Module):
-    def __init__(
-        self,
-        in_channel,
-        out_channel,
-        kernel_size,
-        stride=1,
-        padding=0,
-        bias=True,
-        activation=None,
-    ):
+def right_shift(x):
+#    B, C, H, W = x.shape
+#    return torch.cat([torch.zeros([B, C, H, 1], device=x.device), x[:,:,:,:W-1]], 3)
+    return F.pad(x, (1,0))[:,:,:,:-1]
+
+def concat_elu(x):
+    return F.elu(torch.cat([x, -x], dim=1))
+
+# --------------------
+# Model components
+# --------------------
+
+class Conv2d(nn.Conv2d):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        nn.utils.weight_norm(self)
+
+class DownShiftedConv2d(Conv2d):
+    def forward(self, x):
+        # pad H above and W on each side
+        Hk, Wk = self.kernel_size
+        x = F.pad(x, ((Wk-1)//2, (Wk-1)//2, Hk-1, 0))
+        return super().forward(x)
+
+class DownRightShiftedConv2d(Conv2d):
+    def forward(self, x):
+        # pad above and on left (ie shift input down and right)
+        Hk, Wk = self.kernel_size
+        x = F.pad(x, (Wk-1, 0, Hk-1, 0))
+        return super().forward(x)
+
+class GatedResidualLayer(nn.Module):
+    def __init__(self, conv, n_channels, kernel_size, drop_rate=0, shortcut_channels=None, n_cond_classes=None, relu_fn=concat_elu):
         super().__init__()
+        self.relu_fn = relu_fn
 
-        self.conv = nn.utils.weight_norm(
-            nn.Conv2d(
-                in_channel,
-                out_channel,
-                kernel_size,
-                stride=stride,
-                padding=padding,
-                bias=bias,
-            )
-        )
+        self.c1 = conv(2*n_channels, n_channels, kernel_size)
+        if shortcut_channels:
+            self.c1c = Conv2d(2*shortcut_channels, n_channels, kernel_size=1)
+        if drop_rate > 0:
+            self.dropout = nn.Dropout(drop_rate)
+        self.c2 = conv(2*n_channels, 2*n_channels, kernel_size)
+        if n_cond_classes:
+            self.proj_h = nn.Linear(n_cond_classes, 2*n_channels)
 
-        self.out_channel = out_channel
-
-        if isinstance(kernel_size, int):
-            kernel_size = [kernel_size, kernel_size]
-
-        self.kernel_size = kernel_size
-
-        self.activation = activation
-
-    def forward(self, input):
-        out = self.conv(input)
-
-        if self.activation is not None:
-            out = self.activation(out)
-
+    def forward(self, x, a=None, h=None):
+        c1 = self.c1(self.relu_fn(x))
+        if a is not None:  # shortcut connection if auxiliary input 'a' is given
+            c1 = c1 + self.c1c(self.relu_fn(a))
+        c1 = self.relu_fn(c1)
+        if hasattr(self, 'dropout'):
+            c1 = self.dropout(c1)
+        c2 = self.c2(c1)
+        if h is not None:
+            c2 += self.proj_h(h)[:,:,None,None]
+        a, b = c2.chunk(2,1)
+        out = x + a * torch.sigmoid(b)
         return out
 
+def causal_attention(k, q, v, mask, nh, drop_rate, training):
+    B, dq, H, W = q.shape
+    _, dv, _, _ = v.shape
 
-def shift_down(input, size=1):
-    return F.pad(input, [0, 0, size, 0])[:, :, : input.shape[2], :]
+    # split channels into multiple heads, flatten H,W dims and scale q; out (B, nh, dkh or dvh, HW)
+    flat_q = q.reshape(B, nh, dq//nh, H, W).flatten(3) * (dq//nh)**-0.5
+    flat_k = k.reshape(B, nh, dq//nh, H, W).flatten(3)
+    flat_v = v.reshape(B, nh, dv//nh, H, W).flatten(3)
 
+    logits = torch.matmul(flat_q.transpose(2,3), flat_k)              # (B,nh,HW,dq) dot (B,nh,dq,HW) = (B,nh,HW,HW)
+    logits = F.dropout(logits, p=drop_rate, training=training, inplace=True)
+    logits = logits.masked_fill(mask==0, -1e10)
+    weights = F.softmax(logits, -1)
 
-def shift_right(input, size=1):
-    return F.pad(input, [size, 0, 0, 0])[:, :, :, : input.shape[3]]
+    attn_out = torch.matmul(weights, flat_v.transpose(2,3))           # (B,nh,HW,HW) dot (B,nh,HW,dvh) = (B,nh,HW,dvh)
+    attn_out = attn_out.transpose(2,3)                                # (B,nh,dvh,HW)
+    return attn_out.reshape(B, -1, H, W)                              # (B,dv,H,W)
 
-
-class CausalConv2d(nn.Module):
-    def __init__(
-        self,
-        in_channel,
-        out_channel,
-        kernel_size,
-        stride=1,
-        padding='downright',
-        activation=None,
-    ):
+class AttentionGatedResidualBlock(nn.Module):
+    def __init__(self, n_channels, n_background_ch, n_res_layers, n_cond_classes, drop_rate, nh, dq, dv, attn_drop_rate):
         super().__init__()
-
-        if isinstance(kernel_size, int):
-            kernel_size = [kernel_size] * 2
-
-        self.kernel_size = kernel_size
-
-        if padding == 'downright':
-            pad = [kernel_size[1] - 1, 0, kernel_size[0] - 1, 0]
-
-        elif padding == 'down' or padding == 'causal':
-            pad = kernel_size[1] // 2
-
-            pad = [pad, pad, kernel_size[0] - 1, 0]
-
-        self.causal = 0
-        if padding == 'causal':
-            self.causal = kernel_size[1] // 2
-
-        self.pad = nn.ZeroPad2d(pad)
-
-        self.conv = WNConv2d(
-            in_channel,
-            out_channel,
-            kernel_size,
-            stride=stride,
-            padding=0,
-            activation=activation,
-        )
-
-    def forward(self, input):
-        out = self.pad(input)
-
-        if self.causal > 0:
-            self.conv.conv.weight_v.data[:, :, -1, self.causal :].zero_()
-
-        out = self.conv(out)
-
-        return out
-
-
-class GatedResBlock(nn.Module):
-    def __init__(
-        self,
-        in_channel,
-        channel,
-        kernel_size,
-        conv='wnconv2d',
-        activation=nn.ELU,
-        dropout=0.1,
-        auxiliary_channel=0,
-        condition_dim=0,
-    ):
-        super().__init__()
-
-        if conv == 'wnconv2d':
-            conv_module = partial(WNConv2d, padding=kernel_size // 2)
-
-        elif conv == 'causal_downright':
-            conv_module = partial(CausalConv2d, padding='downright')
-
-        elif conv == 'causal':
-            conv_module = partial(CausalConv2d, padding='causal')
-
-        self.activation = activation()
-        self.conv1 = conv_module(in_channel, channel, kernel_size)
-
-        if auxiliary_channel > 0:
-            self.aux_conv = WNConv2d(auxiliary_channel, channel, 1)
-
-        self.dropout = nn.Dropout(dropout)
-
-        self.conv2 = conv_module(channel, in_channel * 2, kernel_size)
-
-        if condition_dim > 0:
-            # self.condition = nn.Linear(condition_dim, in_channel * 2, bias=False)
-            self.condition = WNConv2d(condition_dim, in_channel * 2, 1, bias=False)
-
-        self.gate = nn.GLU(1)
-
-    def forward(self, input, aux_input=None, condition=None):
-        out = self.conv1(self.activation(input))
-
-        if aux_input is not None:
-            out = out + self.aux_conv(self.activation(aux_input))
-
-        out = self.activation(out)
-        out = self.dropout(out)
-        out = self.conv2(out)
-
-        if condition is not None:
-            condition = self.condition(condition)
-            out += condition
-            # out = out + condition.view(condition.shape[0], 1, 1, condition.shape[1])
-
-        out = self.gate(out)
-        out += input
-
-        return out
-
-
-@lru_cache(maxsize=64)
-def causal_mask(size):
-    shape = [size, size]
-    mask = np.triu(np.ones(shape), k=1).astype(np.uint8).T
-    start_mask = np.ones(size).astype(np.float32)
-    start_mask[0] = 0
-
-    return (
-        torch.from_numpy(mask).unsqueeze(0),
-        torch.from_numpy(start_mask).unsqueeze(1),
-    )
-
-
-class CausalAttention(nn.Module):
-    def __init__(self, query_channel, key_channel, channel, n_head=8, dropout=0.1):
-        super().__init__()
-
-        self.query = wn_linear(query_channel, channel)
-        self.key = wn_linear(key_channel, channel)
-        self.value = wn_linear(key_channel, channel)
-
-        self.dim_head = channel // n_head
-        self.n_head = n_head
-
-        self.dropout = nn.Dropout(dropout)
-
-    def forward(self, query, key):
-        batch, _, height, width = key.shape
-
-        def reshape(input):
-            print(">>>> inputShape: ",input.shape)
-            return input.view(batch, -1, self.n_head, self.dim_head).transpose(1, 2)
-
-        query_flat = query.view(batch, query.shape[1], -1).transpose(1, 2)
-        key_flat = key.view(batch, key.shape[1], -1).transpose(1, 2)
-        query = reshape(self.query(query_flat))
-        key = reshape(self.key(key_flat)).transpose(2, 3)
-        value = reshape(self.value(key_flat))
-
-        attn = torch.matmul(query, key) / sqrt(self.dim_head)
-        mask, start_mask = causal_mask(height * width)
-        mask = mask.type_as(query)
-        start_mask = start_mask.type_as(query)
-        attn = attn.masked_fill(mask == 0, -1e4)
-        attn = torch.softmax(attn, 3) * start_mask
-        attn = self.dropout(attn)
-
-        out = attn @ value
-        out = out.transpose(1, 2).reshape(
-            batch, height, width, self.dim_head * self.n_head
-        )
-        out = out.permute(0, 3, 1, 2)
-
-        return out
-
-
-class PixelBlock(nn.Module):
-    def __init__(
-        self,
-        in_channel,
-        channel,
-        kernel_size,
-        n_res_block,
-        attention=True,
-        dropout=0.1,
-        condition_dim=0,
-    ):
-        super().__init__()
-
-        resblocks = []
-        for i in range(n_res_block):
-            resblocks.append(
-                GatedResBlock(
-                    in_channel,
-                    channel,
-                    kernel_size,
-                    conv='causal',
-                    dropout=dropout,
-                    condition_dim=condition_dim,
-                )
-            )
-
-        self.resblocks = nn.ModuleList(resblocks)
-
-        self.attention = attention
-
-        if attention:
-            self.key_resblock = GatedResBlock(
-                in_channel * 2 + 2, in_channel, 1, dropout=dropout
-            )
-            self.query_resblock = GatedResBlock(
-                in_channel + 2, in_channel, 1, dropout=dropout
-            )
-
-            self.causal_attention = CausalAttention(
-                in_channel + 2, in_channel * 2 + 2, in_channel // 2, dropout=dropout
-            )
-
-            self.out_resblock = GatedResBlock(
-                in_channel,
-                in_channel,
-                1,
-                auxiliary_channel=in_channel // 2,
-                dropout=dropout,
-            )
-
-        else:
-            self.out = WNConv2d(in_channel + 2, in_channel, 1)
-
-    def forward(self, input, background, condition=None):
-        out = input
-
-        for resblock in self.resblocks:
-            out = resblock(out, condition=condition)
-
-        if self.attention:
-            key_cat = torch.cat([input, out, background], 1)
-            key = self.key_resblock(key_cat)
-            query_cat = torch.cat([out, background], 1)
-            query = self.query_resblock(query_cat)
-            attn_out = self.causal_attention(query, key)
-            out = self.out_resblock(out, attn_out)
-
-        else:
-            bg_cat = torch.cat([out, background], 1)
-            out = self.out(bg_cat)
-
-        return out
-
-
-class CondResNet(nn.Module):
-    def __init__(self, in_channel, channel, kernel_size, n_res_block):
-        super().__init__()
-
-        blocks = [WNConv2d(in_channel, channel, kernel_size, padding=kernel_size // 2)]
-
-        for i in range(n_res_block):
-            blocks.append(GatedResBlock(channel, channel, kernel_size))
-
-        self.blocks = nn.Sequential(*blocks)
-
-    def forward(self, input):
-        return self.blocks(input)
-
+        # attn params
+        self.nh = nh
+        self.dq = dq
+        self.dv = dv
+        self.attn_drop_rate = attn_drop_rate
+
+        self.input_gated_resnet = nn.ModuleList([
+            *[GatedResidualLayer(DownRightShiftedConv2d, n_channels, (2,2), drop_rate, None, n_cond_classes) for _ in range(n_res_layers)]])
+        self.in_proj_kv = nn.Sequential(GatedResidualLayer(Conv2d, 2*n_channels + n_background_ch, 1, drop_rate, None, n_cond_classes),
+                                        Conv2d(2*n_channels + n_background_ch, dq+dv, 1))
+        self.in_proj_q  = nn.Sequential(GatedResidualLayer(Conv2d, n_channels + n_background_ch, 1, drop_rate, None, n_cond_classes),
+                                        Conv2d(n_channels + n_background_ch, dq, 1))
+        self.out_proj = GatedResidualLayer(Conv2d, n_channels, 1, drop_rate, dv, n_cond_classes)
+
+    def forward(self, x, background, attn_mask, h=None):
+        ul = x
+        for m in self.input_gated_resnet:
+            ul = m(ul, h=h)
+
+        kv = self.in_proj_kv(torch.cat([x, ul, background], 1))
+        k, v = kv.split([self.dq, self.dv], 1)
+        q = self.in_proj_q(torch.cat([ul, background], 1))
+        attn_out = causal_attention(k, q, v, attn_mask, self.nh, self.attn_drop_rate, self.training)
+        return self.out_proj(ul, attn_out)
+
+
+# --------------------
+# PixelSNAIL
+# --------------------
 
 class PixelSNAIL(nn.Module):
-    def __init__(
-        self,
-        shape,
-        n_class,
-        channel,
-        kernel_size,
-        n_block,
-        n_res_block,
-        res_channel,
-        attention=True,
-        dropout=0.1,
-        n_cond_res_block=0,
-        cond_res_channel=0,
-        cond_res_kernel=3,
-        n_out_res_block=0,
-    ):
+    def __init__(self, image_dims=(3,32,32), n_channels=128, n_res_layers=5, attn_n_layers=12, attn_nh=1, attn_dq=16, attn_dv=128,
+                 attn_drop_rate=0, n_logistic_mix=10, n_cond_classes=None, drop_rate=0.5):
         super().__init__()
+        C,H,W = image_dims
+        # init background
+        background_v = ((torch.arange(H, dtype=torch.float) - H / 2) / 2).view(1,1,-1,1).expand(1,C,H,W)
+        background_h = ((torch.arange(W, dtype=torch.float) - W / 2) / 2).view(1,1,1,-1).expand(1,C,H,W)
+        self.register_buffer('background', torch.cat([background_v, background_h], 1))
+        # init attention mask over current and future pixels
+        attn_mask = torch.tril(torch.ones(1,1,H*W,H*W), diagonal=-1).byte()  # 1s below diagonal -- attend to context only
+        self.register_buffer('attn_mask', attn_mask)
 
-        height, width = shape
+        # input layers for `up` and `up and to the left` pixels
+        self.ul_input_d = DownShiftedConv2d(image_dims[0]+1, n_channels, kernel_size=(1,3))
+        self.ul_input_dr = DownRightShiftedConv2d(image_dims[0]+1, n_channels, kernel_size=(2,1))
 
-        self.n_class = n_class
+        self.ul_modules = nn.ModuleList([
+            *[AttentionGatedResidualBlock(n_channels, self.background.shape[1], n_res_layers, n_cond_classes, drop_rate,
+                                          attn_nh, attn_dq, attn_dv, attn_drop_rate) for _ in range(attn_n_layers)]])
 
-        if kernel_size % 2 == 0:
-            kernel = kernel_size + 1
+        self.output_conv = Conv2d(n_channels, (3*image_dims[0]+1)*n_logistic_mix, kernel_size=1)
 
-        else:
-            kernel = kernel_size
+    def forward(self, x, h=None):
+        # add channel of ones to distinguish image from padding later on
+        x = F.pad(x, (0,0,0,0,0,1), value=1)
 
-        self.horizontal = CausalConv2d(
-            n_class, channel, [kernel // 2, kernel], padding='down'
-        )
-        self.vertical = CausalConv2d(
-            n_class, channel, [(kernel + 1) // 2, kernel // 2], padding='downright'
-        )
-
-        coord_x = (torch.arange(height).float() - height / 2) / height
-        coord_x = coord_x.view(1, 1, height, 1).expand(1, 1, height, width)
-        coord_y = (torch.arange(width).float() - width / 2) / width
-        coord_y = coord_y.view(1, 1, 1, width).expand(1, 1, height, width)
-        self.register_buffer('background', torch.cat([coord_x, coord_y], 1))
-
-        self.blocks = nn.ModuleList()
-
-        for i in range(n_block):
-            self.blocks.append(
-                PixelBlock(
-                    channel,
-                    res_channel,
-                    kernel_size,
-                    n_res_block,
-                    attention=attention,
-                    dropout=dropout,
-                    condition_dim=cond_res_channel,
-                )
-            )
-
-        if n_cond_res_block > 0:
-            self.cond_resnet = CondResNet(
-                n_class, cond_res_channel, cond_res_kernel, n_cond_res_block
-            )
-
-        out = []
-
-        for i in range(n_out_res_block):
-            out.append(GatedResBlock(channel, res_channel, 1))
-
-        out.extend([nn.ELU(inplace=True), WNConv2d(channel, n_class, 1)])
-
-        self.out = nn.Sequential(*out)
-
-    def forward(self, input, condition=None, cache=None):
-        if cache is None:
-            cache = {}
-        
-        print(">>> forward inputShape: ",input.shape)
-        batch, height, width, input_dim = input.shape
-
-        input = input.permute(0, 3, 1, 2).type_as(self.background)
-        
-        horizontal = shift_down(self.horizontal(input))
-        vertical = shift_right(self.vertical(input))
-        out = horizontal + vertical
-
-        background = self.background[:, :, :height, :].expand(batch, 2, height, width)
-
-        if condition is not None:
-            if 'condition' in cache:
-                condition = cache['condition']
-                condition = condition[:, :, :height, :]
-
-            else:
-                condition = (
-                    F.one_hot(condition, self.n_class)
-                    .permute(0, 3, 1, 2)
-                    .type_as(self.background)
-                )
-                condition = self.cond_resnet(condition)
-                condition = F.interpolate(condition, scale_factor=2)
-                cache['condition'] = condition.detach().clone()
-                condition = condition[:, :, :height, :]
-
-        for block in self.blocks:
-            out = block(out, background, condition=condition)
-
-        out = self.out(out)
-
-        return out, cache
+        ul = down_shift(self.ul_input_d(x)) + right_shift(self.ul_input_dr(x))
+        for m in self.ul_modules:
+            ul = m(ul, self.background.expand(x.shape[0],-1,-1,-1), self.attn_mask, h)
+        return self.output_conv(F.elu(ul))
