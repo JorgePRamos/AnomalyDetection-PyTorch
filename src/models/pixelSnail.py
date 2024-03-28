@@ -18,6 +18,7 @@ import torch.nn.functional as F
 def down_shift(x):
 #    B, C, H, W = x.shape
 #    return torch.cat([torch.zeros([B, C, 1, W], device=x.device), x[:,:,:H-1,:]], 2)
+    print(">>> down_shift x: ", x.shape)
     return F.pad(x, (0,0,1,0))[:,:,:-1,:]
 
 def right_shift(x):
@@ -42,6 +43,7 @@ class DownShiftedConv2d(Conv2d):
         # pad H above and W on each side
         Hk, Wk = self.kernel_size
         x = F.pad(x, ((Wk-1)//2, (Wk-1)//2, Hk-1, 0))
+        print(">>> DownShiftedConv2d forward: ", x.shape)
         return super().forward(x)
 
 class DownRightShiftedConv2d(Conv2d):
@@ -136,8 +138,11 @@ class PixelSNAIL(nn.Module):
         super().__init__()
         C,H,W = image_dims
         # init background
+        print(">>> C-H-W: ", C,"-",H,"-",H)
         background_v = ((torch.arange(H, dtype=torch.float) - H / 2) / 2).view(1,1,-1,1).expand(1,C,H,W)
         background_h = ((torch.arange(W, dtype=torch.float) - W / 2) / 2).view(1,1,1,-1).expand(1,C,H,W)
+        print(">>> background_v: ",background_v.shape)
+        print(">>> background_h: ",background_h.shape)
         self.register_buffer('background', torch.cat([background_v, background_h], 1))
         # init attention mask over current and future pixels
         attn_mask = torch.tril(torch.ones(1,1,H*W,H*W), diagonal=-1).byte()  # 1s below diagonal -- attend to context only
@@ -154,6 +159,7 @@ class PixelSNAIL(nn.Module):
         self.output_conv = Conv2d(n_channels, (3*image_dims[0]+1)*n_logistic_mix, kernel_size=1)
 
     def forward(self, x, h=None):
+        print(">>> pixelSnail forward x: ",x.shape)
         # add channel of ones to distinguish image from padding later on
         x = F.pad(x, (0,0,0,0,0,1), value=1)
 

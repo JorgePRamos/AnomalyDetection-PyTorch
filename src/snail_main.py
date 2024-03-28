@@ -17,14 +17,14 @@ from torch.utils.data.sampler import SubsetRandomSampler
 # Parameters
 start_epoch = 0
 n_epochs = 5
-batch_size = 16
+batch_size = 2 #16
 step = 0
 output_dir = Path("E:/")
 n_samples = 1 #8
 
-device = "cuda"
-image_dims = [1,16,16]
-n_channels = 50
+device = "cpu"
+image_dims = (1,16,16)
+n_channels = 1 #128
 
 #default training values
 n_res_layers = 5
@@ -62,8 +62,9 @@ class EncodingsDataset(Dataset):
 
     def __getitem__(self, idx):
         enc = np.load(self.encList[idx])
-
-        return torch.from_numpy(enc),torch.from_numpy(enc)
+        enc_32 = enc.astype(np.float32)
+        
+        return torch.from_numpy(enc_32),torch.from_numpy(enc_32)
 
 def discretized_mix_logistic_loss(l, x, n_bits):
     """ log likelihood for mixture of discretized logistics
@@ -191,17 +192,19 @@ def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch,step):
     with tqdm(total=len(dataloader), desc='epoch {}/{}'.format(epoch, start_epoch + n_epochs)) as pbar:
         for x,y in dataloader:
             step += 1
-           
             x = x.to(device)
             """
             logits = model(x, y.to(device) if n_cond_classes else None)
             #loss = loss_fn(logits, x, n_bits).mean(0)
             loss = loss_fn(logits, x)"""
 
-            y =y.to(device) 
+            y = y.squeeze().type(torch.LongTensor).to(device)
+            print(">>> train_epoch x: ", x.shape)
             logits = model(x) 
-           
-            loss = loss_fn(logits, y)  # Compute cross-entropy loss
+            print(">>> train_epoch logits: ",logits.shape)
+            print(">>> train_epoch y: ",y.shape)
+            
+            loss = loss_fn(logits,y)  # Compute cross-entropy loss
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
