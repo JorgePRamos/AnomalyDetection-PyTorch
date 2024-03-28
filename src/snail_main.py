@@ -19,7 +19,7 @@ start_epoch = 0
 n_epochs = 5
 batch_size = 2 #16
 step = 0
-output_dir = Path("E:/")
+output_dir = Path("snail_outputs")
 n_samples = 1 #8
 
 device = "cpu"
@@ -198,14 +198,16 @@ def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch,step):
             #loss = loss_fn(logits, x, n_bits).mean(0)
             loss = loss_fn(logits, x)"""
 
-            y = y.squeeze().type(torch.LongTensor).to(device)
+            #y = y.squeeze().type(torch.LongTensor).to(device)
+            y = y.to(device)
             print(">>> train_epoch x: ", x.shape)
+            optimizer.zero_grad()
             logits = model(x) 
             print(">>> train_epoch logits: ",logits.shape)
             print(">>> train_epoch y: ",y.shape)
             
             loss = loss_fn(logits,y)  # Compute cross-entropy loss
-            optimizer.zero_grad()
+            
             loss.backward()
             optimizer.step()
             if scheduler: scheduler.step()
@@ -225,8 +227,8 @@ def evaluate(model, dataloader, loss_fn):
     losses = 0
     for x,y in tqdm(dataloader, desc='Evaluate'):
         x = x.to(device)
-        logits = model(x, y.to(device) if n_cond_classes else None)
-        losses += loss_fn(logits, x, n_bits).mean(0).item()
+        logits = model(x)
+        losses += loss_fn(logits, y)
     return losses / len(dataloader)
 
 @torch.no_grad()
@@ -257,11 +259,11 @@ def train_and_evaluate(model, train_dataloader, test_dataloader, optimizer, sche
             if scheduler: torch.save(scheduler.state_dict(), os.path.join(output_dir, 'sched_checkpoint.pt'))
 
             # swap params to ema values
-            optimizer.swap_ema()
+            #optimizer.swap_ema()
 
             # evaluate
             eval_loss = evaluate(model, test_dataloader, loss_fn)
-            print('Evaluate bits per dim: {:.3f}'.format(eval_loss.item() / (np.log(2) * np.prod(image_dims))))
+            print('Evaluate bits per dim: {:.3f}'.format(eval_loss / (np.log(2) * np.prod(image_dims))))
             #writer.add_scalar('eval_bits_per_dim', eval_loss.item() / (np.log(2) * np.prod(image_dims)), step)
 
             # generate
@@ -270,16 +272,14 @@ def train_and_evaluate(model, train_dataloader, test_dataloader, optimizer, sche
             save_image(samples, os.path.join(output_dir, 'generation_sample_step_{}.png'.format(step)))
 
             # restore params to gradient optimized
-            optimizer.swap_ema()
+            #optimizer.swap_ema()
 
 
 if __name__ == '__main__':
 
-   
-
     model = PixelSNAIL(image_dims, n_channels, n_res_layers, attn_n_layers, attn_nh, attn_dq, attn_dv, attn_drop_rate, n_logistic_mix, n_cond_classes).to(device)
     # loss_fn = discretized_mix_logistic_loss
-    loss_fn = nn.CrossEntropyLoss()
+    loss_fn = nn.MSELoss()
 
     generate_fn = generate_fn
     optimizer = Adam(model.parameters(), lr=lr, betas=(0.95, 0.9995), eps=1e-5)
