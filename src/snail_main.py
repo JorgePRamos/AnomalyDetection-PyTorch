@@ -17,12 +17,12 @@ from torch.utils.data.sampler import SubsetRandomSampler
 # Parameters
 start_epoch = 0
 n_epochs = 5
-batch_size = 2 #16
+batch_size = 16 #16
 step = 0
 output_dir = Path("snail_outputs")
 n_samples = 1 #8
 
-device = "cpu"
+device = "cuda"
 image_dims = (1,16,16)
 n_channels = 1 #128
 
@@ -297,3 +297,4 @@ if __name__ == '__main__':
 
 
     train_and_evaluate(model, train_dataloader, test_dataloader, optimizer, scheduler, loss_fn, generate_fn)
+    print("### Execution Finished ###")
