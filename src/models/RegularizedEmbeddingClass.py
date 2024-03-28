@@ -297,9 +297,11 @@ class RegularizedEmbedding(Network_Class):
                 iter = '{:03}'.format(i)+".npy"
                 print("Image_",iter)
                 npyFilePath = Path(trainTargetFolder / iter)
+                
                 sEncoding  = np.transpose(sEncoding, (2, 0, 1))
-                udt.saveToNpy(sEncoding,npyFilePath)
-                udt.testFunction(input, label, sEncoding)
+                squished = np.argmax(sEncoding, axis = 0, keepdims = True)
+                udt.saveToNpy(squished,npyFilePath)
+                udt.encodingInfo(input,label,squished)
 
         print(">> Prediction on test data")
 
@@ -311,7 +313,6 @@ class RegularizedEmbedding(Network_Class):
         
         subsets = np.unique(testLabels)
         for thisSubset in subsets:
-            print("--> >>>> ", thisSubset)
             if not "good" in thisSubset:
                 continue
             
@@ -322,8 +323,10 @@ class RegularizedEmbedding(Network_Class):
                 print("Image_",iter)
                 npyFilePath = Path(testTargetFolder / iter)
                 sEncoding  = np.transpose(sEncoding, (2, 0, 1))
-                udt.saveToNpy(sEncoding,npyFilePath)
-                udt.testFunction(input, label, sEncoding)
+                squished = np.argmax(sEncoding, axis = 0, keepdims = True)
+                udt.saveToNpy(squished,npyFilePath)
+                udt.encodingInfo(input,label,squished)
+            
             
 
     def evaluate(self, resultPath, printPrediction=False, wandbObj=None, printPredForPaper=False): 

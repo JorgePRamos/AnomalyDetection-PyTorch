@@ -23,7 +23,7 @@ output_dir = Path("E:/")
 n_samples = 1 #8
 
 device = "cuda"
-image_dims = [50,16,16]
+image_dims = [1,16,16]
 n_channels = 50
 
 #default training values

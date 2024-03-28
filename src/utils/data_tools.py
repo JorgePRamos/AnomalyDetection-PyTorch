@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-def testFunction(input, label, sEncoding):
+def encodingInfo(input, label, sEncoding):
     print(">>> Input: ", input.shape," Label: ", label," sEncoding: ",sEncoding.shape)
 
 def getDataSetLocation():
