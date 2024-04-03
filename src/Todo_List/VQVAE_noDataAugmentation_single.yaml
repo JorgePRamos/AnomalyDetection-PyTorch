@@ -8,7 +8,7 @@ Dataset:
     - 256_Gray
 
 Model: 
-    - VQVAE_N50_d5_f5_n16
+    - VQVAE_N256_d5_f5_n16
 
 Train: 
 
