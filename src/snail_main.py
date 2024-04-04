@@ -8,6 +8,7 @@ import os
 from models.pixelSnail import PixelSNAIL
 from pathlib import Path
 from tqdm import tqdm
+import wandb
 #from scheduler import CycleScheduler
 
 
@@ -25,24 +26,24 @@ class EncodingsDataset(Dataset):
 
     def __getitem__(self, idx):
         enc = np.load(self.encList[idx])
-
-        return torch.from_numpy(enc),self.encList[idx]
+        
+        return torch.from_numpy(enc).squeeze(),torch.from_numpy(enc).squeeze()
     
 
 # Training loop
-def train(epoch, loader, model, optimizer, scheduler, device):
+def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
     loader = tqdm(loader)
 
     criterion = nn.CrossEntropyLoss()
 
-    for i, (top, label) in enumerate(loader):
+    for i, (enc, label) in enumerate(loader):
         model.zero_grad()
 
-        top = top.to(device)
+        enc = enc.to(device)
 
         
-        target = top
-        out, _ = model(top)
+        target = enc
+        out, _ = model(enc)
 
 
 
@@ -58,7 +59,10 @@ def train(epoch, loader, model, optimizer, scheduler, device):
         accuracy = correct.sum() / target.numel()
 
         lr = optimizer.param_groups[0]['lr']
-
+        
+        if wandbObj is not None:
+            wandb.log({"epoch": epoch+1, "Loss Train": loss,
+                        "Acc Train": accuracy})
         loader.set_description(
             (
                 f'epoch: {epoch + 1}; loss: {loss.item():.5f}; '
@@ -79,22 +83,22 @@ def train(epoch, loader, model, optimizer, scheduler, device):
 if __name__ == '__main__':
 
     batchSize = 64
-    epochs = 100
+    epochs = 50
     scheduled = False
     lr = 0.01
     # Input dim of the encoded
-    inputDim = [16, 16]
+    inputDim = (16,16)
     # Num classes = possible pixel values
-    numClass = 50
+    numClass = 256
     # Num channels
-    channels = 50
+    channels = 1 #128??
     # Kernel size
     kernel = 5
-    blocks = 4
+    blocks = 4 #2?
     resBlocks = 4
     resChannels = 50
     # Bottom False Top True
-    attention = True
+    attention = False
     dropout = 0.1
     # Number of conditional residual blocks in the conditional ResNet
     condResBlocks = 5
@@ -105,7 +109,6 @@ if __name__ == '__main__':
     # Number of residual blocks in the output layer
     outResBlock = 0
 
-    input("kkk")
 
     model = PixelSNAIL(inputDim,
             numClass,
@@ -126,23 +129,15 @@ if __name__ == '__main__':
 
     model = model.to("cuda")
 
-
+    wandbObject = wandb.init(project="PixelSnail embeddings ROS")
+    
     # Optimizer
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-
-    scheduler = None
-
-    # for i, (x, y) in enumerate(iter(loader)):
-    #     print(x.shape)
-    #     print(i)
-
-
-    # test = dataset.__getitem__(0)
-    
-    #scheduler = CycleScheduler(optimizer,lr, n_iter=len(loader) * epochs, momentum=None)
+    lr_decay = 0.999995
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
+ 
+    workingDir = os.getcwd()
+    print(">>> workingdir: ",workingDir)
     for i in range(epochs):
-        train(i, loader, model, optimizer, scheduler, "cuda")
-        torch.save(
-            {'model': model.module.state_dict()},
-            f'checkpoint/pixelsnail_{str(i + 1).zfill(3)}.pt',
-        )
+        train(i, loader, model, optimizer, scheduler, "cuda",wandbObject)
+        torch.save(model.state_dict(), Path(workingDir + "/pixSnailResults/checkpoint/" + f'/mnist_{str(i + 1).zfill(3)}.pt'))
