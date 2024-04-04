@@ -83,7 +83,7 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
 if __name__ == '__main__':
 
     batchSize = 64
-    epochs = 50
+    epochs = 200
     scheduled = False
     lr = 0.01
     # Input dim of the encoded
