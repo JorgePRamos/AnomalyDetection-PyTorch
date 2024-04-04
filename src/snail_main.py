@@ -11,13 +11,13 @@ from tqdm import tqdm
 import torch.nn.functional as F
 from torch.optim import Adam
 from torchvision.utils import save_image, make_grid
-
+import wandb
 from torch.utils.data.sampler import SubsetRandomSampler
 
 # Parameters
 start_epoch = 0
 n_epochs = 5
-batch_size = 16 #16
+batch_size = 32 #16
 step = 0
 output_dir = Path("snail_outputs")
 n_samples = 1 #8
@@ -188,7 +188,9 @@ def fetch_dataloaders():
 # Training loop
 def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch,step):
     model.train()
-
+    total_loss = 0
+    correct = 0
+    total_samples = 0
     with tqdm(total=len(dataloader), desc='epoch {}/{}'.format(epoch, start_epoch + n_epochs)) as pbar:
         for x,y in dataloader:
             step += 1
@@ -199,17 +201,32 @@ def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch,step):
             loss = loss_fn(logits, x)"""
 
             #y = y.squeeze().type(torch.LongTensor).to(device)
+            
             y = y.to(device)
-            print(">>> train_epoch x: ", x.shape)
+            print("Shape y: ",y.shape)
+            print("Shape x: ",x.shape)
             optimizer.zero_grad()
-            logits = model(x) 
-            print(">>> train_epoch logits: ",logits.shape)
-            print(">>> train_epoch y: ",y.shape)
+            logits = model(x)
+            print("Shape logist: ",logits.shape)
+            print("--- 1")
+            # Calculate loss
+            loss = loss_fn(logits,y)
+            print("--- 2")
+            total_loss += loss.item()
             
-            loss = loss_fn(logits,y)  # Compute cross-entropy loss
+            # Calculate accuracy
+            print(">>> logist type: ",type(logits))
+            _, predicted = torch.max(logits, 1)
             
+            
+            correct += (predicted == y).sum().item()
+            
+            total_samples += y.size(0)
+            print(">>> correct: ",correct)
+            print(">>> total samp: ",total_samples)
             loss.backward()
             optimizer.step()
+            
             if scheduler: scheduler.step()
 
             pbar.set_postfix(bits_per_dim='{:.4f}'.format(loss.item() / (np.log(2) * np.prod(image_dims))))
@@ -219,17 +236,28 @@ def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch,step):
             """if step % log_interval == 0:
                 writer.add_scalar('train_bits_per_dim', loss.item() / (np.log(2) * np.prod(image_dims)), step)
                 writer.add_scalar('lr', optimizer.param_groups[0]['lr'], step)"""  
+    average_loss = total_loss / len(dataloader)
+    accuracy = correct / total_samples
+    print(">>> acc: ",accuracy)
+    return average_loss, accuracy
 
 @torch.no_grad()
 def evaluate(model, dataloader, loss_fn):
     model.eval()
-
+    correct = 0
+    total_samples = 0
     losses = 0
     for x,y in tqdm(dataloader, desc='Evaluate'):
         x = x.to(device)
+        y = y.to(device)
+
         logits = model(x)
         losses += loss_fn(logits, y)
-    return losses / len(dataloader)
+        # Calculate accuracy
+        _, predicted = torch.max(logits, 1)
+        correct += (predicted == y).sum().item()
+        total_samples += y.size(0)
+    return losses / len(dataloader),correct / total_samples
 
 @torch.no_grad()
 def generate(model, generate_fn):
@@ -245,9 +273,11 @@ def generate(model, generate_fn):
     return make_grid(samples.cpu(), normalize=True, scale_each=True, nrow=n_samples)
 
 def train_and_evaluate(model, train_dataloader, test_dataloader, optimizer, scheduler, loss_fn, generate_fn):
+    
+    wandbObject = wandb.init(project="PixelSnail embeddings")
     for epoch in range(start_epoch, start_epoch + n_epochs):
         # train
-        train_epoch(model, train_dataloader, optimizer, scheduler, loss_fn, epoch, step)
+        trainLoss, trainAcc = train_epoch(model, train_dataloader, optimizer, scheduler, loss_fn, epoch, step)
 
         if (epoch+1) % eval_interval == 0:
             # save model
@@ -262,7 +292,7 @@ def train_and_evaluate(model, train_dataloader, test_dataloader, optimizer, sche
             #optimizer.swap_ema()
 
             # evaluate
-            eval_loss = evaluate(model, test_dataloader, loss_fn)
+            eval_loss,evalAcc = evaluate(model, test_dataloader, loss_fn)
             print('Evaluate bits per dim: {:.3f}'.format(eval_loss / (np.log(2) * np.prod(image_dims))))
             #writer.add_scalar('eval_bits_per_dim', eval_loss.item() / (np.log(2) * np.prod(image_dims)), step)
 
@@ -270,7 +300,9 @@ def train_and_evaluate(model, train_dataloader, test_dataloader, optimizer, sche
             samples = generate(model, generate_fn)
             #writer.add_image('samples', samples, step)
             save_image(samples, os.path.join(output_dir, 'generation_sample_step_{}.png'.format(step)))
-
+            if wandbObject is not None:
+                wandb.log({"epoch": epoch, "Loss Train": trainLoss, "Loss Val": eval_loss, 
+                    "Accuracy Train": trainAcc, "Accuracy Val": evalAcc})
             # restore params to gradient optimized
             #optimizer.swap_ema()
 
