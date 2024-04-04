@@ -154,7 +154,7 @@ class PixelSNAIL(nn.Module):
                                           attn_nh, attn_dq, attn_dv, attn_drop_rate) for _ in range(attn_n_layers)]])
 
         self.output_conv = Conv2d(n_channels, (3*image_dims[0]+1)*n_logistic_mix, kernel_size=1)
-
+        #self.output_conv = Conv2d(n_channels, 1, kernel_size=1)
     def forward(self, x, h=None):
         # add channel of ones to distinguish image from padding later on
         x = F.pad(x, (0,0,0,0,0,1), value=1)

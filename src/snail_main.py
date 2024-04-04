@@ -13,10 +13,11 @@ from torch.optim import Adam
 from torchvision.utils import save_image, make_grid
 import wandb
 from torch.utils.data.sampler import SubsetRandomSampler
+from piq import ssim, psnr
 
 # Parameters
 start_epoch = 0
-n_epochs = 5
+n_epochs = 10
 batch_size = 32 #16
 step = 0
 output_dir = Path("snail_outputs")
@@ -121,7 +122,7 @@ def discretized_mix_logistic_loss(l, x, n_bits):
 
 
 
-def sample_from_discretized_mix_logistic(l, image_dims):
+def sample_from_discretized_mix_logistic(l, image_dims, valRange = 0):
     # shapes
     B, _, H, W = l.shape
     C = image_dims[0]#3
@@ -149,7 +150,11 @@ def sample_from_discretized_mix_logistic(l, image_dims):
     x = means + logscales.exp() * (torch.log(u) - torch.log1p(-u))  # logits = inverse logistic
 
     if C==1:
-        return x.clamp(-1,1)
+        # (1,1,16,16)
+        print("---min----->>>> x: ",torch.min(x))
+        print("---max----->>>> x: ",torch.max(x))
+        return x.clamp(-1,1) * 255
+
     else:
         x0 = torch.clamp(x[:,0,:,:], -1, 1)
         x1 = torch.clamp(x[:,1,:,:] + coeffs[:,0,:,:] * x0, -1, 1)
@@ -203,27 +208,22 @@ def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch,step):
             #y = y.squeeze().type(torch.LongTensor).to(device)
             
             y = y.to(device)
-            print("Shape y: ",y.shape)
-            print("Shape x: ",x.shape)
+
             optimizer.zero_grad()
             logits = model(x)
-            print("Shape logist: ",logits.shape)
-            print("--- 1")
+            pred = sample_from_discretized_mix_logistic(logits, image_dims)
+
             # Calculate loss
-            loss = loss_fn(logits,y)
-            print("--- 2")
+            loss = loss_fn(pred,y)
+            print(">>> pred MAX: ", torch.max(pred))
+            print(">>> pred min: ", torch.min(pred))
+
+            print(">>> y MAX: ", torch.max(y))
+            print(">>> y min: ", torch.min(y))
             total_loss += loss.item()
-            
+            accuracy = ssim(pred,y)
             # Calculate accuracy
-            print(">>> logist type: ",type(logits))
-            _, predicted = torch.max(logits, 1)
-            
-            
-            correct += (predicted == y).sum().item()
-            
-            total_samples += y.size(0)
-            print(">>> correct: ",correct)
-            print(">>> total samp: ",total_samples)
+
             loss.backward()
             optimizer.step()
             
@@ -237,7 +237,6 @@ def train_epoch(model, dataloader, optimizer, scheduler, loss_fn, epoch,step):
                 writer.add_scalar('train_bits_per_dim', loss.item() / (np.log(2) * np.prod(image_dims)), step)
                 writer.add_scalar('lr', optimizer.param_groups[0]['lr'], step)"""  
     average_loss = total_loss / len(dataloader)
-    accuracy = correct / total_samples
     print(">>> acc: ",accuracy)
     return average_loss, accuracy
 
@@ -250,12 +249,14 @@ def evaluate(model, dataloader, loss_fn):
     for x,y in tqdm(dataloader, desc='Evaluate'):
         x = x.to(device)
         y = y.to(device)
-
+        
+        # Calculate loss
         logits = model(x)
-        losses += loss_fn(logits, y)
+        pred = sample_from_discretized_mix_logistic(logits, image_dims)
+        losses += loss_fn(pred, y)
         # Calculate accuracy
         _, predicted = torch.max(logits, 1)
-        correct += (predicted == y).sum().item()
+        correct += (pred == y).sum().float()
         total_samples += y.size(0)
     return losses / len(dataloader),correct / total_samples
 
