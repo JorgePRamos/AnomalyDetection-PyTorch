@@ -62,7 +62,7 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
         
         if wandbObj is not None:
             wandb.log({"epoch": epoch+1, "Loss Train": loss,
-                        "Acc Train": accuracy})
+                        "Acc Train": accuracy,"Learning rate": lr})
         loader.set_description(
             (
                 f'epoch: {epoch + 1}; loss: {loss.item():.5f}; '
@@ -83,31 +83,32 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
 if __name__ == '__main__':
 
     batchSize = 64
-    epochs = 200
-    scheduled = False
+    epochs = 220
+    scheduled = True
     lr = 0.01
     # Input dim of the encoded
     inputDim = (16,16)
     # Num classes = possible pixel values
     numClass = 256
-    # Num channels
-    channels = 1 #128??
+    # Num channels intermediate feature representation
+    channels = 128 
     # Kernel size
     kernel = 5
-    blocks = 4 #2?
+    blocks = 2 #default
     resBlocks = 4
-    resChannels = 50
+    resChannels = 128
     # Bottom False Top True
-    attention = False
+    attention = True
     dropout = 0.1
-    # Number of conditional residual blocks in the conditional ResNet
-    condResBlocks = 5
     # Number of channels in the conditional ResNet
-    condResChannels = 50
+    condResChannels = 0 #default
     # Size of the kernel in the conditional ResNet
-    condResKernel = 3 
+    condResKernel = 3 #default
+
+    # Number of conditional residual blocks in the conditional ResNet
+    condResBlocks = 0 #default
     # Number of residual blocks in the output layer
-    outResBlock = 0
+    outResBlock = 0 #default
 
 
     model = PixelSNAIL(inputDim,
@@ -137,7 +138,7 @@ if __name__ == '__main__':
     scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
  
     workingDir = os.getcwd()
-    print(">>> workingdir: ",workingDir)
+  
     for i in range(epochs):
         train(i, loader, model, optimizer, scheduler, "cuda",wandbObject)
         torch.save(model.state_dict(), Path(workingDir + "/pixSnailResults/checkpoint/" + f'/mnist_{str(i + 1).zfill(3)}.pt'))

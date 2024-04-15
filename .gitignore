@@ -10,3 +10,7 @@ venv_anomalyDetec
 wandb/
 *.wandb
 src/wandb/
+#Trainings
+src/pixSnailResults/
+*.pt
+*.pt
