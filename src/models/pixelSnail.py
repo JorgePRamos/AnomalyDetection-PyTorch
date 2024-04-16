@@ -163,3 +163,4 @@ class PixelSNAIL(nn.Module):
         for m in self.ul_modules:
             ul = m(ul, self.background.expand(x.shape[0],-1,-1,-1), self.attn_mask, h)
         return self.output_conv(F.elu(ul))
+
