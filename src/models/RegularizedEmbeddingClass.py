@@ -273,10 +273,10 @@ class RegularizedEmbedding(Network_Class):
         allSnailEncodings = np.transpose(allSnailEncodings,  (0,1,2,3))
         return allInputs, allPreds, allLabels, allMasks, allEncodings,allQuantized,allSnailEncodings
 
-    def predictOnTrainingData(self, resultPath):
+    def extractEncodings(self, resultPath):
         
-        targetFolder = udt.createDataSetFolderStructure(os.path.split(resultPath)[-1])
-        print(">> Created folder for encodings at: ",targetFolder)
+        trainTargetFolder, testTargetFolder = udt.createDataSetFolderStructure(os.path.split(resultPath)[-1])
+        print(">> Created folder for encodings at: ",trainTargetFolder)
         print(">> Prediction on training data")
         trainInputs, trainPreds, trainLabels, trainMasks, trainEncodings, trainQuantized, trainSnailEncodings = self.getPrediction(
             self.trainDataLoader, resultPath, isTest=False)
@@ -284,8 +284,6 @@ class RegularizedEmbedding(Network_Class):
         valInputs, valPreds, valLabels, valMasks, valEncodings, valQuantized, valSnailEncodings = self.getPrediction(
             self.valDataLoader, resultPath, isTest=False)
         
-
-        print("------------------->>>  ", type(trainInputs))
         allInputs = np.concatenate((trainInputs,valInputs))
         
         allLabels = np.concatenate((trainLabels,valLabels)) 
@@ -298,10 +296,38 @@ class RegularizedEmbedding(Network_Class):
             for i, (input, label, sEncoding) in enumerate(zip(allInputs[sbt], allLabels[sbt], allSnailEncodings[sbt])):
                 iter = '{:03}'.format(i)+".npy"
                 print("Image_",iter)
-                npyFilePath = Path(targetFolder / iter)
-                udt.saveToNpy(sEncoding,npyFilePath)
-                udt.testFunction(input, label, sEncoding)
+                npyFilePath = Path(trainTargetFolder / iter)
+                
+                sEncoding  = np.transpose(sEncoding, (2, 0, 1))
+                squished = np.argmax(sEncoding, axis = 0, keepdims = True)
+                udt.saveToNpy(squished,npyFilePath)
+                udt.encodingInfo(input,label,squished)
+
+        print(">> Prediction on test data")
+
+        testInputs, testPreds, testLabels, testMasks, testEncodings, testQuantized, testSnailEncodings = self.getPrediction(
+        self.testlDataLoader, resultPath, isTest=True)
+    
         
+        
+        
+        subsets = np.unique(testLabels)
+        for thisSubset in subsets:
+            if not "good" in thisSubset:
+                continue
+            
+            sbt = testLabels==thisSubset
+            for i, (input, label, sEncoding) in enumerate(zip(testInputs[sbt], testLabels[sbt], testSnailEncodings[sbt])):
+                
+                iter = '{:03}'.format(i)+".npy"
+                print("Image_",iter)
+                npyFilePath = Path(testTargetFolder / iter)
+                sEncoding  = np.transpose(sEncoding, (2, 0, 1))
+                squished = np.argmax(sEncoding, axis = 0, keepdims = True)
+                udt.saveToNpy(squished,npyFilePath)
+                udt.encodingInfo(input,label,squished)
+            
+            
 
     def evaluate(self, resultPath, printPrediction=False, wandbObj=None, printPredForPaper=False): 
         self.model.train(False)
@@ -312,7 +338,7 @@ class RegularizedEmbedding(Network_Class):
         allAM = []
 
         #Predict on training data for best encodings extraction
-        self.predictOnTrainingData(resultPath)
+        self.extractEncodings(resultPath)
 
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])

@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-def testFunction(input, label, sEncoding):
+def encodingInfo(input, label, sEncoding):
     print(">>> Input: ", input.shape," Label: ", label," sEncoding: ",sEncoding.shape)
 
 def getDataSetLocation():
@@ -42,9 +42,13 @@ def createFolder(folderPath, overwrite = True):
 
 def createDataSetFolderStructure(targetObject):
     
-    targetObjectDataSetPath = Path(getDataSetLocation() +"/mvtec_encodings/"+targetObject + "/train/good/")
-    createFolder(targetObjectDataSetPath)
-    return targetObjectDataSetPath
+    targetTrainObjectDataSetPath = Path(getDataSetLocation() +"/mvtec_encodings/"+targetObject + "/train/good/")
+    createFolder(targetTrainObjectDataSetPath)
+    
+    targetTestObjectDataSetPath = Path(getDataSetLocation() +"/mvtec_encodings/"+targetObject + "/test/good/")
+    createFolder(targetTestObjectDataSetPath)
+
+    return targetTrainObjectDataSetPath, targetTestObjectDataSetPath
 
 
 def saveToNpy(targetTensor,savePath):
