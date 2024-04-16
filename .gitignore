@@ -1,16 +1,18 @@
-### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-#Env
+
+# Results
+*.pt
+
+
+# Env
 env_anDetect/
 venv_anomalyDetec
-#wandb
+
+# wandb
 wandb/
 *.wandb
 src/wandb/
-#Trainings
-src/pixSnailResults/
-*.pt
-*.pt
+/src/pixSnailResults/checkpoint/

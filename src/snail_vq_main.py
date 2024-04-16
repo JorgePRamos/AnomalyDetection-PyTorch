@@ -5,7 +5,7 @@ from torch import optim
 from torch.utils.data import DataLoader, Dataset
 import glob
 import os
-from models.pixelSnail import PixelSNAIL
+from models.vqPixelSnail import PixelSNAIL
 from pathlib import Path
 from tqdm import tqdm
 import wandb
