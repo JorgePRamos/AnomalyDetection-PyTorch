@@ -5,7 +5,7 @@ __pycache__/
 
 # Results
 *.pt
-
+/src/pixSnailResults/checkpoint/
 
 # Env
 env_anDetect/
@@ -15,4 +15,4 @@ venv_anomalyDetec
 wandb/
 *.wandb
 src/wandb/
-/src/pixSnailResults/checkpoint/
+
