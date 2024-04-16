@@ -14,5 +14,3 @@ venv_anomalyDetec
 # wandb
 wandb/
 *.wandb
-src/wandb/
-
