@@ -9,3 +9,4 @@ env_anDetect/
 wandb/
 *.wandb
 src/wandb/
+*.pt
