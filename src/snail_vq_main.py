@@ -71,19 +71,10 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
         )
              
 
-
-"""
-    for epoch in range(epochs):
-        train_loader = DataLoader(dataset, batch_size=batchSize, shuffle=True)
-        epoch_loss = train_epoch(model, train_loader, criterion, optimizer)
-        print(f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss:.4f}")
-
-"""
-
 if __name__ == '__main__':
-
+    saveWeights = True
     batchSize = 64
-    epochs = 220
+    epochs = 5
     scheduled = True
     lr = 0.01
     # Input dim of the encoded
@@ -131,7 +122,8 @@ if __name__ == '__main__':
     model = model.to("cuda")
 
     wandbObject = wandb.init(project="PixelSnail embeddings ROS")
-    
+    trainingName = wandbObject.name
+
     # Optimizer
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     lr_decay = 0.999995
@@ -141,4 +133,6 @@ if __name__ == '__main__':
   
     for i in range(epochs):
         train(i, loader, model, optimizer, scheduler, "cuda",wandbObject)
-        torch.save(model.state_dict(), Path(workingDir + "/pixSnailResults/checkpoint/" + f'/mnist_{str(i + 1).zfill(3)}.pt'))
+
+    if saveWeights: 
+        torch.save(model.state_dict(), Path(workingDir + "/Results_Snail/" + trainingName+'.pkl'))
