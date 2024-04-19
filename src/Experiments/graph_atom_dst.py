@@ -3,6 +3,7 @@ Graphical representation of distribution of the atoms selected to construct the 
 from VQ-VAE
 'encPath' Path where encodings are located and target object
 """
+# For parent dir access in import
 import sys
 sys.path.append('..')
 
