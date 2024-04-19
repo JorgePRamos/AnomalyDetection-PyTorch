@@ -9,7 +9,11 @@ from models.vqPixelSnail import PixelSNAIL
 from pathlib import Path
 from tqdm import tqdm
 import wandb
-#from scheduler import CycleScheduler
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-wb', default=True, type=lambda x: (str(x).lower() == 'true'))
+parser.add_argument('-save', default=False, type=lambda x: (str(x).lower() == 'true'))
 
 
 # Define your dataset class
@@ -41,12 +45,10 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
 
         enc = enc.to(device)
 
-        
         target = enc
         out, _ = model(enc)
-
-
-
+        print(">>> shape IN enc: ", enc.shape)
+        print(">>> shape OUT enc: ", out.shape)
         loss = criterion(out, target)
         loss.backward()
 
@@ -55,6 +57,9 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
         optimizer.step()
 
         _, pred = out.max(1)
+        for samp in pred:
+            print(">>> shape PRED enc: ", samp.shape)
+
         correct = (pred == target).float()
         accuracy = correct.sum() / target.numel()
 
@@ -72,9 +77,8 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
              
 
 if __name__ == '__main__':
-    saveWeights = True
     batchSize = 64
-    epochs = 5
+    epochs = 2
     scheduled = True
     lr = 0.01
     # Input dim of the encoded
@@ -101,6 +105,9 @@ if __name__ == '__main__':
     # Number of residual blocks in the output layer
     outResBlock = 0 #default
 
+    parser = parser.parse_args()
+    useWb = parser.wb
+    saveWeights = parser.save
 
     model = PixelSNAIL(inputDim,
             numClass,
@@ -120,10 +127,13 @@ if __name__ == '__main__':
     loader = DataLoader(dataset, batchSize, shuffle=True, num_workers=4, drop_last=True)
 
     model = model.to("cuda")
-
-    wandbObject = wandb.init(project="PixelSnail embeddings ROS")
-    trainingName = wandbObject.name
-
+    
+    trainingName = "default"
+    wandbObject = None
+    if useWb:
+        wandbObject = wandb.init(project="PixelSnail-embeddings-VQ")
+        trainingName = wandbObject.name
+    
     # Optimizer
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     lr_decay = 0.999995
