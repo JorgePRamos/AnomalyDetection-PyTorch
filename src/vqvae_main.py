@@ -75,7 +75,7 @@ def call_training(thisExp, parser):
         # ------------------
         # 2. TRAIN THE MODEL  
         # ------------------
-        resultPath = Path(rootPath + '/Results/' + myNet.expName +'/' + myNet.imgCat)
+        resultPath = Path(rootPath + '/Results_VQVAE/' + myNet.expName +'/' + myNet.imgCat)
         if parser.train:
             wandbObject = wandb.init(project="Anomaly_Detection")
             print(colored('Start to train the network', 'red'))
@@ -85,7 +85,7 @@ def call_training(thisExp, parser):
         # ---------------------
         # 3. EVALUATE THE MODEL  
         # --------------------- 
-        weightsPath = Path(rootPath + '/Results/' + myNet.expName +'/' + myNet.imgCat + '/_Weights/wghts.pkl')
+        weightsPath = Path(rootPath + '/Results_VQVAE/' + myNet.expName +'/' + myNet.imgCat + '/_Weights/wghts.pkl')
         myNet.loadWeights(weightsPath)
         myNet.evaluate(resultPath = resultPath, printPrediction = True)
 

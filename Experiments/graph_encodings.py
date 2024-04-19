@@ -1,25 +1,15 @@
+"""
+Graphical representation in the form of HeatMap of the extracted encodings from VQ-VAE
+'targetSavePath' for save location of HeatMaps
+"""
+
 import os
 import yaml
 import platform
 from pathlib import Path
 import numpy as np
 import torch
-
 import matplotlib.pyplot as plt
-
-def readEncodings(path,object):
-    completePath = Path(path+object+'/train/good/')
-    heatMapDir = Path(completePath / "heatMaps/")
-    createFolder(heatMapDir)
-
-    for file in os.listdir(completePath):
-        if not ".npy" in file:
-            continue
-        enc = np.load(Path(completePath / file))
-        enc_32 = enc.astype(np.float32)
-        tensor = torch.from_numpy(enc_32)
-        print(">> file: ",file," shape -> ",tensor.shape)
-        createAndSaveHeatMap(tensor,Path(heatMapDir/file.replace("npy","png")))
 
 
 def createFolder(folderPath, overwrite = True):
@@ -41,6 +31,21 @@ def createFolder(folderPath, overwrite = True):
     else:
         print(">>Error {",folderPath,"} already exist")
 
+def readEncodings(path,object):
+    completePath = Path(path+object+'/train/good/')
+    heatMapDir = Path(completePath / "heatMaps/")
+    createFolder(heatMapDir)
+
+    for file in os.listdir(completePath):
+        if not ".npy" in file:
+            continue
+        enc = np.load(Path(completePath / file))
+        enc_32 = enc.astype(np.float32)
+        tensor = torch.from_numpy(enc_32)
+        print(">> file: ",file," shape -> ",tensor.shape)
+        createAndSaveHeatMap(tensor,Path(heatMapDir/file.replace("npy","png")))
+
+
 def createAndSaveHeatMap(targetTensor, saveDir):
     # Plot the heatmap
     plt.imshow(targetTensor.squeeze().numpy(), cmap='viridis', interpolation='nearest')
@@ -49,5 +54,5 @@ def createAndSaveHeatMap(targetTensor, saveDir):
     plt.close()  # Close the figure to prevent displaying it
 
 if __name__ == '__main__':
-
-    readEncodings("E:/mvtec_encodings/","bottle")
+    targetSavePath = "E:/mvtec_encodings/","bottle"
+    readEncodings(targetSavePath)
