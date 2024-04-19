@@ -33,7 +33,7 @@ class EncodingsDataset(Dataset):
     def __getitem__(self, idx):
         enc = np.load(self.encList[idx])
         
-        return torch.from_numpy(enc).squeeze(),torch.from_numpy(enc).squeeze()
+        return torch.from_numpy(enc).squeeze(),self.encList[idx]
     
 
 # Training loop
@@ -57,8 +57,8 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
         optimizer.step()
 
         _, pred = out.max(1)
-        for predSamp, originalSamp in zip(pred,target):
-            spc.showIncorrectPrediction(originalSamp,predSamp)
+        for predSamp, originalSamp, sampName in zip(pred,target,label):
+            spc.showIncorrectPrediction(originalSamp,predSamp,sampName)
             
 
         correct = (pred == target).float()

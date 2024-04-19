@@ -13,18 +13,26 @@ from utils import data_tools as dt
 
 
 
-def showIncorrectPrediction(original, predicted):
+def showIncorrectPrediction(original, predicted, sampleName):
     original,predicted = original.to('cpu'), predicted.to('cpu')
-
+    sampleName = str(sampleName).split(os.path.sep)[-1]
     difference = original - predicted
 
-    # Identify incorrect pixels¡
+    # Identify pixels¡
     incorrect_pixels = np.where(difference != 0)
+    correct_pixels = np.where(difference == 0)
 
     # Create a visualization
     visualization = np.copy(original)  # Copy ground truth tensor
-    visualization[incorrect_pixels] = 2   # Set incorrect pixels to a different value (e.g., 2)
-    plt.imshow(visualization, cmap='viridis', interpolation='nearest')
+    visualization[incorrect_pixels] = 1
+    visualization[correct_pixels] = 0
+    
+    print("\n ------------- \n", "-->",sampleName,"\n")
+    print(visualization)
+    
+    
+
+    plt.imshow(visualization, cmap='viridis', interpolation='none', vmin=0, vmax=1)
     plt.colorbar(label='0: Correct, 1: Incorrect')
-    plt.title('Visualization of Incorrect Pixels')
+    plt.title('['+sampleName+'] Error map')
     plt.show()
