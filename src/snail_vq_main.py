@@ -10,6 +10,8 @@ from pathlib import Path
 from tqdm import tqdm
 import wandb
 import argparse
+from Experiments import snailPredComparison as spc
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-wb', default=True, type=lambda x: (str(x).lower() == 'true'))
@@ -47,8 +49,6 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
 
         target = enc
         out, _ = model(enc)
-        print(">>> shape IN enc: ", enc.shape)
-        print(">>> shape OUT enc: ", out.shape)
         loss = criterion(out, target)
         loss.backward()
 
@@ -57,8 +57,9 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
         optimizer.step()
 
         _, pred = out.max(1)
-        for samp in pred:
-            print(">>> shape PRED enc: ", samp.shape)
+        for predSamp, originalSamp in zip(pred,target):
+            spc.showIncorrectPrediction(originalSamp,predSamp)
+            
 
         correct = (pred == target).float()
         accuracy = correct.sum() / target.numel()
