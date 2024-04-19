@@ -1,40 +1,19 @@
 """
 Graphical representation in the form of HeatMap of the extracted encodings from VQ-VAE
-'targetSavePath' for save location of HeatMaps
+'encPath' Path where encodings are located and target object
 """
 
 import os
-import yaml
-import platform
 from pathlib import Path
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
+import utils.data_tools as dt
 
-
-def createFolder(folderPath, overwrite = True):
-    # Check if the folder already exists
-    if overwrite:
-        if os.path.exists(folderPath):
-            # If it exists, remove it
-            try:
-                os.rmdir(folderPath)
-            except OSError as e:
-                print(f"Error: {folderPath} : {e.strerror}")
-
-    # Create the folder
-    if not os.path.exists(folderPath):
-        try:
-            os.makedirs(folderPath)
-        except OSError as e:
-            print(f"Error: {folderPath} : {e.strerror}")
-    else:
-        print(">>Error {",folderPath,"} already exist")
-
-def readEncodings(path,object):
+def readPlotEncodings(path,object):
     completePath = Path(path+object+'/train/good/')
     heatMapDir = Path(completePath / "heatMaps/")
-    createFolder(heatMapDir)
+    dt.createFolder(heatMapDir)
 
     for file in os.listdir(completePath):
         if not ".npy" in file:
@@ -54,5 +33,6 @@ def createAndSaveHeatMap(targetTensor, saveDir):
     plt.close()  # Close the figure to prevent displaying it
 
 if __name__ == '__main__':
-    targetSavePath = "E:/mvtec_encodings/","bottle"
-    readEncodings(targetSavePath)
+    encPath = "E:/mvtec_encodings/",
+    object = "bottle"
+    readPlotEncodings(encPath,object)
