@@ -2,6 +2,9 @@
 Graphical representation of distribution of the atoms selected to construct the encodings
 from VQ-VAE
 'encPath' Path where encodings are located and target object
+
+"E:/mvtec_encodings/"
+"C:/Users/jorge/Pictures/mvtec_encodings/"
 """
 # For parent dir access in import
 import sys
@@ -92,7 +95,7 @@ def readEncodings(path,object):
 
 if __name__ == '__main__':
     
-    encPath = "E:/mvtec_encodings/"
+    encPath = "C:/Users/jorge/Pictures/mvtec_encodings/"
     object = "bottle"
     dist = readEncodings(encPath,object)
     
