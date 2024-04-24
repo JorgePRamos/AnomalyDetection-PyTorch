@@ -10,12 +10,13 @@ from pathlib import Path
 from tqdm import tqdm
 import wandb
 import argparse
-from Experiments import snailPredComparison as spc
-
+from Experiments import predict_comparison as spc
+from torch.utils.data.sampler import SubsetRandomSampler
 
 parser = argparse.ArgumentParser()
+parser.add_argument('-train', default=False, type=lambda x: (str(x).lower() == 'true'))
 parser.add_argument('-wb', default=True, type=lambda x: (str(x).lower() == 'true'))
-parser.add_argument('-save', default=False, type=lambda x: (str(x).lower() == 'true'))
+parser.add_argument('-save', default=True, type=lambda x: (str(x).lower() == 'true'))
 
 
 # Define your dataset class
@@ -57,9 +58,17 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
         optimizer.step()
 
         _, pred = out.max(1)
-        for predSamp, originalSamp, sampName in zip(pred,target,label):
-            spc.showIncorrectPrediction(originalSamp,predSamp,sampName)
-            
+        if epoch % 100 == 0:
+            print(">> i: ",i)
+            print(">>> ",i % 100)
+            wantedSamples = 10
+            cnt = 1
+            for predSamp, originalSamp, sampName in zip(pred,target,label):
+                if cnt == wantedSamples:
+                    break
+                spc.showIncorrectPrediction(originalSamp,predSamp,sampName)
+                cnt += 1
+        
 
         correct = (pred == target).float()
         accuracy = correct.sum() / target.numel()
@@ -75,11 +84,20 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
                 f'acc: {accuracy:.5f}; lr: {lr:.5f}'
             )
         )
-             
+
+def getLatestWeights(weightsDir):
+    listFiles = glob.glob(weightsDir + '*.pkl')
+    return max(listFiles, key=os.path.getctime)
+    
+
+def loadWeights(model, wghtsPath): 
+    model.load_state_dict(torch.load(wghtsPath ))        
+#def eval(model,):
 
 if __name__ == '__main__':
+    # arguments snail_vq_main.py -train True -wb True -save True
     batchSize = 64
-    epochs = 2
+    epochs = 220
     scheduled = True
     lr = 0.01
     # Input dim of the encoded
@@ -122,10 +140,19 @@ if __name__ == '__main__':
             condResBlocks,
             condResKernel,
             outResBlock)
-    # Load your dataset
+    # Load your train dataset
     rootDir = Path("E:/mvtec_encodings/bottle/")
-    dataset = EncodingsDataset(rootDir)
-    loader = DataLoader(dataset, batchSize, shuffle=True, num_workers=4, drop_last=True)
+    trainDataset = EncodingsDataset(rootDir)
+    validationSplit  = 0.2
+    datasetSize      = len(trainDataset)
+    indices          = list(range(datasetSize))
+    split            = int(np.floor(validationSplit * datasetSize))
+    trainIdx, valIdx  = indices[split:], indices[:split]
+    trainSampler = SubsetRandomSampler(trainIdx)
+    validSampler = SubsetRandomSampler(valIdx)
+
+    trainLoader = DataLoader(trainDataset, batchSize, sampler = trainSampler, num_workers=4, drop_last=True)
+    valLoader = DataLoader(trainDataset, batchSize, sampler = validSampler,  num_workers=4, drop_last=True)
 
     model = model.to("cuda")
     
@@ -141,9 +168,23 @@ if __name__ == '__main__':
     scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
  
     workingDir = os.getcwd()
-  
-    for i in range(epochs):
-        train(i, loader, model, optimizer, scheduler, "cuda",wandbObject)
+    
+    # Train 
+    if train: 
+        for i in range(epochs):
+            train(i, trainLoader, model, optimizer, scheduler, "cuda",wandbObject)
 
-    if saveWeights: 
-        torch.save(model.state_dict(), Path(workingDir + "/Results_Snail/" + trainingName+'.pkl'))
+        if saveWeights: 
+            torch.save(model.state_dict(), Path(workingDir + "/Results_Snail/" + trainingName+'.pkl'))
+    
+
+    """
+    # Load your eval dataset
+    rootDir = Path("E:/mvtec_encodings/bottle/")
+    evalDataset = EncodingsDataset(rootDir)
+    evalLoader = DataLoader(evalDataset, batchSize, shuffle=True, num_workers=4, drop_last=True)
+
+    # Eval
+    loadWeights(model,getLatestWeights(Path(workingDir + "/Results_Snail/")))
+    eval(model,loader)
+    """
