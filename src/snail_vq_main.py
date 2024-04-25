@@ -11,6 +11,7 @@ from tqdm import tqdm
 import wandb
 import argparse
 from Experiments import predict_comparison as spc
+from utils import data_tools as dt
 from torch.utils.data.sampler import SubsetRandomSampler
 
 parser = argparse.ArgumentParser()
@@ -25,6 +26,9 @@ class EncodingsDataset(Dataset):
         self.rootDir = rootDir
         if train:
             encDir = rootDir / r'train/'
+        else:
+            encDir = rootDir / r'test/'
+
         self.encDir = encDir
         self.encList = sorted(glob.glob(os.path.join(encDir, '**/*.npy')))
 
@@ -37,13 +41,27 @@ class EncodingsDataset(Dataset):
         return torch.from_numpy(enc).squeeze(),self.encList[idx]
     
 
+def getPrediction(model, dataLoader):
+    latestWeights = getLatestWeights(Path(workingDir + "/Results_Snail/"))
+    loadWeights(model,latestWeights)
+    model.train(False)
+    model.eval()
+    resultsPath = dt.createResultsFolderStructure(str(latestWeights).replace(".pkl",""))
+
+    for i, (enc, label) in enumerate(dataLoader):
+        print(">> proc: ",i)
+        enc = enc.to(device)
+        prediction, _ = model(enc)
+        dt.saveToNpy(prediction,resultsPath)
+    
+
 # Training loop
-def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
-    loader = tqdm(loader)
+def train(epoch, dataLoader, model, optimizer, scheduler, device):
+    dataLoader = tqdm(dataLoader)
 
     criterion = nn.CrossEntropyLoss()
-
-    for i, (enc, label) in enumerate(loader):
+    totalTrainAcc, totalTrainLoss, totalTrainLr= [], [], []
+    for i, (enc, label) in enumerate(dataLoader):
         model.zero_grad()
 
         enc = enc.to(device)
@@ -58,9 +76,9 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
         optimizer.step()
 
         _, pred = out.max(1)
+        """
         if epoch % 100 == 0:
-            print(">> i: ",i)
-            print(">>> ",i % 100)
+
             wantedSamples = 10
             cnt = 1
             for predSamp, originalSamp, sampName in zip(pred,target,label):
@@ -68,25 +86,64 @@ def train(epoch, loader, model, optimizer, scheduler, device,wandbObj):
                     break
                 spc.showIncorrectPrediction(originalSamp,predSamp,sampName)
                 cnt += 1
-        
+        """
 
         correct = (pred == target).float()
         accuracy = correct.sum() / target.numel()
-
-        lr = optimizer.param_groups[0]['lr']
         
-        if wandbObj is not None:
-            wandb.log({"epoch": epoch+1, "Loss Train": loss,
-                        "Acc Train": accuracy,"Learning rate": lr})
-        loader.set_description(
+        # Append to total acc and loss
+        lr = optimizer.param_groups[0]['lr']
+        totalTrainAcc.append(accuracy)
+        totalTrainLoss.append(loss)
+        totalTrainLr.append(lr)
+        
+        # Tqdm loader
+        dataLoader.set_description(
             (
-                f'epoch: {epoch + 1}; loss: {loss.item():.5f}; '
-                f'acc: {accuracy:.5f}; lr: {lr:.5f}'
+                f'epoch: {epoch + 1}; Train_loss: {loss.item():.5f}; '
+                f'Train_acc: {accuracy:.5f}; lr: {lr:.5f}'
             )
         )
+    return np.mean(totalTrainAcc), np.mean(totalTrainLoss), np.mean(totalTrainLr)
+
+def validate(model, dataLoader, device):
+    model.eval()
+    dataLoader = tqdm(dataLoader)
+
+    criterion = nn.CrossEntropyLoss()
+
+    totalValAcc, totalValLoss = [], []
+    for i, (enc, label) in enumerate(dataLoader):
+
+        enc = enc.to(device)
+        target = enc
+        out, _ = model(enc)
+        loss = criterion(out, target)
+        
+        # Accuracy calc
+        _, pred = out.max(1)
+
+        correct = (pred == target).float()
+        accuracy = correct.sum() / target.numel()
+        
+        # Append to total acc and loss
+        totalValAcc.append(accuracy)
+        totalValLoss.append(loss)
+        
+        # Tqdm loader
+        dataLoader.set_description((f'Val_loss: {loss.item():.5f}; 'f'Val_acc: {accuracy:.5f};'))
+
+    return np.mean(totalValAcc), np.mean(totalValLoss)
+
+
+def test(model, dataLoader):
+    print(">> Beginning  testing")
+    model.train(False)
+    model.eval()
+    getPrediction(model, dataLoader)
 
 def getLatestWeights(weightsDir):
-    listFiles = glob.glob(weightsDir + '*.pkl')
+    listFiles = glob.glob(str(weightsDir) + '/*.pkl')
     return max(listFiles, key=os.path.getctime)
     
 
@@ -96,6 +153,7 @@ def loadWeights(model, wghtsPath):
 
 if __name__ == '__main__':
     # arguments snail_vq_main.py -train True -wb True -save True
+    device = "cuda"
     batchSize = 64
     epochs = 220
     scheduled = True
@@ -127,6 +185,7 @@ if __name__ == '__main__':
     parser = parser.parse_args()
     useWb = parser.wb
     saveWeights = parser.save
+    trn = parser.train
 
     model = PixelSNAIL(inputDim,
             numClass,
@@ -169,22 +228,31 @@ if __name__ == '__main__':
  
     workingDir = os.getcwd()
     
-    # Train 
-    if train: 
-        for i in range(epochs):
-            train(i, trainLoader, model, optimizer, scheduler, "cuda",wandbObject)
+    # Train
+    if trn:
+        print(">> Beginning  training")
+        for epoch in range(epochs):
+            # np.mean(totalTrainAcc), np.mean(totalTrainLoss), np.mean(totalTrainLr)
+            trainAcc, trainLoss, trainLr = train(epoch, trainLoader, model, optimizer, scheduler, device)
+            valAcc, valLoss, = validate(model, valLoader, device)
+                    
+            if wandbObject is not None:
+                wandb.log({"epoch": epoch+1, "Loss Train": trainLoss, "Loss Val": valLoss,
+                            "Acc Train": trainAcc, "Acc Val": valAcc, "Learning rate": trainLr})
+
+
 
         if saveWeights: 
             torch.save(model.state_dict(), Path(workingDir + "/Results_Snail/" + trainingName+'.pkl'))
     
 
-    """
+    
     # Load your eval dataset
     rootDir = Path("E:/mvtec_encodings/bottle/")
     evalDataset = EncodingsDataset(rootDir)
-    evalLoader = DataLoader(evalDataset, batchSize, shuffle=True, num_workers=4, drop_last=True)
 
     # Eval
-    loadWeights(model,getLatestWeights(Path(workingDir + "/Results_Snail/")))
-    eval(model,loader)
-    """
+    testSet = EncodingsDataset(rootDir, train=False)
+    testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
+    test(model, testlDataLoader)
+    

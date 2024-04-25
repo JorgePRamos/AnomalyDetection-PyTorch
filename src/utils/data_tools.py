@@ -50,6 +50,13 @@ def createDataSetFolderStructure(targetObject):
 
     return targetTrainObjectDataSetPath, targetTestObjectDataSetPath
 
+def createResultsFolderStructure(runName):
+
+    resultsPath = Path(getDataSetLocation() +"/snail_predictions/"+runName + "/")
+    createFolder(resultsPath)
+    return resultsPath
+
+
 
 def saveToNpy(targetTensor,savePath):
     np.save(savePath, targetTensor)
