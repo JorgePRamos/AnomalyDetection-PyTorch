@@ -44,15 +44,25 @@ class EncodingsDataset(Dataset):
 def getPrediction(model, dataLoader):
     latestWeights = getLatestWeights(Path(workingDir + "/Results_Snail/"))
     loadWeights(model,latestWeights)
+    runName = str(latestWeights).replace(".pkl","").split(os.path.sep)[-1]
     model.train(False)
     model.eval()
-    resultsPath = dt.createResultsFolderStructure(str(latestWeights).replace(".pkl",""))
 
+    
+    resultsPath = dt.createResultsFolderStructure(runName)
+    
+    
     for i, (enc, label) in enumerate(dataLoader):
-        print(">> proc: ",i)
+        
         enc = enc.to(device)
         prediction, _ = model(enc)
-        dt.saveToNpy(prediction,resultsPath)
+        prediction = prediction.to("cpu").detach().numpy()
+        
+        for p, l in zip(prediction,label):
+            id = str(l).split(os.path.sep)[-1]
+            print(">> Saving: ", id)
+            dt.saveToNpy(p,Path(resultsPath / id))
+        
     
 
 # Training loop
