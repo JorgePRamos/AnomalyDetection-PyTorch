@@ -38,7 +38,7 @@ def createFolder(folderPath, overwrite = True):
         except OSError as e:
             print(f"Error: {folderPath} : {e.strerror}")
     else:
-        print(">>Error {",folderPath,"} already exist")
+        print(">> Wanning {",folderPath,"} already exist")
 
 def createDataSetFolderStructure(targetObject):
     

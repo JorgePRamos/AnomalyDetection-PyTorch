@@ -41,7 +41,7 @@ class EncodingsDataset(Dataset):
         return torch.from_numpy(enc).squeeze(),self.encList[idx]
     
 
-def getPrediction(model, dataLoader):
+def getPrediction(model, dataLoader, graphDiff = False):
     latestWeights = getLatestWeights(Path(workingDir + "/Results_Snail/"))
     loadWeights(model,latestWeights)
     runName = str(latestWeights).replace(".pkl","").split(os.path.sep)[-1]
@@ -51,15 +51,20 @@ def getPrediction(model, dataLoader):
     
     resultsPath = dt.createResultsFolderStructure(runName)
     
-    
+
+
     for i, (enc, label) in enumerate(dataLoader):
         
         enc = enc.to(device)
         prediction, _ = model(enc)
-        prediction = prediction.to("cpu").detach().numpy()
+        prediction = prediction.to("cpu")
+        _, prediction = prediction.max(1)
         
-        for p, l in zip(prediction,label):
+        for e, p, l in zip(enc,prediction,label):
             id = str(l).split(os.path.sep)[-1]
+            
+            if graphDiff:
+                spc.showIncorrectPrediction(e,p,l)  
             print(">> Saving: ", id)
             dt.saveToNpy(p,Path(resultsPath / id))
         
@@ -86,17 +91,7 @@ def train(epoch, dataLoader, model, optimizer, scheduler, device):
         optimizer.step()
 
         _, pred = out.max(1)
-        """
-        if epoch % 100 == 0:
 
-            wantedSamples = 10
-            cnt = 1
-            for predSamp, originalSamp, sampName in zip(pred,target,label):
-                if cnt == wantedSamples:
-                    break
-                spc.showIncorrectPrediction(originalSamp,predSamp,sampName)
-                cnt += 1
-        """
 
         correct = (pred == target).float()
         accuracy = correct.sum() / target.numel()
@@ -146,11 +141,11 @@ def validate(model, dataLoader, device):
     return np.mean(totalValAcc), np.mean(totalValLoss)
 
 
-def test(model, dataLoader):
+def test(model, dataLoader, graphTest):
     print(">> Beginning  testing")
     model.train(False)
     model.eval()
-    getPrediction(model, dataLoader)
+    getPrediction(model, dataLoader, graphTest)
 
 def getLatestWeights(weightsDir):
     listFiles = glob.glob(str(weightsDir) + '/*.pkl')
@@ -264,5 +259,5 @@ if __name__ == '__main__':
     # Eval
     testSet = EncodingsDataset(rootDir, train=False)
     testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
-    test(model, testlDataLoader)
+    test(model, testlDataLoader, False)
     

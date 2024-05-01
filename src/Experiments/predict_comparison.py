@@ -14,7 +14,7 @@ from utils import data_tools as dt
 
 
 def showIncorrectPrediction(original, predicted, sampleName):
-    original,predicted = original.to('cpu'), predicted.to('cpu')
+    original = original.to('cpu')
     sampleName = str(sampleName).split(os.path.sep)[-1]
     difference = original - predicted
 
@@ -27,8 +27,11 @@ def showIncorrectPrediction(original, predicted, sampleName):
     visualization[incorrect_pixels] = 1
     visualization[correct_pixels] = 0
     
-    print("\n ------------- \n", "-->",sampleName,"\n")
-    print(visualization)
+    # Terminal ASCII visualization
+    termVis = False
+    if termVis:
+        print("\n ------------- \n", "-->",sampleName,"\n")
+        print(visualization)
     
     
 

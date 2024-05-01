@@ -95,7 +95,7 @@ def readEncodings(path,object):
 
 if __name__ == '__main__':
     
-    encPath = "C:/Users/jorge/Pictures/mvtec_encodings/"
+    encPath = "E:/mvtec_encodings/"
     object = "bottle"
     dist = readEncodings(encPath,object)
     
