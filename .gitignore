@@ -4,8 +4,8 @@ __pycache__/
 *$py.class
 
 # Results
-*.pt
-/src/pixSnailResults/checkpoint/
+*.pkl
+/src/Results_Snail/
 
 # Env
 env_anDetect/

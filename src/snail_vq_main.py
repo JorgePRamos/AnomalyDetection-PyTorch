@@ -86,9 +86,10 @@ def train(epoch, dataLoader, model, optimizer, scheduler, device):
         loss = criterion(out, target)
         loss.backward()
 
+        optimizer.step()
         if scheduler is not None:
             scheduler.step()
-        optimizer.step()
+        
 
         _, pred = out.max(1)
 
@@ -96,6 +97,7 @@ def train(epoch, dataLoader, model, optimizer, scheduler, device):
         correct = (pred == target).float()
         accuracy = correct.sum() / target.numel()
         
+        accuracy,loss = accuracy.to('cpu'), loss.to('cpu').detach().numpy()
         # Append to total acc and loss
         lr = optimizer.param_groups[0]['lr']
         totalTrainAcc.append(accuracy)
@@ -109,17 +111,20 @@ def train(epoch, dataLoader, model, optimizer, scheduler, device):
                 f'Train_acc: {accuracy:.5f}; lr: {lr:.5f}'
             )
         )
-    return np.mean(totalTrainAcc), np.mean(totalTrainLoss), np.mean(totalTrainLr)
+
+
+    return np.mean(totalTrainAcc),np.mean(totalTrainLoss),np.mean(totalTrainLr)
 
 def validate(model, dataLoader, device):
+    print(">> Validation")
+    
     model.eval()
     dataLoader = tqdm(dataLoader)
-
     criterion = nn.CrossEntropyLoss()
 
     totalValAcc, totalValLoss = [], []
     for i, (enc, label) in enumerate(dataLoader):
-
+      
         enc = enc.to(device)
         target = enc
         out, _ = model(enc)
@@ -131,6 +136,7 @@ def validate(model, dataLoader, device):
         correct = (pred == target).float()
         accuracy = correct.sum() / target.numel()
         
+        accuracy, loss = accuracy.to('cpu'), loss.to('cpu').detach().numpy()
         # Append to total acc and loss
         totalValAcc.append(accuracy)
         totalValLoss.append(loss)
@@ -158,52 +164,44 @@ def loadWeights(model, wghtsPath):
 
 if __name__ == '__main__':
     # arguments snail_vq_main.py -train True -wb True -save True
+
     device = "cuda"
-    batchSize = 64
-    epochs = 220
-    scheduled = True
-    lr = 0.01
-    # Input dim of the encoded
-    inputDim = (16,16)
-    # Num classes = possible pixel values
-    numClass = 256
-    # Num channels intermediate feature representation
-    channels = 128 
-    # Kernel size
-    kernel = 5
-    blocks = 2 #default
-    resBlocks = 4
-    resChannels = 128
-    # Bottom False Top True
-    attention = True
-    dropout = 0.1
-    # Number of channels in the conditional ResNet
-    condResChannels = 0 #default
-    # Size of the kernel in the conditional ResNet
-    condResKernel = 3 #default
-
-    # Number of conditional residual blocks in the conditional ResNet
-    condResBlocks = 0 #default
-    # Number of residual blocks in the output layer
-    outResBlock = 0 #default
-
+    config = {
+    "batchSize": 64,
+    "epochs": 400,
+    "scheduled": True,
+    "lr": 0.0001,
+    "inputDim": (16,16), # Input dim of the encoded
+    "numClass": 256, # Num classes = possible pixel values
+    "channels": 256, # Num channels intermediate feature representation
+    "kernel": 5, # Kernel size
+    "blocks": 4,
+    "resBlocks": 4,
+    "resChannels": 256,
+    "attention": True,
+    "dropout": 0.4,
+    "condResChannels": 64, # Number of channels in the conditional ResNet
+    "condResKernel": 4, # Size of the kernel in the conditional ResNet
+    "condResBlocks": 4, # Number of conditional residual blocks in the conditional ResNet
+    "outResBlock": 4 # Number of residual blocks in the output layer
+    }
     parser = parser.parse_args()
     useWb = parser.wb
     saveWeights = parser.save
     trn = parser.train
 
-    model = PixelSNAIL(inputDim,
-            numClass,
-            channels,
-            kernel,
-            blocks,
-            resBlocks,
-            resChannels,
-            attention,
-            dropout,
-            condResBlocks,
-            condResKernel,
-            outResBlock)
+    model = PixelSNAIL(config["inputDim"],
+            config["numClass"],
+            config["channels"],
+            config["kernel"],
+            config["blocks"],
+            config["resBlocks"],
+            config["resChannels"],
+            config["attention"],
+            config["dropout"],
+            config["condResBlocks"],
+            config["condResKernel"],
+            config["outResBlock"])
     # Load your train dataset
     rootDir = Path("E:/mvtec_encodings/bottle/")
     trainDataset = EncodingsDataset(rootDir)
@@ -215,28 +213,28 @@ if __name__ == '__main__':
     trainSampler = SubsetRandomSampler(trainIdx)
     validSampler = SubsetRandomSampler(valIdx)
 
-    trainLoader = DataLoader(trainDataset, batchSize, sampler = trainSampler, num_workers=4, drop_last=True)
-    valLoader = DataLoader(trainDataset, batchSize, sampler = validSampler,  num_workers=4, drop_last=True)
+    trainLoader = DataLoader(trainDataset,config["batchSize"], sampler = trainSampler, num_workers=4, drop_last=False)
+    valLoader = DataLoader(trainDataset, config["batchSize"], sampler = validSampler,  num_workers=4, drop_last=False)
 
     model = model.to("cuda")
     
     trainingName = "default"
     wandbObject = None
     if useWb:
-        wandbObject = wandb.init(project="PixelSnail-embeddings-VQ")
+        wandbObject = wandb.init(project="PixelSnail-embeddings-VQ", config=config)
         trainingName = wandbObject.name
     
     # Optimizer
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=config["lr"])
     lr_decay = 0.999995
     scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
  
     workingDir = os.getcwd()
-    
+
     # Train
     if trn:
         print(">> Beginning  training")
-        for epoch in range(epochs):
+        for epoch in range(config["epochs"]):
             # np.mean(totalTrainAcc), np.mean(totalTrainLoss), np.mean(totalTrainLr)
             trainAcc, trainLoss, trainLr = train(epoch, trainLoader, model, optimizer, scheduler, device)
             valAcc, valLoss, = validate(model, valLoader, device)
@@ -246,7 +244,7 @@ if __name__ == '__main__':
                             "Acc Train": trainAcc, "Acc Val": valAcc, "Learning rate": trainLr})
 
 
-
+        # Save weights
         if saveWeights: 
             torch.save(model.state_dict(), Path(workingDir + "/Results_Snail/" + trainingName+'.pkl'))
     
@@ -259,5 +257,6 @@ if __name__ == '__main__':
     # Eval
     testSet = EncodingsDataset(rootDir, train=False)
     testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
-    test(model, testlDataLoader, False)
+    graphResults = False
+    test(model, testlDataLoader, graphResults)
     
