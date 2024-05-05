@@ -179,7 +179,7 @@ if __name__ == '__main__':
     "resBlocks": 4,
     "resChannels": 256,
     "attention": True,
-    "dropout": 0.4,
+    "dropout": 0.3,
     "condResChannels": 64, # Number of channels in the conditional ResNet
     "condResKernel": 4, # Size of the kernel in the conditional ResNet
     "condResBlocks": 4, # Number of conditional residual blocks in the conditional ResNet
@@ -225,7 +225,8 @@ if __name__ == '__main__':
         trainingName = wandbObject.name
     
     # Optimizer
-    optimizer = torch.optim.Adam(model.parameters(), lr=config["lr"])
+    #optimizer = torch.optim.Adam(model.parameters(), lr=config["lr"])
+    optimizer = torch.optim.AdamW(model.parameters(), lr=config["lr"])
     lr_decay = 0.999995
     scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
  
