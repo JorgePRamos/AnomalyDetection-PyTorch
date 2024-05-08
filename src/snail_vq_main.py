@@ -168,22 +168,22 @@ if __name__ == '__main__':
     device = "cuda"
     config = {
     "batchSize": 64,
-    "epochs": 400,
+    "epochs": 300,
     "scheduled": True,
     "lr": 0.0001,
     "inputDim": (16,16), # Input dim of the encoded
     "numClass": 256, # Num classes = possible pixel values
     "channels": 256, # Num channels intermediate feature representation
     "kernel": 5, # Kernel size
-    "blocks": 4,
-    "resBlocks": 4,
-    "resChannels": 256,
+    "blocks": 2,
+    "resBlocks": 2,
+    "resChannels": 128,
     "attention": True,
-    "dropout": 0.3,
-    "condResChannels": 64, # Number of channels in the conditional ResNet
-    "condResKernel": 4, # Size of the kernel in the conditional ResNet
-    "condResBlocks": 4, # Number of conditional residual blocks in the conditional ResNet
-    "outResBlock": 4 # Number of residual blocks in the output layer
+    "dropout": 0.4,
+    "condResChannels": 128, # Number of channels in the conditional ResNet
+    "condResKernel": 5, # Size of the kernel in the conditional ResNet
+    "condResBlocks": 2, # Number of conditional residual blocks in the conditional ResNet
+    "outResBlock": 2 # Number of residual blocks in the output layer
     }
     parser = parser.parse_args()
     useWb = parser.wb
@@ -227,7 +227,7 @@ if __name__ == '__main__':
     # Optimizer
     #optimizer = torch.optim.Adam(model.parameters(), lr=config["lr"])
     optimizer = torch.optim.AdamW(model.parameters(), lr=config["lr"])
-    lr_decay = 0.999995
+    lr_decay = 0.999993
     scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
  
     workingDir = os.getcwd()
