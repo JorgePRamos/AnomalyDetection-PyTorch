@@ -87,9 +87,10 @@ def train(epoch, dataLoader, model, optimizer, scheduler, device):
         loss.backward()
 
         optimizer.step()
+        """
         if scheduler is not None:
             scheduler.step()
-        
+        """
 
         _, pred = out.max(1)
 
@@ -168,22 +169,22 @@ if __name__ == '__main__':
     device = "cuda"
     config = {
     "batchSize": 64,
-    "epochs": 300,
+    "epochs": 160,
     "scheduled": True,
-    "lr": 0.0001,
+    "lr": 0.001,
     "inputDim": (16,16), # Input dim of the encoded
     "numClass": 256, # Num classes = possible pixel values
-    "channels": 256, # Num channels intermediate feature representation
+    "channels": 64, # Num channels intermediate feature representation
     "kernel": 5, # Kernel size
-    "blocks": 2,
-    "resBlocks": 2,
-    "resChannels": 128,
+    "blocks": 4,
+    "resBlocks":4,
+    "resChannels": 64,
     "attention": True,
-    "dropout": 0.4,
-    "condResChannels": 128, # Number of channels in the conditional ResNet
-    "condResKernel": 5, # Size of the kernel in the conditional ResNet
-    "condResBlocks": 2, # Number of conditional residual blocks in the conditional ResNet
-    "outResBlock": 2 # Number of residual blocks in the output layer
+    "dropout": 0.3,
+    "condResChannels": 32, # Number of channels in the conditional ResNet
+    "condResKernel": 3, # Size of the kernel in the conditional ResNet
+    "condResBlocks":2, # Number of conditional residual blocks in the conditional ResNet
+    "outResBlock": 4 # Number of residual blocks in the output layer
     }
     parser = parser.parse_args()
     useWb = parser.wb
@@ -227,9 +228,10 @@ if __name__ == '__main__':
     # Optimizer
     #optimizer = torch.optim.Adam(model.parameters(), lr=config["lr"])
     optimizer = torch.optim.AdamW(model.parameters(), lr=config["lr"])
-    lr_decay = 0.999993
-    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
- 
+    lr_decay = 0.999992
+    #scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=5)
+
     workingDir = os.getcwd()
 
     # Train
@@ -239,7 +241,8 @@ if __name__ == '__main__':
             # np.mean(totalTrainAcc), np.mean(totalTrainLoss), np.mean(totalTrainLr)
             trainAcc, trainLoss, trainLr = train(epoch, trainLoader, model, optimizer, scheduler, device)
             valAcc, valLoss, = validate(model, valLoader, device)
-                    
+             
+            scheduler.step(valLoss)     
             if wandbObject is not None:
                 wandb.log({"epoch": epoch+1, "Loss Train": trainLoss, "Loss Val": valLoss,
                             "Acc Train": trainAcc, "Acc Val": valAcc, "Learning rate": trainLr})
