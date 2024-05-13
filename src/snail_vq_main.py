@@ -16,8 +16,8 @@ from torch.utils.data.sampler import SubsetRandomSampler
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-train', default=False, type=lambda x: (str(x).lower() == 'true'))
-parser.add_argument('-wb', default=True, type=lambda x: (str(x).lower() == 'true'))
-parser.add_argument('-save', default=True, type=lambda x: (str(x).lower() == 'true'))
+parser.add_argument('-wb', default=False, type=lambda x: (str(x).lower() == 'true'))
+parser.add_argument('-save', default=False, type=lambda x: (str(x).lower() == 'true'))
 
 
 # Define your dataset class
@@ -261,6 +261,6 @@ if __name__ == '__main__':
     # Eval
     testSet = EncodingsDataset(rootDir, train=False)
     testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
-    graphResults = False
+    graphResults = True
     test(model, testlDataLoader, graphResults)
     
