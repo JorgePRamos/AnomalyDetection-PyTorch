@@ -49,7 +49,7 @@ def getPrediction(model, dataLoader, graphDiff = False):
     model.eval()
 
     
-    resultsPath = dt.createResultsFolderStructure(runName)
+    resultsPath = dt.createSnailResultsFolderStructure(runName)
     
 
 

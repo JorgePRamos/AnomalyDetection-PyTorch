@@ -50,13 +50,27 @@ def createDataSetFolderStructure(targetObject):
 
     return targetTrainObjectDataSetPath, targetTestObjectDataSetPath
 
-def createResultsFolderStructure(runName):
-
+def createSnailResultsFolderStructure(runName):
     resultsPath = Path(getDataSetLocation() +"/snail_predictions/"+runName + "/")
     createFolder(resultsPath)
     return resultsPath
 
+def createReconstructionResultsFolderStructure(expName):
+    resultsPath = Path(getDataSetLocation() +"/image_reconstruction/"+expName + "/")
+    createFolder(resultsPath)
+    return resultsPath
 
 
 def saveToNpy(targetTensor,savePath):
     np.save(savePath, targetTensor)
+
+
+def oneHotEncoding(targetTensor, numClass):
+    targetTensor = torch.tensor(targetTensor)
+    # Create one-hot encoded tensor
+    one_hot = torch.zeros(numClass, 1, 1)
+    one_hot = one_hot.scatter_(0, torch.tensor([0]).unsqueeze(1).unsqueeze(1), 1).repeat(1, 16, 16)
+
+
+    expanded_tensor = targetTensor.expand(numClass, -1, -1)
+    return expanded_tensor * one_hot
