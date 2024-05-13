@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 
 # Results
-*.pkl
 /src/Results_Snail/
 
 # Env

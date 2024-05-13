@@ -1,0 +1,24 @@
+---
+DatasetFolder: 
+    folder: "mvtec_anomaly_detection"
+    subfolder:
+        - transistor
+        - grid
+        - bottle
+    
+Dataset: 
+    - 256_Gray
+
+Model: 
+    - VQVAE_N256_d5_f5_n16
+
+Train: 
+
+    - DefaultTrain
+
+DataAugmentation: 
+    - NODA
+
+Server: 
+    - datasetLocation
+
