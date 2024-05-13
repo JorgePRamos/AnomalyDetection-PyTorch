@@ -338,7 +338,7 @@ class RegularizedEmbedding(Network_Class):
         allAM = []
 
         #Predict on training data for best encodings extraction
-        self.extractEncodings(resultPath)
+        #self.extractEncodings(resultPath)
 
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])
@@ -349,7 +349,7 @@ class RegularizedEmbedding(Network_Class):
         # ---------------------------------------------------------------------------------------
 
         #self.visualizeSeparatedFeatureEncoding(allEncodings, allLabels, resultPath)
-
+        """
         subsets = np.unique(allLabels)
         for thisSubset in subsets: 
             thisresultPath = resultPath / thisSubset / '_prediction/'
@@ -359,7 +359,7 @@ class RegularizedEmbedding(Network_Class):
                 iter = str(i) +'.png'
 
                 #self.visualizeFeatureEncoding(input, pred, quand, thisresultPath / iter)
-        
+        """        
 
   
         # Print predictions (LR)
