@@ -4,6 +4,9 @@ import platform
 from pathlib import Path
 import numpy as np
 import torch
+import torch.nn.functional as torchFunc
+import torchvision.transforms as transforms
+from PIL import Image as pilImage
 
 def encodingInfo(input, label, sEncoding):
     print(">>> Input: ", input.shape," Label: ", label," sEncoding: ",sEncoding.shape)
@@ -65,12 +68,28 @@ def saveToNpy(targetTensor,savePath):
     np.save(savePath, targetTensor)
 
 
-def oneHotEncoding(targetTensor, numClass):
-    targetTensor = torch.tensor(targetTensor)
-    # Create one-hot encoded tensor
-    one_hot = torch.zeros(numClass, 1, 1)
-    one_hot = one_hot.scatter_(0, torch.tensor([0]).unsqueeze(1).unsqueeze(1), 1).repeat(1, 16, 16)
+def oneHotEncoding(targetTensor, numClass, batchSize):
+    flattened = targetTensor.view(batchSize, -1)  # Shape: (8, 256)
+    one_hot = torchFunc.one_hot(flattened, num_classes=numClass)  # Shape: (8, 256, 256)
+    output_tensor = one_hot.view(batchSize, 256, 16, 16)  # Shape: (8, 256, 16, 16)
+    
+    return output_tensor
+
+def tensorToImage(targetTensor, targetFolder,label):
+    # Step 2: Convert the tensor to a NumPy array
+    targetTensor = targetTensor.squeeze(0).to("cpu")
+    imageArray = targetTensor.detach().numpy()
+    print("-------------------------------")
+    print(imageArray)
+    print("-------------------------------\n")
+
+    # Step 3: Scale the array values to the range [0, 255]
+    imageArray = (imageArray * 255).astype(np.uint8)
+
+    # Step 4: Create a PIL Image from the NumPy array
+    image = pilImage.fromarray(imageArray)
 
 
-    expanded_tensor = targetTensor.expand(numClass, -1, -1)
-    return expanded_tensor * one_hot
+    # Save the image
+    image.save(Path(targetFolder / f"{label}.png"))
+    print(">> Saved at: ",str(targetFolder) + f"/{label}.png")

@@ -13,34 +13,14 @@ import argparse
 from Experiments import predict_comparison as spc
 from utils import data_tools as dt
 from torch.utils.data.sampler import SubsetRandomSampler
+from datasets import encodings_dataLoader as encdata
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-train', default=False, type=lambda x: (str(x).lower() == 'true'))
 parser.add_argument('-wb', default=False, type=lambda x: (str(x).lower() == 'true'))
 parser.add_argument('-save', default=False, type=lambda x: (str(x).lower() == 'true'))
 
-
-# Define your dataset class
-class EncodingsDataset(Dataset):
-    def __init__(self, rootDir, train = True):
-        self.rootDir = rootDir
-        if train:
-            encDir = rootDir / r'train/'
-        else:
-            encDir = rootDir / r'test/'
-
-        self.encDir = encDir
-        self.encList = sorted(glob.glob(os.path.join(encDir, '**/*.npy')))
-
-    def __len__(self):
-        return len(self.encList)
-
-    def __getitem__(self, idx):
-        enc = np.load(self.encList[idx])
-        
-        return torch.from_numpy(enc).squeeze(),self.encList[idx]
     
-
 def getPrediction(model, dataLoader, graphDiff = False):
     latestWeights = getLatestWeights(Path(workingDir + "/Results_Snail/"))
     loadWeights(model,latestWeights)
@@ -203,9 +183,10 @@ if __name__ == '__main__':
             config["condResBlocks"],
             config["condResKernel"],
             config["outResBlock"])
+    
     # Load your train dataset
     rootDir = Path("E:/mvtec_encodings/bottle/")
-    trainDataset = EncodingsDataset(rootDir)
+    trainDataset = encdata.EncodingsDataset(rootDir)
     validationSplit  = 0.2
     datasetSize      = len(trainDataset)
     indices          = list(range(datasetSize))
@@ -256,10 +237,10 @@ if __name__ == '__main__':
     
     # Load your eval dataset
     rootDir = Path("E:/mvtec_encodings/bottle/")
-    evalDataset = EncodingsDataset(rootDir)
+    evalDataset = encdata.EncodingsDataset(rootDir)
 
     # Eval
-    testSet = EncodingsDataset(rootDir, train=False)
+    testSet = encdata.EncodingsDataset(rootDir, train=False)
     testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
     graphResults = True
     test(model, testlDataLoader, graphResults)

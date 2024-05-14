@@ -4,8 +4,8 @@ import importlib
 import copy
 import shutil
 
-from datasets.dataLoader import *
-from datasets.dataAugmentation import *
+from datasets.mvtec_dataLoader import *
+from datasets.vqvae_dataAugmentation import *
 from utils.helper import *
 from utils.makeGraphs_RegularizedEmbeddingClass import *
 
@@ -29,7 +29,7 @@ import logging
 logging.propagate = False 
 logging.getLogger().setLevel(logging.ERROR)
 import wandb
-
+from datasets import encodings_dataLoader as encdata
 
 """ -----------------------------------------------------------------------------------------
 NETWORK CLASS for VQVAE type networks 
@@ -452,15 +452,23 @@ class RegularizedEmbedding(Network_Class):
         print(">> Created folder for reconstructed images at: ",reconstructionTargetFolder)
         print(">> Reconstructing data")
 
-        encDir = Path("E:/mvtec_encodings/"+targetObject + r'/test/')
-        print(">>> encdir: ", encDir)
-        encList = sorted(glob.glob(os.path.join(encDir, '**/*.npy')))
-        # TODO actually do a data loader ...
-        for enc in encList:
-            enc = np.load(enc)
-            print(">>> read enc shape: ",enc.shape)
-            oneHotEncodedTensor = udt.oneHotEncoding(enc, 256)
-           
-            prediction = model(oneHotEncodedTensor)
-            print(">>>>> pred shape: ", prediction.shape)
 
+
+        rootDir = Path("E:/mvtec_encodings/" + targetObject)
+        testSet = encdata.EncodingsDataset(rootDir, train=False)
+        testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
+
+
+        for i, (enc, label) in enumerate(testlDataLoader):
+            print(">>> read enc shape and type: ",enc.shape," and ",type(enc))
+            batchSize = enc.shape[0]
+            print(">>>  Used batch size: ", batchSize)
+            oneHotEncodedTensor = udt.oneHotEncoding(enc, 256,batchSize)
+            oneHotEncodedTensor = oneHotEncodedTensor.to("cuda")
+            prediction = model(oneHotEncodedTensor.float())
+            print(">>>>> pred shape: ", prediction.shape)
+            #
+            for p, l in zip(prediction,label):
+                print(">>>> E SHAPE GANG: ", p.shape)
+                id = str(l).split(os.path.sep)[-1]
+                udt.tensorToImage(p,reconstructionTargetFolder,id)

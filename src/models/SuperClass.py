@@ -3,8 +3,8 @@ import numpy as np
 import importlib
 import copy
 
-from datasets.dataLoader import *
-from datasets.dataAugmentation import *
+from datasets.mvtec_dataLoader import *
+from datasets.vqvae_dataAugmentation import *
 from utils.helper import *
 from utils.makeGraphs_SuperClass import *
 

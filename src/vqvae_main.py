@@ -11,7 +11,7 @@ import multiprocessing as mp
 from torchsummary import summary
 
 from models.SuperClass import *
-from datasets.dataAugmentation import *
+from datasets.vqvae_dataAugmentation import *
 
 from pathlib import Path
 import wandb
