@@ -298,8 +298,12 @@ class RegularizedEmbedding(Network_Class):
         allPreds  = np.multiply(np.array(allPreds),255).astype(np.uint8)
         allMasks  = np.array(allMasks).astype(np.uint8)
         
+        for pre in allPreds:
+            print(">>>>> BEFORE RESHAPE: ", pre.shape)
         allInputs = np.transpose(allInputs, (0,2,3,1))
         allPreds  = np.transpose(allPreds,  (0,2,3,1))
+        for pre in allPreds:
+            print(">>>>> After RESHAPE: ", pre.shape)
         allMasks  = np.transpose(allMasks,  (0,2,3,1))
         # H,W,C
         allSnailEncodings = np.transpose(allSnailEncodings,  (0,1,2,3))
@@ -465,10 +469,13 @@ class RegularizedEmbedding(Network_Class):
             print(">>>  Used batch size: ", batchSize)
             oneHotEncodedTensor = udt.oneHotEncoding(enc, 256,batchSize)
             oneHotEncodedTensor = oneHotEncodedTensor.to("cuda")
-            prediction = model(oneHotEncodedTensor.float())
-            print(">>>>> pred shape: ", prediction.shape)
-            #
-            for p, l in zip(prediction,label):
-                print(">>>> E SHAPE GANG: ", p.shape)
+            predictions = model(oneHotEncodedTensor.float())
+            predictions = predictions.to("cpu")
+            predictions_255 = np.multiply(np.array(predictions.data.numpy()),255).astype(np.uint8)
+            print(">>>>> predictions_255 shape: ", predictions_255.shape)
+
+            predictions_255 = np.transpose(predictions_255,  (0,2,3,1))
+            for p, l in zip(predictions_255,label):
+                print(">>>> P SHAPE GANG: ", p.shape)
                 id = str(l).split(os.path.sep)[-1]
                 udt.tensorToImage(p,reconstructionTargetFolder,id)

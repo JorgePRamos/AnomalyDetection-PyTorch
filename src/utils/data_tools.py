@@ -75,21 +75,20 @@ def oneHotEncoding(targetTensor, numClass, batchSize):
     
     return output_tensor
 
-def tensorToImage(targetTensor, targetFolder,label):
+def tensorToImage(imageArray, targetFolder,label):
     # Step 2: Convert the tensor to a NumPy array
-    targetTensor = targetTensor.squeeze(0).to("cpu")
-    imageArray = targetTensor.detach().numpy()
+
+    print(">>>  Image array pre squeeze: ", imageArray.shape)
+    imageArray = np.squeeze(imageArray, axis=-1)
+    print(">>>  Image array post squeeze: ", imageArray.shape)
+
+    print("Max: ",np.max(imageArray), " | min: ",np.min(imageArray))
     print("-------------------------------")
     print(imageArray)
     print("-------------------------------\n")
-
-    # Step 3: Scale the array values to the range [0, 255]
-    imageArray = (imageArray * 255).astype(np.uint8)
-
-    # Step 4: Create a PIL Image from the NumPy array
+    
     image = pilImage.fromarray(imageArray)
-
-
     # Save the image
+    label = label.replace(".npy","")
     image.save(Path(targetFolder / f"{label}.png"))
     print(">> Saved at: ",str(targetFolder) + f"/{label}.png")
