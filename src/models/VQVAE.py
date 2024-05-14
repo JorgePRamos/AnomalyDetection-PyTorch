@@ -24,30 +24,44 @@ class VectorQuantizer(nn.Module):
         self._embedding.weight.data.uniform_(-1/self._num_embeddings, 1/self._num_embeddings)
         self._commitment_cost = commitment_cost
 
-    def forward(self, inputs, modifiedEncodings=None):
+    def forward(self, inputs, modifiedEncodings=None, encodings = None):
         # convert inputs from BCHW -> BHWC
         inputs      = inputs.permute(0, 2, 3, 1).contiguous()
         input_shape = inputs.shape
+        print("==============  INSIDE VectorQuantizer LOL =========== ")
         
-        # Flatten input
-        flat_input = inputs.view(-1, self._embedding_dim)
-        
-        # Calculate distances
-        distances = (torch.sum(flat_input**2, dim=1, keepdim=True) 
-                    + torch.sum(self._embedding.weight**2, dim=1)
-                    - 2 * torch.matmul(flat_input, self._embedding.weight.t()))
-            
-        # Encoding
-        if modifiedEncodings is None: 
-            encoding_indices = torch.argmin(distances, dim=1).unsqueeze(1)
-            encodings        = torch.zeros(encoding_indices.shape[0], self._num_embeddings, device=inputs.device)
-            encodings.scatter_(1, encoding_indices, 1)
+        if encodings == None:
+            # Flatten input
+            flat_input = inputs.view(-1, self._embedding_dim)
 
-        else: 
-            encodings = modifiedEncodings.view(-1, self._num_embeddings)
+            # Calculate distances
+            distances = (torch.sum(flat_input**2, dim=1, keepdim=True) 
+                        + torch.sum(self._embedding.weight**2, dim=1)
+                        - 2 * torch.matmul(flat_input, self._embedding.weight.t()))
+                
+            # Encoding
+            if modifiedEncodings is None: 
+                encoding_indices = torch.argmin(distances, dim=1).unsqueeze(1)
+                encodings        = torch.zeros(encoding_indices.shape[0], self._num_embeddings, device=inputs.device)
+                encodings.scatter_(1, encoding_indices, 1)
+                
+
+            else: 
+                encodings = modifiedEncodings.view(-1, self._num_embeddings)
+            print(">>> encodings: ",encodings.shape)
+            print(">>> encodings view: ",encodings.view(input_shape).shape)
+        else:
+            encodings = encodings.permute(0, 2, 3, 1)
+            print(">>> Snail input shape: ",encodings.shape)
+            encodings = encodings.reshape(-1, encodings.size(-1))
+            print(">>> Adapted shape: ",encodings.shape)
+
         
+        
+            
         # Quantize and unflatten
         quantized = torch.matmul(encodings, self._embedding.weight).view(input_shape)
+       
         
         # Loss
         e_latent_loss = F.mse_loss(quantized.detach(), inputs)

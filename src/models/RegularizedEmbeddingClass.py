@@ -167,8 +167,7 @@ class RegularizedEmbedding(Network_Class):
                 for i, encLayer in enumerate(self.encoder):
                     convLayers[i+1] = encLayer(convLayers[i])
                 loss, quantized, perplexity, encodings = self.quantization_module(convLayers[-1])
-                print(">>> Forward encodings shape: ",encodings.shape)
-                print(">>> Forward quantized shape: ",quantized.shape)
+
                 return encodings
             
         class getEncodingsNet(VQVAE): 
@@ -192,7 +191,7 @@ class RegularizedEmbedding(Network_Class):
                 deconvLayers  = [None]*(self.depth-1)
                 for i, decLayer in enumerate(self.decoder):
                     if i == 0:
-                        loss, quantized, perplexity, encodings = self.quantization_module(x, None)
+                        loss, quantized, perplexity, encodings = self.quantization_module(x, encodings = x )
                         deconvLayers[0] = decLayer(quantized)
                         
                     else: 
