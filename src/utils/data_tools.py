@@ -65,19 +65,40 @@ def createReconstructionResultsFolderStructure(expName):
 
 
 def saveToNpy(targetTensor,savePath):
+    print(">>> #db npy to be saved: ", targetTensor.shape )
+    
     np.save(savePath, targetTensor)
 
 
 def oneHotEncoding(targetTensor, numClass, batchSize):
-    flattened = targetTensor.view(batchSize, -1)  # Shape: (8, 256)
-    one_hot = torchFunc.one_hot(flattened, num_classes=numClass)  # Shape: (8, 256, 256)
-    output_tensor = one_hot.view(batchSize, 256, 16, 16)  # Shape: (8, 256, 16, 16)
+    """
+    flattened = targetTensor.view(batchSize, -1)  # Shape: (batchSize, 256)
+    one_hot = torchFunc.one_hot(flattened, num_classes=numClass)  # Shape: (batchSize, 256, 256)
+    output_tensor = one_hot.view(batchSize, 256, 16, 16)  # Shape: (batchSize, 256, 16, 16)
     
     return output_tensor
+    """
+    # Assuming input_tensor is your input tensor with shape (batchSize, 1, 16, 16)
+    input_tensor = torch.randint(0, 256, (batchSize, 1, 16, 16))
+
+    # Step 1: Remove the single channel dimension
+    input_tensor = input_tensor.squeeze(1)  # Now shape is (batchSize, 16, 16)
+
+    # Step 2: Convert to one-hot encoding
+    # One way to do this is by using torch.nn.functional.one_hot
+    # We need to make sure input_tensor is of type long for one_hot to work
+    one_hot_tensor = torch.nn.functional.one_hot(input_tensor.long(), num_classes=numClass)
+
+    # Step 3: Reshape the tensor to the desired shape (batchSize, 16, 16, 256)
+    # The one_hot function returns a tensor with shape (batchSize, 16, 16, 256)
+    # If it's not in the correct order, we might need to permute the dimensions
+
+
+    print(">>> #db oneHotEnc; shape of oneHotEnc: ", one_hot_tensor.shape)
+    return one_hot_tensor
 
 def tensorToImage(imageArray, targetFolder,label):
-    # Step 2: Convert the tensor to a NumPy array
-
+    
     print(">>>  Image array pre squeeze: ", imageArray.shape)
     imageArray = np.squeeze(imageArray, axis=-1)
     print(">>>  Image array post squeeze: ", imageArray.shape)

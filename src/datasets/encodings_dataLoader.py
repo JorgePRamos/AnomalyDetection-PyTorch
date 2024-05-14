@@ -5,7 +5,8 @@ from torch.utils.data import Dataset
 import numpy as np
 
 class EncodingsDataset(Dataset):
-    def __init__(self, rootDir, train = True):
+    def __init__(self, rootDir, train = True, vqvae = False):
+        self.vqvae = vqvae
         self.rootDir = rootDir
         if train:
             encDir = rootDir / r'train/'
@@ -20,6 +21,9 @@ class EncodingsDataset(Dataset):
 
     def __getitem__(self, idx):
         enc = np.load(self.encList[idx])
-        
-        return torch.from_numpy(enc).squeeze(),self.encList[idx]
+        if not self.vqvae:
+            return torch.from_numpy(enc).squeeze(),self.encList[idx]
+        else:
+            return torch.from_numpy(enc),self.encList[idx]
+
     
