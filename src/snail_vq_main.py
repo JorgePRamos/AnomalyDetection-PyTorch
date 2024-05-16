@@ -23,6 +23,7 @@ parser.add_argument('-save', default=False, type=lambda x: (str(x).lower() == 't
     
 def getPrediction(model, dataLoader, graphDiff = False):
     latestWeights = getLatestWeights(Path(workingDir + "/Results_Snail/"))
+    print(">> Loading weights from: ", latestWeights)
     loadWeights(model,latestWeights)
     runName = str(latestWeights).replace(".pkl","").split(os.path.sep)[-1]
     model.train(False)

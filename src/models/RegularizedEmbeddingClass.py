@@ -381,8 +381,8 @@ class RegularizedEmbedding(Network_Class):
         allAM = []
 
         #Predict on training data for best encodings extraction
-        testSnailEncodings = self.extractEncodings(resultPath)
-        self.decodeEmbeddings(resultPath,testSnailEncodings)
+        #self.extractEncodings(resultPath)
+        self.decodeEmbeddings(resultPath)
 
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])
@@ -462,7 +462,7 @@ class RegularizedEmbedding(Network_Class):
     # =======
 
 
-    def decodeEmbeddings(self,resultPath, originalEmbedings):   
+    def decodeEmbeddings(self,resultPath):   
         # Network for image decoding
         _, _, _, decodeModel = self.getNetworks()
         decodeModel.to(self.device)  
@@ -480,9 +480,10 @@ class RegularizedEmbedding(Network_Class):
 
 
         
-        rootDir = Path("E:/mvtec_encodings/" + targetObject)
+        rootDir = Path("E:/snail_predictions/icy-sunset-92/")
+        
         #rootDir = Path("C:/Users/jorge/Pictures/mvtec_encodings/" + targetObject)
-
+        """
         tesDir = Path("E:/mvtec_encodings/" + targetObject+"/test/")
         encList = sorted(glob.glob(os.path.join(tesDir, '**/*.npy')))
         for i, enc in enumerate(encList):
@@ -493,7 +494,9 @@ class RegularizedEmbedding(Network_Class):
             hotSqueez = oneHotEncodedTensor.squeeze(0).numpy()
             print(">>>>>>>>>>>>> ogtensor transpose: ",tempOg.shape, " - ", type(tempOg))
             print(">>>>>>>>>>>>> fixed_HOT: ",hotSqueez.shape, " - ", type(hotSqueez))
-            print(">>> #db equal; encodings [",i,"] equal = ", np.array_equal(hotSqueez,tempOg))
+            print(">>> #db equal; encodings [",i,"] equal = ", np.array_equal(hotSqueez,tempOg))"""
+
+
 
         testSet = encdata.EncodingsDataset(rootDir, train=False, vqvae=True)
         print(">>> TEST SET LEN: ", len(testSet))
@@ -508,14 +511,6 @@ class RegularizedEmbedding(Network_Class):
             oneHotEncodedTensor = udt.oneHotEncoding(enc, 256,batchSize)
             
 
-            """for hot in oneHotEncodedTensor:
-                tempOg = np.transpose(originalEmbedings[i], (1, 2, 0))
-                print(">>>>>>>>>>>>> ogtensor transpose: ",tempOg.shape, " - ", type(tempOg))
-                print(">>>>>>>>>>>>> HOT: ",hot.shape, " - ", type(hot))
-                hot_npy = hot.numpy()
-                print(">>> #db equal; encodings [",i,"] equal = ", np.array_equal(hot_npy,tempOg))"""
-
-            
             oneHotEncodedTensor = oneHotEncodedTensor.to("cuda")
             predictions = decodeModel(oneHotEncodedTensor.float())
             

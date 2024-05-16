@@ -10,11 +10,18 @@ class EncodingsDataset(Dataset):
         self.rootDir = rootDir
         if train:
             encDir = rootDir / r'train/'
-        else:
+        elif not train and not vqvae:
             encDir = rootDir / r'test/'
-
+        else:
+            encDir = rootDir
+            print("#db inferloader: ", encDir)
+        
         self.encDir = encDir
-        self.encList = sorted(glob.glob(os.path.join(encDir, '**/*.npy')))
+
+        if not vqvae:
+            self.encList = sorted(glob.glob(os.path.join(encDir, '**/*.npy')))
+        else:
+            self.encList = sorted(glob.glob(os.path.join(encDir, '*.npy')))
 
     def __len__(self):
         return len(self.encList)

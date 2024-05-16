@@ -71,13 +71,7 @@ def saveToNpy(targetTensor,savePath):
 
 
 def oneHotEncoding(targetTensor, numClass, batchSize):
-    """
-    flattened = targetTensor.view(batchSize, -1)  # Shape: (batchSize, 256)
-    one_hot = torchFunc.one_hot(flattened, num_classes=numClass)  # Shape: (batchSize, 256, 256)
-    output_tensor = one_hot.view(batchSize, 256, 16, 16)  # Shape: (batchSize, 256, 16, 16)
-    
-    return output_tensor
-    """
+
 
     targetTensor = targetTensor.squeeze(1) 
 
