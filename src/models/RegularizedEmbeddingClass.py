@@ -347,7 +347,7 @@ class RegularizedEmbedding(Network_Class):
     
         
         
-        
+        testGood = []
         subsets = np.unique(testLabels)
         for thisSubset in subsets:
             if not "good" in thisSubset:
@@ -361,10 +361,12 @@ class RegularizedEmbedding(Network_Class):
                 npyFilePath = Path(testTargetFolder / iter)
                 sEncoding  = np.transpose(sEncoding, (2, 0, 1))
                 squished = np.argmax(sEncoding, axis = 0, keepdims = True)
+                testGood.append(sEncoding)
                 udt.saveToNpy(squished,npyFilePath)
                 udt.encodingInfo(input,label,squished)
 
-            print(">> All encodings extracted") 
+            print(">> All encodings extracted")
+            return testGood
             
             
 
@@ -377,8 +379,8 @@ class RegularizedEmbedding(Network_Class):
         allAM = []
 
         #Predict on training data for best encodings extraction
-        #self.extractEncodings(resultPath)
-        self.decodeEmbeddings(resultPath)
+        testSnailEncodings = self.extractEncodings(resultPath)
+        self.decodeEmbeddings(resultPath,testSnailEncodings)
 
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])
@@ -458,7 +460,7 @@ class RegularizedEmbedding(Network_Class):
     # =======
 
 
-    def decodeEmbeddings(self,resultPath):   
+    def decodeEmbeddings(self,resultPath, originalEmbedings):   
         # Network for image decoding
         _, _, _, decodeModel = self.getNetworks()
         decodeModel.to(self.device)  
@@ -472,10 +474,25 @@ class RegularizedEmbedding(Network_Class):
         print(">> Reconstructing data")
 
 
+        
 
-        rootDir = Path("E:/mvtec_encodings/" + targetObject)
+
+        
+        #rootDir = Path("E:/mvtec_encodings/" + targetObject)
+        rootDir = Path("C:/Users/jorge/Pictures/mvtec_encodings/" + targetObject)
+
+
+        encList = sorted(glob.glob(os.path.join(rootDir, '**/*.npy')))
+        for i, enc in enumerate(encList):
+            tempOg = np.transpose(originalEmbedings[i], (1, 2, 0))
+            readEncoding = np.load(enc)
+            oneHotEncodedTensor = udt.oneHotEncoding(torch.from_numpy(readEncoding), 256,1)
+            print(">>>>>>>>>>>>> ogtensor transpose: ",tempOg.shape, " - ", type(tempOg))
+            print(">>>>>>>>>>>>> HOT: ",oneHotEncodedTensor.shape, " - ", type(oneHotEncodedTensor))
+
         testSet = encdata.EncodingsDataset(rootDir, train=False, vqvae=True)
         testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
+
 
 
         for i, (enc, label) in enumerate(testlDataLoader):
@@ -483,6 +500,16 @@ class RegularizedEmbedding(Network_Class):
             batchSize = enc.shape[0]
             print(">>>  Used batch size: ", batchSize)
             oneHotEncodedTensor = udt.oneHotEncoding(enc, 256,batchSize)
+            
+
+            """for hot in oneHotEncodedTensor:
+                tempOg = np.transpose(originalEmbedings[i], (1, 2, 0))
+                print(">>>>>>>>>>>>> ogtensor transpose: ",tempOg.shape, " - ", type(tempOg))
+                print(">>>>>>>>>>>>> HOT: ",hot.shape, " - ", type(hot))
+                hot_npy = hot.numpy()
+                print(">>> #db equal; encodings [",i,"] equal = ", np.array_equal(hot_npy,tempOg))"""
+
+            
             oneHotEncodedTensor = oneHotEncodedTensor.to("cuda")
             predictions = decodeModel(oneHotEncodedTensor.float())
             
