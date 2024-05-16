@@ -79,13 +79,10 @@ def oneHotEncoding(targetTensor, numClass, batchSize):
     return output_tensor
     """
 
-    input_tensor = torch.randint(0, 256, (batchSize, 1, 16, 16))
-
- 
-    input_tensor = input_tensor.squeeze(1) 
+    targetTensor = targetTensor.squeeze(1) 
 
 
-    one_hot_tensor = torch.nn.functional.one_hot(input_tensor.long(), num_classes=numClass)
+    one_hot_tensor = torch.nn.functional.one_hot(targetTensor.long(), num_classes=numClass)
 
 
 

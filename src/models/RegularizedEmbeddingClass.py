@@ -334,8 +334,10 @@ class RegularizedEmbedding(Network_Class):
                 npyFilePath = Path(trainTargetFolder / iter)
                 
                 sEncoding  = np.transpose(sEncoding, (2, 0, 1))
-                print(">>> #db extractEncodings; before squished: ", sEncoding.shape )
+                print(">>> #db extractEncodings; before squished: ", sEncoding.shape, " - Type: ",type(sEncoding))
                 squished = np.argmax(sEncoding, axis = 0, keepdims = True)
+
+                
                 udt.saveToNpy(squished,npyFilePath)
                 udt.encodingInfo(input,label,squished)
         
@@ -478,19 +480,23 @@ class RegularizedEmbedding(Network_Class):
 
 
         
-        #rootDir = Path("E:/mvtec_encodings/" + targetObject)
-        rootDir = Path("C:/Users/jorge/Pictures/mvtec_encodings/" + targetObject)
+        rootDir = Path("E:/mvtec_encodings/" + targetObject)
+        #rootDir = Path("C:/Users/jorge/Pictures/mvtec_encodings/" + targetObject)
 
-
-        encList = sorted(glob.glob(os.path.join(rootDir, '**/*.npy')))
+        tesDir = Path("E:/mvtec_encodings/" + targetObject+"/test/")
+        encList = sorted(glob.glob(os.path.join(tesDir, '**/*.npy')))
         for i, enc in enumerate(encList):
             tempOg = np.transpose(originalEmbedings[i], (1, 2, 0))
             readEncoding = np.load(enc)
             oneHotEncodedTensor = udt.oneHotEncoding(torch.from_numpy(readEncoding), 256,1)
+
+            hotSqueez = oneHotEncodedTensor.squeeze(0).numpy()
             print(">>>>>>>>>>>>> ogtensor transpose: ",tempOg.shape, " - ", type(tempOg))
-            print(">>>>>>>>>>>>> HOT: ",oneHotEncodedTensor.shape, " - ", type(oneHotEncodedTensor))
+            print(">>>>>>>>>>>>> fixed_HOT: ",hotSqueez.shape, " - ", type(hotSqueez))
+            print(">>> #db equal; encodings [",i,"] equal = ", np.array_equal(hotSqueez,tempOg))
 
         testSet = encdata.EncodingsDataset(rootDir, train=False, vqvae=True)
+        print(">>> TEST SET LEN: ", len(testSet))
         testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
 
 
