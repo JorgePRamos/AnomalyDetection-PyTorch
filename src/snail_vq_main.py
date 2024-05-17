@@ -5,6 +5,7 @@ from torch import optim
 from torch.utils.data import DataLoader, Dataset
 import glob
 import os
+import json
 from models.vqPixelSnail import PixelSNAIL
 from pathlib import Path
 from tqdm import tqdm
@@ -148,25 +149,12 @@ if __name__ == '__main__':
     # arguments snail_vq_main.py -train True -wb True -save True
 
     device = "cuda"
-    config = {
-    "batchSize": 64,
-    "epochs": 160,
-    "scheduled": True,
-    "lr": 0.001,
-    "inputDim": (16,16), # Input dim of the encoded
-    "numClass": 256, # Num classes = possible pixel values
-    "channels": 64, # Num channels intermediate feature representation
-    "kernel": 5, # Kernel size
-    "blocks": 4,
-    "resBlocks":4,
-    "resChannels": 64,
-    "attention": True,
-    "dropout": 0.3,
-    "condResChannels": 32, # Number of channels in the conditional ResNet
-    "condResKernel": 3, # Size of the kernel in the conditional ResNet
-    "condResBlocks":2, # Number of conditional residual blocks in the conditional ResNet
-    "outResBlock": 4 # Number of residual blocks in the output layer
-    }
+    object = "transistor"
+    
+    # Load parameters
+    with open(r'PixelSnail_Parameters/'+object+r'.json', 'r') as json_file:
+        config = json.load(json_file)
+    print(config)
     parser = parser.parse_args()
     useWb = parser.wb
     saveWeights = parser.save
@@ -186,7 +174,7 @@ if __name__ == '__main__':
             config["outResBlock"])
     
     # Load your train dataset
-    rootDir = Path("E:/mvtec_encodings/bottle/")
+    rootDir = Path("E:/mvtec_encodings/"+object)
     trainDataset = encdata.EncodingsDataset(rootDir)
     validationSplit  = 0.2
     datasetSize      = len(trainDataset)
@@ -218,7 +206,7 @@ if __name__ == '__main__':
 
     # Train
     if trn:
-        print(">> Beginning  training")
+        print(">> Beginning  training for target object: ", object)
         for epoch in range(config["epochs"]):
             # np.mean(totalTrainAcc), np.mean(totalTrainLoss), np.mean(totalTrainLr)
             trainAcc, trainLoss, trainLr = train(epoch, trainLoader, model, optimizer, scheduler, device)
@@ -237,12 +225,12 @@ if __name__ == '__main__':
 
     
     # Load your eval dataset
-    rootDir = Path("E:/mvtec_encodings/bottle/")
+    rootDir = Path("E:/mvtec_encodings/"+object)
     evalDataset = encdata.EncodingsDataset(rootDir)
 
     # Eval
     testSet = encdata.EncodingsDataset(rootDir, train=False)
     testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
-    graphResults = True
+    graphResults = False
     test(model, testlDataLoader, graphResults)
     

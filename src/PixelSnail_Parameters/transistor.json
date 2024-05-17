@@ -1,0 +1,22 @@
+{
+    "batchSize": 32,
+    "epochs": 160,
+    "scheduled": true,
+    "lr": 0.001,
+    "inputDim": [
+        16,
+        16
+    ],
+    "numClass": 256,
+    "channels": 128,
+    "kernel": 5,
+    "blocks": 8,
+    "resBlocks": 8,
+    "resChannels": 128,
+    "attention": true,
+    "dropout": 0.4,
+    "condResChannels": 32,
+    "condResKernel": 3,
+    "condResBlocks": 2,
+    "outResBlock": 4
+}

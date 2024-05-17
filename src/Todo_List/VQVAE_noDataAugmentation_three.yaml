@@ -2,7 +2,8 @@
 DatasetFolder: 
     folder: "mvtec_anomaly_detection"
     subfolder:
-        - bottle
+        - transistor
+        - grid
     
 Dataset: 
     - 256_Gray
