@@ -3,7 +3,6 @@ DatasetFolder:
     folder: "mvtec_anomaly_detection"
     subfolder:
         - transistor
-        - grid
     
 Dataset: 
     - 256_Gray

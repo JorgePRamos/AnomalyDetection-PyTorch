@@ -381,8 +381,8 @@ class RegularizedEmbedding(Network_Class):
         allAM = []
 
         #Predict on training data for best encodings extraction
-        self.extractEncodings(resultPath)
-        #self.decodeEmbeddings(resultPath)
+        #self.extractEncodings(resultPath)
+        self.decodeEmbeddings(resultPath)
 
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])
@@ -479,9 +479,11 @@ class RegularizedEmbedding(Network_Class):
         
 
 
+        # Bottle
+        #rootDir = Path("E:/snail_predictions/icy-sunset-92/")
+        rootDir = Path("E:/mvtec_encodings/" + targetObject)
         
-        rootDir = Path("E:/snail_predictions/icy-sunset-92/")
-        
+        # Laptop
         #rootDir = Path("C:/Users/jorge/Pictures/mvtec_encodings/" + targetObject)
         """
         tesDir = Path("E:/mvtec_encodings/" + targetObject+"/test/")
@@ -499,7 +501,7 @@ class RegularizedEmbedding(Network_Class):
 
 
         testSet = encdata.EncodingsDataset(rootDir, train=False, vqvae=True)
-        print(">>> TEST SET LEN: ", len(testSet))
+        print(">>> TEST SET LEN: ", len(testSet)," Target Obj: ", targetObject)
         testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
 
 
