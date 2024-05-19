@@ -60,7 +60,6 @@ def train(epoch, dataLoader, model, optimizer, scheduler, device):
     totalTrainAcc, totalTrainLoss, totalTrainLr= [], [], []
     for i, (enc, label) in enumerate(dataLoader):
         model.zero_grad()
-        print(">>> #db shape enc: ",enc.shape)
         enc = enc.to(device)
 
         target = enc
@@ -149,7 +148,7 @@ if __name__ == '__main__':
     # arguments snail_vq_main.py -train True -wb True -save True
 
     device = "cuda"
-    object = "grid"
+    object = "capsule"
     
     # Load parameters
     with open(r'PixelSnail_Parameters/'+object+r'.json', 'r') as json_file:

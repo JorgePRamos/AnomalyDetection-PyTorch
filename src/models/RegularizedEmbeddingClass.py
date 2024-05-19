@@ -381,8 +381,8 @@ class RegularizedEmbedding(Network_Class):
         allAM = []
 
         #Predict on training data for best encodings extraction
-        #self.extractEncodings(resultPath)
-        self.decodeEmbeddings(resultPath)
+        self.extractEncodings(resultPath)
+        #self.decodeEmbeddings(resultPath)
 
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])
@@ -479,9 +479,9 @@ class RegularizedEmbedding(Network_Class):
         
 
 
-        # Bottle
+        # Bottle from snail
         #rootDir = Path("E:/snail_predictions/icy-sunset-92/")
-        rootDir = Path("E:/mvtec_encodings/" + targetObject)
+        rootDir = Path("E:/mvtec_encodings/" + targetObject+r'/test/good/')
         
         # Laptop
         #rootDir = Path("C:/Users/jorge/Pictures/mvtec_encodings/" + targetObject)

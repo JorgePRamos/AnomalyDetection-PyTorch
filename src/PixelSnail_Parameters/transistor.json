@@ -1,6 +1,6 @@
 {
     "batchSize": 64,
-    "epochs": 160,
+    "epochs": 130,
     "scheduled": true,
     "lr": 0.001,
     "inputDim": [
@@ -8,15 +8,15 @@
         16
     ],
     "numClass": 256,
-    "channels": 64,
-    "kernel": 5,
-    "blocks": 4,
-    "resBlocks": 4,
-    "resChannels": 64,
+    "channels": 128,
+    "kernel": 3,
+    "blocks": 8,
+    "resBlocks": 8,
+    "resChannels": 128,
     "attention": true,
-    "dropout": 0.3,
-    "condResChannels": 32,
+    "dropout": 0.4,
+    "condResChannels": 128,
     "condResKernel": 3,
-    "condResBlocks": 2,
+    "condResBlocks": 4,
     "outResBlock": 4
 }

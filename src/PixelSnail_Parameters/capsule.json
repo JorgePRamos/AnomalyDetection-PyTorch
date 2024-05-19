@@ -1,6 +1,6 @@
 {
     "batchSize": 64,
-    "epochs": 70,
+    "epochs": 50,
     "scheduled": true,
     "lr": 0.001,
     "inputDim": [

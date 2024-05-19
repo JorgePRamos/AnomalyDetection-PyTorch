@@ -14,10 +14,10 @@ class EncodingsDataset(Dataset):
             encDir = rootDir / r'test/'
         else:
             encDir = rootDir
-            print("#db inferloader: ", encDir)
+            
         
         self.encDir = encDir
-
+        print("#db infer-loader: ", encDir)
         if not vqvae:
             self.encList = sorted(glob.glob(os.path.join(encDir, '**/*.npy')))
         else:

@@ -37,5 +37,5 @@ def createAndSaveHeatMap(targetTensor, saveDir):
 
 if __name__ == '__main__':
     encPath = "E:/mvtec_encodings/"
-    object = "bottle"
+    object = "transistor"
     readPlotEncodings(encPath,object)
