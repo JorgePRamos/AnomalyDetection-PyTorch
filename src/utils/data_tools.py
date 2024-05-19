@@ -4,6 +4,9 @@ import platform
 from pathlib import Path
 import numpy as np
 import torch
+import torch.nn.functional as torchFunc
+import torchvision.transforms as transforms
+from PIL import Image as pilImage
 
 def encodingInfo(input, label, sEncoding):
     print(">>> Input: ", input.shape," Label: ", label," sEncoding: ",sEncoding.shape)
@@ -50,13 +53,49 @@ def createDataSetFolderStructure(targetObject):
 
     return targetTrainObjectDataSetPath, targetTestObjectDataSetPath
 
-def createResultsFolderStructure(runName):
-
+def createSnailResultsFolderStructure(runName):
     resultsPath = Path(getDataSetLocation() +"/snail_predictions/"+runName + "/")
     createFolder(resultsPath)
     return resultsPath
 
+def createReconstructionResultsFolderStructure(expName):
+    resultsPath = Path(getDataSetLocation() +"/image_reconstruction/"+expName + "/")
+    createFolder(resultsPath)
+    return resultsPath
 
 
 def saveToNpy(targetTensor,savePath):
+    print(">>> #db npy to be saved: ", targetTensor.shape )
+    
     np.save(savePath, targetTensor)
+
+
+def oneHotEncoding(targetTensor, numClass, batchSize):
+
+
+    targetTensor = targetTensor.squeeze(1) 
+
+
+    one_hot_tensor = torch.nn.functional.one_hot(targetTensor.long(), num_classes=numClass)
+
+
+
+    print(">>> #db oneHotEnc; shape of oneHotEnc: ", one_hot_tensor.shape)
+    return one_hot_tensor
+
+def tensorToImage(imageArray, targetFolder,label):
+    
+    print(">>>  Image array pre squeeze: ", imageArray.shape)
+    imageArray = np.squeeze(imageArray, axis=-1)
+    print(">>>  Image array post squeeze: ", imageArray.shape)
+
+    print("Max: ",np.max(imageArray), " | min: ",np.min(imageArray))
+    print("-------------------------------")
+    print(imageArray)
+    print("-------------------------------\n")
+    
+    image = pilImage.fromarray(imageArray)
+    # Save the image
+    label = label.replace(".npy","")
+    image.save(Path(targetFolder / f"{label}.png"))
+    print(">> Saved at: ",str(targetFolder) + f"/{label}.png")

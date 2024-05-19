@@ -11,7 +11,7 @@ import multiprocessing as mp
 from torchsummary import summary
 
 from models.SuperClass import *
-from datasets.dataAugmentation import *
+from datasets.vqvae_dataAugmentation import *
 
 from pathlib import Path
 import wandb
@@ -23,6 +23,7 @@ rootPath = dirname(dirname(abspath(__file__)))+r'/src/'
 parser = argparse.ArgumentParser()
 parser.add_argument('-exp', type=str, default='default')
 parser.add_argument('-train', default=False, type=lambda x: (str(x).lower() == 'true'))
+parser.add_argument('-decode', default=False, type=lambda x: (str(x).lower() == 'true'))
 
 ######################################################################################
 #
@@ -87,7 +88,8 @@ def call_training(thisExp, parser):
         # --------------------- 
         weightsPath = Path(rootPath + '/Results_VQVAE/' + myNet.expName +'/' + myNet.imgCat + '/_Weights/wghts.pkl')
         myNet.loadWeights(weightsPath)
-        myNet.evaluate(resultPath = resultPath, printPrediction = True)
+        myNet.evaluate(resultPath = resultPath, printPrediction = True, decode = parser.decode)
+
 
 
 

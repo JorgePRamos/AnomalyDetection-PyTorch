@@ -5,7 +5,6 @@ DatasetFolder:
         - transistor
         - grid
         - bottle
-    
 Dataset: 
     - 256_Gray
 

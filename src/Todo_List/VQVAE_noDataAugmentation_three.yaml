@@ -2,8 +2,11 @@
 DatasetFolder: 
     folder: "mvtec_anomaly_detection"
     subfolder:
+
         - hazelnut
         - capsule
+
+
     
 Dataset: 
     - 256_Gray

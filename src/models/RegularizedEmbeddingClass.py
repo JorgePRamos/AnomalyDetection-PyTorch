@@ -4,8 +4,8 @@ import importlib
 import copy
 import shutil
 
-from datasets.dataLoader import *
-from datasets.dataAugmentation import *
+from datasets.mvtec_dataLoader import *
+from datasets.vqvae_dataAugmentation import *
 from utils.helper import *
 from utils.makeGraphs_RegularizedEmbeddingClass import *
 
@@ -29,7 +29,7 @@ import logging
 logging.propagate = False 
 logging.getLogger().setLevel(logging.ERROR)
 import wandb
-
+from datasets import encodings_dataLoader as encdata
 
 """ -----------------------------------------------------------------------------------------
 NETWORK CLASS for VQVAE type networks 
@@ -167,8 +167,7 @@ class RegularizedEmbedding(Network_Class):
                 for i, encLayer in enumerate(self.encoder):
                     convLayers[i+1] = encLayer(convLayers[i])
                 loss, quantized, perplexity, encodings = self.quantization_module(convLayers[-1])
-                print(">>> Forward encodings shape: ",encodings.shape)
-                print(">>> Forward quantized shape: ",quantized.shape)
+
                 return encodings
             
         class getEncodingsNet(VQVAE): 
@@ -182,6 +181,27 @@ class RegularizedEmbedding(Network_Class):
                     convLayers[i+1] = encLayer(convLayers[i])
                 loss, quantized, perplexity, encodings = self.quantization_module(convLayers[-1])
                 return encodings, quantized
+            
+        class getDecode(VQVAE): 
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+
+            def forward(self, x):
+
+                deconvLayers  = [None]*(self.depth-1)
+                for i, decLayer in enumerate(self.decoder):
+                    if i == 0:
+                        #possible error: convLayers[-1] instead of x
+                        loss, quantized, perplexity, encodings = self.quantization_module(x, snailEncodings = x )
+                        deconvLayers[0] = decLayer(quantized)
+                        
+                    else: 
+                        deconvLayers[i] = decLayer(deconvLayers[i-1])
+                        
+                out = self.Conv_1x1(deconvLayers[-1])
+                out = self.sigmoid(out)
+
+                return out
 
         class getcustomPredNet(VQVAE): 
             def __init__(self, *args, **kwargs):
@@ -195,9 +215,12 @@ class RegularizedEmbedding(Network_Class):
 
                 deconvLayers  = [None]*(self.depth-1)
                 for i, decLayer in enumerate(self.decoder):
-                    if i == 0: 
+                    if i == 0:
+                        
                         loss, quantized, perplexity, encodings = self.quantization_module(convLayers[-1], modifiedEncodings)
+
                         deconvLayers[0] = decLayer(quantized)
+            
                     else: 
                         deconvLayers[i] = decLayer(deconvLayers[i-1])
                         
@@ -206,14 +229,14 @@ class RegularizedEmbedding(Network_Class):
 
                 return out
 
-        return getEncodingsNet(self.dsConfig, self.modelConfig), getcustomPredNet(self.dsConfig, self.modelConfig), getTrainingEncodings(self.dsConfig, self.modelConfig)
+        return getEncodingsNet(self.dsConfig, self.modelConfig), getcustomPredNet(self.dsConfig, self.modelConfig), getTrainingEncodings(self.dsConfig, self.modelConfig), getDecode(self.dsConfig, self.modelConfig)
 
     # ---------------------------------------------------------------------------------------
     # Evaluation of the model
     # ---------------------------------------------------------------------------------------
     def getPrediction(self, dataLoader, resultPath, isTest=True): 
 
-        self.getEncodings, self.newNet, self.snailEncodings= self.getNetworks()
+        self.getEncodings, self.newNet, self.snailEncodings, _ = self.getNetworks()
         # Network to get the (unmodified) encodings of the VQVAE
         self.getEncodings.to(self.device)  
         self.getEncodings.load_state_dict(torch.load(resultPath / '_Weights/wghts.pkl'))
@@ -221,9 +244,10 @@ class RegularizedEmbedding(Network_Class):
         self.newNet.to(self.device)  
         self.newNet.load_state_dict(torch.load(resultPath / '_Weights/wghts.pkl'))
 
+        # Network for encoding extraction
         self.snailEncodings.to(self.device)  
         self.snailEncodings.load_state_dict(torch.load(resultPath / '_Weights/wghts.pkl'))
-
+        
         allInputs, allPreds, allLabels, allMasks = [], [], [], []
         allEncodings = []
         allQuantized = []
@@ -242,13 +266,15 @@ class RegularizedEmbedding(Network_Class):
             else: 
                 image = corrupted.to(self.device)
 
+
+            # Infer
             encodings,quantized = self.getEncodings(image)
             predictions = self.newNet(image)
+
             snailEncodings = self.snailEncodings(image)
+            print(">>> #db getPred; snailEncodings shape: ", snailEncodings.shape)
 
             predictions = predictions.to(self.device)
-
-           
             image, predictions, encodings, quantized,snailEncodings= image.to('cpu'), predictions.to('cpu'), encodings.to('cpu'),quantized.to('cpu'),snailEncodings.to('cpu')
             allInputs.extend(image.data.numpy())
             allLabels.extend(label)
@@ -266,30 +292,39 @@ class RegularizedEmbedding(Network_Class):
         allPreds  = np.multiply(np.array(allPreds),255).astype(np.uint8)
         allMasks  = np.array(allMasks).astype(np.uint8)
         
+ 
         allInputs = np.transpose(allInputs, (0,2,3,1))
         allPreds  = np.transpose(allPreds,  (0,2,3,1))
+       
         allMasks  = np.transpose(allMasks,  (0,2,3,1))
         # H,W,C
         allSnailEncodings = np.transpose(allSnailEncodings,  (0,1,2,3))
+        print(">>> #db getPred; AllSnailEncodings trans shape: ", allSnailEncodings.shape)
         return allInputs, allPreds, allLabels, allMasks, allEncodings,allQuantized,allSnailEncodings
 
     def extractEncodings(self, resultPath):
         
         trainTargetFolder, testTargetFolder = udt.createDataSetFolderStructure(os.path.split(resultPath)[-1])
         print(">> Created folder for encodings at: ",trainTargetFolder)
-        print(">> Prediction on training data")
+        
+        # Get training Encodings
+        print(">> Extraction of training data")
         trainInputs, trainPreds, trainLabels, trainMasks, trainEncodings, trainQuantized, trainSnailEncodings = self.getPrediction(
             self.trainDataLoader, resultPath, isTest=False)
-        print(">> Prediction on val data")
+        
+        # Get val Encodings
+        print(">> Extraction of val data")
         valInputs, valPreds, valLabels, valMasks, valEncodings, valQuantized, valSnailEncodings = self.getPrediction(
             self.valDataLoader, resultPath, isTest=False)
         
+        # Concatenate to form train dataset
         allInputs = np.concatenate((trainInputs,valInputs))
-        
         allLabels = np.concatenate((trainLabels,valLabels)) 
         allSnailEncodings = np.concatenate((trainSnailEncodings,valSnailEncodings)) 
         
         subsets = np.unique(allLabels)
+
+        # Save training set snailEncodings to .npy
         for thisSubset in subsets: 
             
             sbt = allLabels==thisSubset
@@ -299,18 +334,22 @@ class RegularizedEmbedding(Network_Class):
                 npyFilePath = Path(trainTargetFolder / iter)
                 
                 sEncoding  = np.transpose(sEncoding, (2, 0, 1))
+                print(">>> #db extractEncodings; before squished: ", sEncoding.shape, " - Type: ",type(sEncoding))
                 squished = np.argmax(sEncoding, axis = 0, keepdims = True)
+
+                
                 udt.saveToNpy(squished,npyFilePath)
                 udt.encodingInfo(input,label,squished)
-
-        print(">> Prediction on test data")
+        
+        # Get test Encodings
+        print(">> Extraction of test data")
 
         testInputs, testPreds, testLabels, testMasks, testEncodings, testQuantized, testSnailEncodings = self.getPrediction(
         self.testlDataLoader, resultPath, isTest=True)
     
         
         
-        
+        testGood = []
         subsets = np.unique(testLabels)
         for thisSubset in subsets:
             if not "good" in thisSubset:
@@ -324,12 +363,16 @@ class RegularizedEmbedding(Network_Class):
                 npyFilePath = Path(testTargetFolder / iter)
                 sEncoding  = np.transpose(sEncoding, (2, 0, 1))
                 squished = np.argmax(sEncoding, axis = 0, keepdims = True)
+                testGood.append(sEncoding)
                 udt.saveToNpy(squished,npyFilePath)
                 udt.encodingInfo(input,label,squished)
+
+            print(">> All encodings extracted")
+            return testGood
             
             
 
-    def evaluate(self, resultPath, printPrediction=False, wandbObj=None, printPredForPaper=False): 
+    def evaluate(self, resultPath, printPrediction=False, wandbObj=None, printPredForPaper=False, decode = False): 
         self.model.train(False)
         self.model.eval()
 
@@ -339,6 +382,7 @@ class RegularizedEmbedding(Network_Class):
 
         #Predict on training data for best encodings extraction
         #self.extractEncodings(resultPath)
+        self.decodeEmbeddings(resultPath)
 
         for x, y in zip(allInputs, allPreds): 
             allAM.extend([diff(x,y)])
@@ -382,10 +426,11 @@ class RegularizedEmbedding(Network_Class):
                 printPredAndAM_singleFile(input, pred, thisprintPath  / 'Test_' + str(idx[i]), Vmin=0, Vmax=1)
 
 
+    # ==== Deprecated
     # Visualize quantized features
     def visualizeSeparatedFeatureEncoding(self,allEncodings, allLabels, resultPath):
         num_samples = len(allEncodings)
-        #(16, 16, 50)
+        
         for i in range(num_samples):
             encoding = allEncodings[i]
             label = allLabels[i]
@@ -396,7 +441,7 @@ class RegularizedEmbedding(Network_Class):
             # Plot each channel separately
             fig, axes = plt.subplots(1, num_channels, figsize=(num_channels * 3, 3))
             for j in range(num_channels):
-                axes[j].imshow(encoding[:, :, j], cmap='viridis')  # Choose a suitable colormap
+                axes[j].imshow(encoding[:, :, j], cmap='viridis')
                 axes[j].set_title([j+1])
                 axes[j].axis('off')
 
@@ -404,6 +449,7 @@ class RegularizedEmbedding(Network_Class):
             #plt.tight_layout()
             #plt.savefig(resultPath / f'feature_encoding_{i}.png')
             plt.show()
+
     # Visualize quantized embedigs
     def visualizeFeatureEncoding(self, input, pred, quand, thisresultPath):
 
@@ -413,3 +459,69 @@ class RegularizedEmbedding(Network_Class):
         plt.title('Quantized embed')
         plt.colorbar()
         plt.show()
+    # =======
+
+
+    def decodeEmbeddings(self,resultPath):   
+        # Network for image decoding
+        _, _, _, decodeModel = self.getNetworks()
+        decodeModel.to(self.device)  
+        decodeModel.load_state_dict(torch.load(resultPath / '_Weights/wghts.pkl'))
+        decodeModel.train(False)
+        decodeModel.eval()
+
+        targetObject = os.path.split(resultPath)[-1]
+        reconstructionTargetFolder = udt.createReconstructionResultsFolderStructure(targetObject)
+        print(">> Created folder for reconstructed images at: ",reconstructionTargetFolder)
+        print(">> Reconstructing data")
+
+
+        
+
+
+        # Bottle
+        #rootDir = Path("E:/snail_predictions/icy-sunset-92/")
+        rootDir = Path("E:/mvtec_encodings/" + targetObject)
+        
+        # Laptop
+        #rootDir = Path("C:/Users/jorge/Pictures/mvtec_encodings/" + targetObject)
+        """
+        tesDir = Path("E:/mvtec_encodings/" + targetObject+"/test/")
+        encList = sorted(glob.glob(os.path.join(tesDir, '**/*.npy')))
+        for i, enc in enumerate(encList):
+            tempOg = np.transpose(originalEmbedings[i], (1, 2, 0))
+            readEncoding = np.load(enc)
+            oneHotEncodedTensor = udt.oneHotEncoding(torch.from_numpy(readEncoding), 256,1)
+
+            hotSqueez = oneHotEncodedTensor.squeeze(0).numpy()
+            print(">>>>>>>>>>>>> ogtensor transpose: ",tempOg.shape, " - ", type(tempOg))
+            print(">>>>>>>>>>>>> fixed_HOT: ",hotSqueez.shape, " - ", type(hotSqueez))
+            print(">>> #db equal; encodings [",i,"] equal = ", np.array_equal(hotSqueez,tempOg))"""
+
+
+
+        testSet = encdata.EncodingsDataset(rootDir, train=False, vqvae=True)
+        print(">>> TEST SET LEN: ", len(testSet)," Target Obj: ", targetObject)
+        testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
+
+
+
+        for i, (enc, label) in enumerate(testlDataLoader):
+            print(">>> read enc shape and type: ",enc.shape," and ",type(enc))
+            batchSize = enc.shape[0]
+            print(">>>  Used batch size: ", batchSize)
+            oneHotEncodedTensor = udt.oneHotEncoding(enc, 256,batchSize)
+            
+
+            oneHotEncodedTensor = oneHotEncodedTensor.to("cuda")
+            predictions = decodeModel(oneHotEncodedTensor.float())
+            
+            
+            predictions = predictions.to("cpu")
+            predictions_255 = np.multiply(np.array(predictions.data.numpy()),255).astype(np.uint8)
+            print(">>> predictions_255 shape: ", predictions_255.shape)
+            predictions_255 = np.transpose(predictions_255, (0,2,3,1))
+            for p, l in zip(predictions_255,label):
+                print(">>>> P SHAPE : ", p.shape)
+                id = str(l).split(os.path.sep)[-1]
+                udt.tensorToImage(p,reconstructionTargetFolder,id)

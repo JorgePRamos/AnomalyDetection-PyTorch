@@ -5,6 +5,7 @@ from torch import optim
 from torch.utils.data import DataLoader, Dataset
 import glob
 import os
+import json
 from models.vqPixelSnail import PixelSNAIL
 from pathlib import Path
 from tqdm import tqdm
@@ -13,43 +14,24 @@ import argparse
 from Experiments import predict_comparison as spc
 from utils import data_tools as dt
 from torch.utils.data.sampler import SubsetRandomSampler
+from datasets import encodings_dataLoader as encdata
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-train', default=False, type=lambda x: (str(x).lower() == 'true'))
-parser.add_argument('-wb', default=True, type=lambda x: (str(x).lower() == 'true'))
-parser.add_argument('-save', default=True, type=lambda x: (str(x).lower() == 'true'))
+parser.add_argument('-wb', default=False, type=lambda x: (str(x).lower() == 'true'))
+parser.add_argument('-save', default=False, type=lambda x: (str(x).lower() == 'true'))
 
-
-# Define your dataset class
-class EncodingsDataset(Dataset):
-    def __init__(self, rootDir, train = True):
-        self.rootDir = rootDir
-        if train:
-            encDir = rootDir / r'train/'
-        else:
-            encDir = rootDir / r'test/'
-
-        self.encDir = encDir
-        self.encList = sorted(glob.glob(os.path.join(encDir, '**/*.npy')))
-
-    def __len__(self):
-        return len(self.encList)
-
-    def __getitem__(self, idx):
-        enc = np.load(self.encList[idx])
-        
-        return torch.from_numpy(enc).squeeze(),self.encList[idx]
     
-
 def getPrediction(model, dataLoader, graphDiff = False):
     latestWeights = getLatestWeights(Path(workingDir + "/Results_Snail/"))
+    print(">> Loading weights from: ", latestWeights)
     loadWeights(model,latestWeights)
     runName = str(latestWeights).replace(".pkl","").split(os.path.sep)[-1]
     model.train(False)
     model.eval()
 
     
-    resultsPath = dt.createResultsFolderStructure(runName)
+    resultsPath = dt.createSnailResultsFolderStructure(runName)
     
 
 
@@ -78,7 +60,7 @@ def train(epoch, dataLoader, model, optimizer, scheduler, device):
     totalTrainAcc, totalTrainLoss, totalTrainLr= [], [], []
     for i, (enc, label) in enumerate(dataLoader):
         model.zero_grad()
-
+        print(">>> #db shape enc: ",enc.shape)
         enc = enc.to(device)
 
         target = enc
@@ -87,13 +69,14 @@ def train(epoch, dataLoader, model, optimizer, scheduler, device):
         loss.backward()
 
         optimizer.step()
+        """
         if scheduler is not None:
             scheduler.step()
-        
+        """
 
         _, pred = out.max(1)
 
-
+        
         correct = (pred == target).float()
         accuracy = correct.sum() / target.numel()
         
@@ -166,25 +149,12 @@ if __name__ == '__main__':
     # arguments snail_vq_main.py -train True -wb True -save True
 
     device = "cuda"
-    config = {
-    "batchSize": 64,
-    "epochs": 300,
-    "scheduled": True,
-    "lr": 0.0001,
-    "inputDim": (16,16), # Input dim of the encoded
-    "numClass": 256, # Num classes = possible pixel values
-    "channels": 256, # Num channels intermediate feature representation
-    "kernel": 5, # Kernel size
-    "blocks": 2,
-    "resBlocks": 2,
-    "resChannels": 128,
-    "attention": True,
-    "dropout": 0.4,
-    "condResChannels": 128, # Number of channels in the conditional ResNet
-    "condResKernel": 5, # Size of the kernel in the conditional ResNet
-    "condResBlocks": 2, # Number of conditional residual blocks in the conditional ResNet
-    "outResBlock": 2 # Number of residual blocks in the output layer
-    }
+    object = "grid"
+    
+    # Load parameters
+    with open(r'PixelSnail_Parameters/'+object+r'.json', 'r') as json_file:
+        config = json.load(json_file)
+    
     parser = parser.parse_args()
     useWb = parser.wb
     saveWeights = parser.save
@@ -202,9 +172,10 @@ if __name__ == '__main__':
             config["condResBlocks"],
             config["condResKernel"],
             config["outResBlock"])
+    
     # Load your train dataset
-    rootDir = Path("E:/mvtec_encodings/bottle/")
-    trainDataset = EncodingsDataset(rootDir)
+    rootDir = Path("E:/mvtec_encodings/"+object)
+    trainDataset = encdata.EncodingsDataset(rootDir)
     validationSplit  = 0.2
     datasetSize      = len(trainDataset)
     indices          = list(range(datasetSize))
@@ -227,19 +198,21 @@ if __name__ == '__main__':
     # Optimizer
     #optimizer = torch.optim.Adam(model.parameters(), lr=config["lr"])
     optimizer = torch.optim.AdamW(model.parameters(), lr=config["lr"])
-    lr_decay = 0.999993
-    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
- 
+    lr_decay = 0.999992
+    #scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, lr_decay)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=5)
+
     workingDir = os.getcwd()
 
     # Train
     if trn:
-        print(">> Beginning  training")
+        print(">> Beginning  training for target object: ", object)
         for epoch in range(config["epochs"]):
             # np.mean(totalTrainAcc), np.mean(totalTrainLoss), np.mean(totalTrainLr)
             trainAcc, trainLoss, trainLr = train(epoch, trainLoader, model, optimizer, scheduler, device)
             valAcc, valLoss, = validate(model, valLoader, device)
-                    
+             
+            scheduler.step(valLoss)     
             if wandbObject is not None:
                 wandb.log({"epoch": epoch+1, "Loss Train": trainLoss, "Loss Val": valLoss,
                             "Acc Train": trainAcc, "Acc Val": valAcc, "Learning rate": trainLr})
@@ -252,11 +225,11 @@ if __name__ == '__main__':
 
     
     # Load your eval dataset
-    rootDir = Path("E:/mvtec_encodings/bottle/")
-    evalDataset = EncodingsDataset(rootDir)
+    rootDir = Path("E:/mvtec_encodings/"+object)
+    evalDataset = encdata.EncodingsDataset(rootDir)
 
     # Eval
-    testSet = EncodingsDataset(rootDir, train=False)
+    testSet = encdata.EncodingsDataset(rootDir, train=False)
     testlDataLoader = DataLoader(testSet, batch_size=8, shuffle=False, num_workers=4)
     graphResults = False
     test(model, testlDataLoader, graphResults)
