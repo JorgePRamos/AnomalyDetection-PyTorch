@@ -381,7 +381,7 @@ class RegularizedEmbedding(Network_Class):
         allAM = []
 
         #Predict on training data for best encodings extraction
-        self.extractEncodings(resultPath)
+        #self.extractEncodings(resultPath)
         #self.decodeEmbeddings(resultPath)
 
         for x, y in zip(allInputs, allPreds): 

@@ -89,6 +89,8 @@ def call_training(thisExp, parser):
         weightsPath = Path(rootPath + '/Results_VQVAE/' + myNet.expName +'/' + myNet.imgCat + '/_Weights/wghts.pkl')
         myNet.loadWeights(weightsPath)
         myNet.evaluate(resultPath = resultPath, printPrediction = True, decode = parser.decode)
+        targetPath = 
+        myNet.extractEncodings(targetPath)
 
 
 
